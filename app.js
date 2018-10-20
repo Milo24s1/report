@@ -1,6 +1,9 @@
 const express =  require('express');
 var bodyParser = require('body-parser');
-const CompanyController = require('./src/model/company');
+const mongoose = require('mongoose');
+
+const config = require('./config/credintials');
+const indexRouter = require('./routes/index');
 
 const app = express();
 const port = process.env.PORT || 9999;
@@ -11,18 +14,22 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
+mongoose.connect(config.database);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
+mongoose.connection.on('connected',()=>{
+    console.log('connected to '+config.database);
+});
+mongoose.connection.on('error',(error)=>{
+    console.log('Database error '+error);
+});
+
+app.use('/',indexRouter);
 app.listen(port, function(){
 
     console.log('Server is running on port:', port);
 });
 
 
-app.get('/', function(req, res){
-    res.send('testing');
-});
 
 
-
-app.get('/newcompany', function(req, res){
-    res.render('add');
-});

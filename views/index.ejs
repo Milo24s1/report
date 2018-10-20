@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Prospectgenai</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/css/mdb.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+
+</head>
+<body>
+<nav class="navbar navbar-dark ">
+    <a class="navbar-brand" href="#">
+        <!--<img src="https://mdbootstrap.com/img/logo/mdb-transparent.png" height="30" class="d-inline-block align-top" alt="">-->
+        <img src="/public/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">
+    </a>
+
+</nav>
+<div id="createMenu" class="dropdown">
+    <!--Trigger-->
+    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">Create</button>
+    <!--Menu-->
+    <div class="dropdown-menu dropdown-success" >
+        <li class="dropdown-item" data-location="/newcompany" style="font-size: 12.97px !important;
+        font-weight: 400 !important;cursor: pointer">Create Company</li>
+        <li class="dropdown-item" data-location="/newcampaign" style="font-size: 12.97px !important;
+        font-weight: 400 !important;cursor: pointer">Create Campaign</li>
+    </div>
+</div>
+<div style="height: 10vh">
+</div>
+<div id="tableDiv" class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <table class="table">
+            <thead class="white-text">
+            <tr>
+                <th scope="col">Company</th>
+                <th scope="col">Campaign</th>
+                <th scope="col">Status</th>
+                <th scope="col">Prospects</th>
+                <th scope="col">Email Delivered</th>
+                <th scope="col">Opened</th>
+                <th scope="col">Responses</th>
+                <th scope="col">Email Blast Responses</th>
+                <th scope="col">LinkedIn Responses</th>
+                <th scope="col">New LinkedIn Connections</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-1"></div>
+</div>
+<div class="flex-center flex-column">
+    <div id="loader" class="loader invisible center-block"></div>
+</div>
+
+<div class="modal fade" id="editor" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">Edit Response</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="text-center">
+
+                </div>
+
+                <form class="needs-validation" novalidate>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx1" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx1">Email Blast Responses</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx2" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx1">LinkedIn Responses</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx3" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx1">New LinkedIn Connections</label>
+                    </div>
+                </form>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" id="saveResponse" class="btn btn-success waves-effect waves-light">Save
+                </a>
+                <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<div style="height: 50vh">
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small ">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https:// prospectgenai.com/">  prospectgenai.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+    var defaultRes1,defaultRes2,defaultRes3;
+    var res1Col,res2Col,res3Col;
+    var currentToken = null;
+    var currentCampId = null;
+
+        lazyLoad();
+        function lazyLoad(next) {
+            $("#loader").removeClass('invisible');
+            $.ajax({
+                url : '/search',
+                data: {
+                    next : next
+                },
+                method: 'post',
+                datatype: 'json',
+                success: function (data) {
+                    let tableDom = '';
+                    if(data.rowData.length > 0){
+                        let campRecords = data.campRecord;
+                        for(i=0;i<data.rowData.length;i++){
+
+                            const tempCampRecord = {
+                                'cus1':'',
+                                'cus2':'',
+                                'cus3':'',
+                            };
+                            if(campRecords.hasOwnProperty(data.rowData[i].campaignId)){
+                                const campReocrd = campRecords[data.rowData[i].campaignId];
+                                tempCampRecord.cus1 = campReocrd.customCol1 ;
+                                tempCampRecord.cus2 = campReocrd.customCol2 ;
+                                tempCampRecord.cus3 = campReocrd.customCol3 ;
+                            }
+
+                            tableDom += `<tr>
+                                        <th class="col-1" data-token=${data.rowData[i].token} scope="row">${data.rowData[i].company}</th>
+                                        <td class="col-2" data-campid=${data.rowData[i].campaignId}>${data.rowData[i].campaign}</td>
+                                        <td class="col-1">${data.rowData[i].status}</td>
+                                        <td class="col-1">${data.rowData[i].prospects}</td>
+                                        <td class="col-1">${data.rowData[i].delivered} (${data.rowData[i].deliveredPrecentage}%)</td>
+                                        <td class="col-1">${data.rowData[i].opened} (${data.rowData[i].openedPrecentage}%)</td>
+                                        <td class="col-1">${data.rowData[i].responses} (${data.rowData[i].responsesPrecentage}%)</td>
+                                        <td class="col-1 cus1">${tempCampRecord.cus1}</td>
+                                        <td class="col-1 cus2">${tempCampRecord.cus2}</td>
+                                        <td class="col-1 cus3">${tempCampRecord.cus3}</td>
+                                        <td class="col-1"><a data-toggle="modal" data-target="#editor"><i class="fa fa-pencil fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
+                                        </tr>`
+                        }
+                        $("table").append(tableDom)
+                    }
+                    $("#loader").addClass('invisible');
+                    if(data.next != undefined){
+                        lazyLoad(data.next);
+                    }
+
+
+                },
+                error : function (xhr, ajaxOptions, thrownError) {
+
+                    if(xhr.status!=200) {
+                        $("#loader").addClass('invisible');
+                    }
+                }
+            });
+        }
+    });
+
+    $('body').on('click', '.fa-pencil', function(){
+        $('label').addClass('active');
+        res1Col = $(this).closest('tr').find('.cus1');
+        defaultRes1= res1Col.text();
+        res2Col = $(this).closest('tr').find('.cus2');
+        defaultRes2= res2Col.text();
+        res3Col = $(this).closest('tr').find('.cus3');
+        defaultRes3= res3Col.text();
+
+        $('#inputIconEx1').val(defaultRes1);
+        $('#inputIconEx2').val(defaultRes2);
+        $('#inputIconEx3').val(defaultRes3);
+
+        currentToken = $(this).closest('tr').find('th').data('token');
+        currentCampId = $(this).closest("tr").find("td").first().data('campid');
+    });
+    $('#saveResponse').click(function () {
+        $("#editor").modal('hide');
+
+        var tempVal1 = $('#inputIconEx1').val();
+        var tempVal2 = $('#inputIconEx2').val();
+        var tempVal3 = $('#inputIconEx3').val();
+
+        $.ajax({
+            'url':'/saveCampaignRecord',
+            'method': 'post',
+            'dataType': 'json',
+            'data': {
+                campId:currentCampId,
+                token: currentToken,
+                customCol1: tempVal1,
+                customCol2: tempVal2,
+                customCol3: tempVal3,
+            },
+            'success': function (data) {
+
+
+                alert(data.message);
+                res1Col.text(tempVal1);
+                res2Col.text(tempVal2);
+                res3Col.text(tempVal3);
+                // $("[data-tid='"+tempCurrentItemId+"']").closest('tr').find("td a")[2].dataset.colid = newSelection.join(",");
+                //change data-colid
+            },
+            'error': function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.data.message);
+
+            }
+        });
+
+        currentToken = null;
+        currentCampId = null;
+
+    });
+
+
+    $(".dropdown-item").click(function (e) {
+        window.location = $(this).data("location");
+    })
+
+</script>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .dropdown-item{
+        padding: .5rem;
+        margin-left: 0;
+
+        font-size: .9rem;
+    }
+    .dropdown-item:hover{
+        background-color: #00c851 !important;
+        color: white !important;
+
+    }
+    #createMenu{
+        position: absolute;
+        top:0px;
+        right: 5px;
+    }
+</style>
+</body>
+</html>

@@ -1,25 +1,49 @@
 const CompanyController = {};
+const Company = require('../../model/company');
 
 
-CompanyController.addTokenToDatabase = function (req,res) {
-
+CompanyController.addNewCompany = function (req,res) {
+    try {
+        const newCompany = req.body;
+        // newCompany.isActive = 1;
+        Company.addCompany(Company(newCompany),function (err,company) {
+            if(err){
+                res.status(500).send({err:err});
+            }
+            else {
+                res.status(200).send({});
+            }
+        });
+    }
+    catch (e) {
+        res.status(500).send({err:e});
+    }
 };
 
 
 CompanyController.readCompanyFromDatabase = function(req, res){
-    res.render('add');
+    try {
+        Company.getCompanyList(function (err,items) {
+            if(err){
+                res.render('error',{error:''});
+            }
+            else {
+                res.render('companylist',{'items':items});
 
-    // Company.getCompanyList(function (err,result) {
-    //     console.log('callback is called');
-    //     if(err){
-    //         console.log(err);
-    //         res.render('add',{'itms':[]});
-    //     }
-    //     else {
-    //         res.render('add',{'itms':result});
-    //
-    //     }
-    // });
+            }
+        });
+    }
+    catch (e) {
+        res.render('error',{error:''});
+    }
+
+};
+
+
+CompanyController.deleteTokenFromDatabase = function (req,res) {
+    Company.deleteCompany(req.params.id,function (err,data) {
+        res.redirect('/companies');
+    });
 };
 
 

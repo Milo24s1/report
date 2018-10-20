@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Prospectgenai-Companies</title>
+    <title>Add Company</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
@@ -23,6 +23,7 @@
         <img src="/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">
     </a>
     <a href="/" class="">Home</a>
+    <a href="/companies" class="">Companies</a>
 </nav>
 <div class="row" style="height:20vh">
     <div class="col-md-3"></div>
@@ -32,7 +33,7 @@
         <form id="addCompanyForm" method="post">
             <div class="md-form mt-3">
                 <label class="active" for="companyName">Company Name</label>
-                <input type="text" id="companyName" class="form-control" required>
+                <input type="text" id="companyName" class="form-control" name="companyName" required>
 
             </div>
             <div class="md-form mt-3 ">
@@ -44,19 +45,19 @@
 
                                 <div class="custom-control custom-checkbox  font-weight-bold">
                                     <input type="checkbox" class="custom-control-input" id="dayChecked1" >
-                                    <label class="custom-control-label" for="dayChecked1">Sunday</label>
+                                    <label class="custom-control-label" for="dayChecked1">Monday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
                                     <input type="checkbox" class="custom-control-input" id="dayChecked2" >
-                                    <label class="custom-control-label" for="dayChecked2">Monday</label>
+                                    <label class="custom-control-label" for="dayChecked2">Tuesday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
                                     <input type="checkbox" class="custom-control-input" id="dayChecked3" >
-                                    <label class="custom-control-label" for="dayChecked3">Tuesday</label>
+                                    <label class="custom-control-label" for="dayChecked3">Wednesday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
                                     <input type="checkbox" class="custom-control-input" id="dayChecked4" >
-                                    <label class="custom-control-label" for="dayChecked4">Wednesday</label>
+                                    <label class="custom-control-label" for="dayChecked4">Thursday</label>
                                 </div>
 
                             </div>
@@ -64,17 +65,97 @@
 
                                 <div class="custom-control custom-checkbox font-weight-bold">
                                     <input type="checkbox" class="custom-control-input" id="dayChecked5" >
-                                    <label class="custom-control-label" for="dayChecked5">Thursday</label>
+                                    <label class="custom-control-label" for="dayChecked5">Friday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
                                     <input type="checkbox" class="custom-control-input" id="dayChecked6" >
-                                    <label class="custom-control-label" for="dayChecked6">Friday</label>
+                                    <label class="custom-control-label" for="dayChecked6">Saturday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
                                     <input type="checkbox" class="custom-control-input" id="dayChecked7" >
-                                    <label class="custom-control-label" for="dayChecked7">Saturday</label>
+                                    <label class="custom-control-label" for="dayChecked7">Sunday</label>
                                 </div>
 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="md-form mt-3 ">
+                <p class="h4 mb-4">Include in Weekly Report</p>
+                <div class="card">
+                    <div id="daySelection" class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-6">
+
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked1" checked>
+                                    <label class="custom-control-label" for="defaultChecked1">Company</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked2" checked>
+                                    <label class="custom-control-label" for="defaultChecked2">Campaign</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked3" checked>
+                                    <label class="custom-control-label" for="defaultChecked3">Status</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked4" checked>
+                                    <label class="custom-control-label" for="defaultChecked4">Prospects</label>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6" >
+
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked5" checked>
+                                    <label class="custom-control-label" for="defaultChecked5">Email Delivered</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked6" checked>
+                                    <label class="custom-control-label" for="defaultChecked6">Opened</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked7" checked>
+                                    <label class="custom-control-label" for="defaultChecked7">Responses</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked7" checked>
+                                    <label class="custom-control-label" for="defaultChecked7">Responses</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="md-form mt-3 ">
+                <p class="h4 mb-4">Additional Column to Include in Weekly Report</p>
+                <div class="card">
+                    <div id="additonalColumnSelection" class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked8" checked>
+                                    <label class="custom-control-label" for="defaultChecked8">Email Blast Responses</label>
+                                </div>
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked9" checked>
+                                    <label class="custom-control-label" for="defaultChecked9">LinkedIn Responses</label>
+                                </div>
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked10" checked>
+                                    <label class="custom-control-label" for="defaultChecked10">New LinkedIn Connections</label>
+                                </div>
                             </div>
                         </div>
 
@@ -94,15 +175,16 @@
                 <label class="active" for="senderEmailAddress">Sender Email Address</label>
             </div>
             <div class="md-form mt-3">
-                <input type="password" id="senderEmailAddress" class="form-control" required>
-                <label class="active" for="senderEmailAddress">Password</label>
+                <input type="password" id="senderPassword" class="form-control" required>
+                <label class="active" for="senderPassword">Password</label>
             </div>
             <p class="h4 mb-4">Send Report to</i></p>
-            <div class="md-form " >
+            <div class="md-form mt-3 sendTO" >
 
                 <i class="fa fa-envelope prefix"></i>
                 <input type="email" id="inputIconEx1" class="form-control" value="" required>
                 <label for="inputIconEx1">E-mail address</label>
+                <button id="#additionalReciver"><i class="fa fa-plus"></i></button>
             </div>
             <button id="addCompany" class="btn btn-success">Add Company</button>
         </form>
@@ -123,9 +205,75 @@
 
 </body>
 
+<script>
+    $(document).ready(function (e) {
+
+        $("#addCompany").click(function (e) {
+            e.preventDefault();
+
+            var doFormValidation = true;
+
+            if(doFormValidation){
+                var defaultMailDays = [];
+                for(i=1;i<=7;i++){
+                    if($("#dayChecked"+i).prop('checked')){
+                        defaultMailDays.push(i);
+                    }
+                }
+                
+                
+                var emailColumns= [];
+                for(i=1;i<=10;i++){
+                    if($("#defaultChecked"+i).prop('checked')){
+                        emailColumns.push(i);
+                    }
+                }
+                
+                var sendTo = [];
+                $(".sendTO input").each(function (index) {
+                    if($(this).val() != ''){
+                        sendTo.push($(this).val());
+                    }
+                });
+
+                $.ajax({
+
+                    url:'/addNewCompany',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        companyName : $("#companyName").val(),
+                        defaultMailDays: defaultMailDays,
+                        emailColumns: emailColumns,
+                        senderEmail: $("#senderEmailAddress").val(),
+                        senderPassword: $("#senderPassword").val(),
+                        sendTo: sendTo
+                    },
+                    success: function (data) {
+                        console.log('sucess is called');
+                        window.location = '/companies';
+                    },
+                    error : function (xhr, ajaxOptions, thrownError) {
+                        if(xhr.status!=200) {
+
+                            alert('Something went wrong with Saving Company, pleas refresh the page and try again');
+                        }
+                    }
+                });
+            }
+
+        });
+
+    });
+</script>
+
 <style>
     #daySelection .custom-control{
         margin-left: 20%;
     }
+    #additonalColumnSelection .custom-control{
+        margin-left: 10%;
+    }
+
 </style>
 </html>
