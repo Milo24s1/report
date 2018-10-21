@@ -24,7 +24,7 @@ router.get('/companies', function(req, res){
 });
 
 router.get('/deleteCompany/:id', function(req, res){
-    CompanyController.deleteTokenFromDatabase(req,res);
+    CompanyController.deleteCompanyFromDatabase(req,res);
 
 });
 
@@ -32,10 +32,19 @@ router.get('/newcampaign', function(req, res){
     CampaignController.newCampaign(req,res);
 });
 
+router.post('/addNewCampaign', function(req, res){
+    CampaignController.addNewCampaign(req,res);
+});
 
 router.post('/search',function (req,res) {
-    woodpeker.search(req,res);
+    CampaignController.search(req,res);
 });
+
+router.post('/saveCampaignRecord',function (req,res) {
+    CampaignController.saveCampaignRecord(req,res);
+});
+
+
 
 
 module.exports = router;

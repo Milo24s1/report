@@ -1,5 +1,6 @@
 const CompanyController = {};
 const Company = require('../../model/company');
+const CampaignRecord = require('../../model/campaignRecord');
 
 
 CompanyController.addNewCompany = function (req,res) {
@@ -40,9 +41,12 @@ CompanyController.readCompanyFromDatabase = function(req, res){
 };
 
 
-CompanyController.deleteTokenFromDatabase = function (req,res) {
+CompanyController.deleteCompanyFromDatabase = function (req,res) {
     Company.deleteCompany(req.params.id,function (err,data) {
         res.redirect('/companies');
+        CampaignRecord.deleteCampaignRecordsByCompanyId(req.params.id,function (err,data) {
+            return true;
+        });
     });
 };
 

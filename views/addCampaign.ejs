@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Add Company</title>
+    <title>Add Campaign</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
@@ -18,19 +18,69 @@
 </head>
 
 <body>
-<nav class="navbar navbar-dark ">
+<nav class="navbar navbar-expand-lg navbar-dark ">
+
+    <!-- Navbar brand -->
     <a class="navbar-brand" href="/">
         <img src="/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">
     </a>
-    <a href="/" class="">Home</a>
-    <a href="/companies" class="">Companies</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Home
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="/companies">Companies</a>
+            </li>
+
+
+            <!-- Dropdown -->
+            <!--<li class="nav-item dropdown">-->
+            <!--<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"-->
+            <!--aria-expanded="false">Dropdown</a>-->
+            <!--<div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">-->
+            <!--<a class="dropdown-item" href="#">Action</a>-->
+            <!--<a class="dropdown-item" href="#">Another action</a>-->
+            <!--<a class="dropdown-item" href="#">Something else here</a>-->
+            <!--</div>-->
+            <!--</li>-->
+
+        </ul>
+        <!-- Links -->
+
+    </div>
+    <!-- Collapsible content -->
+
 </nav>
+<div id="createMenu" class="dropdown">
+    <!--Trigger-->
+    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">Create</button>
+    <!--Menu-->
+    <div class="dropdown-menu dropdown-success" >
+        <a class="dropdown-item" data-location="/newcompany" style="font-size: 12.97px !important;
+        font-weight: 400 !important;cursor: pointer" href="/newcompany">Create Company</a>
+        <a class="dropdown-item" data-location="/newcampaign" style="font-size: 12.97px !important;
+        font-weight: 400 !important;cursor: pointer" href="/newcampaign">Create Campaign</a>
+    </div>
+</div>
 
 <% if(companyList.length==0){%>
 <div style="height: 75vh">
     <div class="flex-center flex-column">
-        <h1 class="animated fadeIn mb-4 font-weight-bold shadow-sm">No Companies Found</h1>
-        <h5 class="animated fadeIn mb-3"><a style="color: black !important;" href="/newcompany">Please Create a Company</a></h5>
+        <h1 class="animated fadeIn mb-4 font-weight-bold shadow-sm ">No Companies Found</h1>
+        <h5 class="animated fadeIn mb-3"><a style="color: black !important;" href="/newcompany">Please Create a Company before Creating Campaign</a></h5>
 
 
     </div>
@@ -44,25 +94,25 @@
         <form id="addCompanyForm" method="post">
             <div class="md-form mt-3">
                 <label class="active" for="companyName">Company</label>
-                <select class="form-control">
+                <select id="companyName" class="form-control">
                     <%for(i=0;i<companyList.length;i++){%>
-                    <option value="<%=companyList[i]._id%>"><%=companyList[i].companyName%></option>
+                    <option data-name="<%=companyList[i].companyName%>" value="<%=companyList[i]._id%>"><%=companyList[i].companyName%></option>
                     <%}%>
                 </select>
 
             </div>
             <div class="md-form mt-3">
-                <label class="" for="companyName">Campaign Name</label>
-                <input type="text" id="companyName" class="form-control" name="companyName" required>
+                <label class="" for="campaignName">Campaign Name</label>
+                <input type="text" id="campaignName" class="form-control" name="campaignName" required>
 
             </div>
             <div class="md-form mt-3 ">
                <label class="active" for="status">Campaign Status</label>
                 <select id="status" name="status" class="form-control">
-                    <option>DRAFT</option>
-                    <option>RUNNING</option>
-                    <option>STOPPED</option>
-                    <option>DELETED</option>
+                    <option value="DRAFT">DRAFT</option>
+                    <option value="RUNNING">RUNNING</option>
+                    <option value="STOPPED">STOPPED</option>
+                    <option value="DELETED">DELETED</option>
                 </select>
             </div>
             <div class="md-form">
@@ -121,6 +171,51 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
 
+<script>
+    $(document).ready(function (e) {
+
+        $("#addCampaign").click(function (e) {
+            e.preventDefault();
+
+            var doValidation = true;
+            if(doValidation){
+                $.ajax({
+                    url:'/addNewCampaign',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        companyId : $("#companyName option:selected").val(),
+                        companyName: $("#companyName option:selected").text(),
+                        campaignName: $("#campaignName").val(),
+                        status: $("#status option:selected").val(),
+                        prospects: getFormattedValue($("#inputIconEx1").val()),
+                        delivered: getFormattedValue($("#inputIconEx2").val()),
+                        opened: getFormattedValue($("#inputIconEx3").val()),
+                        response: getFormattedValue($("#inputIconEx4").val()),
+                        customCol1: getFormattedValue($("#inputIconEx5").val()),
+                        customCol2: getFormattedValue($("#inputIconEx6").val()),
+                        customCol3: getFormattedValue($("#inputIconEx7").val()),
+                    },
+                    success: function (data) {
+                        alert('Campaign Record saved carefully');
+                        window.location = '/';
+                    },
+                    error : function (xhr, ajaxOptions, thrownError) {
+                        if(xhr.status!=200) {
+
+                            alert('Something went wrong with Saving Campaign, pleas refresh the page and try again');
+                        }
+                    }
+                })
+            }
+
+        });
+    });
+
+    function getFormattedValue(value) {
+        return value.length==0 ? 0 : value;
+    }
+</script>
 </body>
 
 </html>

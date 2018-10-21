@@ -41,10 +41,21 @@ const CampaignRecordSchema = mongoose.Schema({
     customCol3:{
         type: String,
         default:''
+    },
+    deliveredPercentage:{
+        type: Number,
+        default: 0
+    },
+    openedPercentage:{
+        type: Number,
+        default: 0
+    },
+    responsesPercentage: {
+        type: Number,
+        default: 0
     }
 });
 
-CampaignRecordSchema.index({ token: 1, campId: 1}, { unique: true });
 
 const CampaignRecord = module.exports = mongoose.model('CampaignRecord',CampaignRecordSchema);
 
@@ -58,8 +69,17 @@ module.exports.getCampaignRecordsByToken = function (token,callback) {
 };
 
 module.exports.getCampaignRecordByCampaignId = function (campId,callback) {
-    const query = {'campId':campId};
+    const query = {'_id':campId};
     CampaignRecord.find(query,callback);
+};
+
+module.exports.getNextResultSet = function (searchParams,options,pagination,callback) {
+    // CampaignRecord.find(searchParams,null,options,callback);
+    CampaignRecord.find({},null,pagination,callback);
+};
+
+module.exports.deleteCampaignRecordsByCompanyId = function (companyId,callback) {
+    CampaignRecord.deleteMany({companyId: companyId},callback);
 };
 
 

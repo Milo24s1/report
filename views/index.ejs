@@ -18,23 +18,96 @@
 
 </head>
 <body>
-<nav class="navbar navbar-dark ">
-    <a class="navbar-brand" href="#">
-        <!--<img src="https://mdbootstrap.com/img/logo/mdb-transparent.png" height="30" class="d-inline-block align-top" alt="">-->
-        <img src="/public/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark ">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="/">
+        <img src="/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">
     </a>
 
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/companies">Companies</a>
+            </li>
+
+
+            <!-- Dropdown -->
+            <!--<li class="nav-item dropdown btn-success">-->
+                <!--<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"-->
+                   <!--aria-expanded="false">Create</a>-->
+                <!--<div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">-->
+                    <!--<a class="dropdown-item" style="font-size: 12.97px !important;-->
+        <!--font-weight: 400 !important;cursor: pointer" href="/newcompany">Create Company</a>-->
+                    <!--<a class="dropdown-item" href="#">Create Campaign</a>-->
+                    <!--<a class="dropdown-item" href="#">Something else here</a>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<div id="createMenu" class="dropdown">-->
+                <!--&lt;!&ndash;Trigger&ndash;&gt;-->
+                <!--<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"-->
+                        <!--aria-haspopup="true" aria-expanded="false">Create</button>-->
+                <!--&lt;!&ndash;Menu&ndash;&gt;-->
+                <!--<div class="dropdown-menu dropdown-success" >-->
+                    <!--<a class="dropdown-item" data-location="/newcompany" style="font-size: 12.97px !important;-->
+        <!--font-weight: 400 !important;cursor: pointer">Create Company</a>-->
+                    <!--<a class="dropdown-item" data-location="/newcampaign" style="font-size: 12.97px !important;-->
+        <!--font-weight: 400 !important;cursor: pointer">Create Campaign</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        </ul>
+        <!-- Links -->
+
+    </div>
+    <!-- Collapsible content -->
+
 </nav>
+<!--/.Navbar-->
+<!--<nav class="navbar navbar-dark ">-->
+    <!--<a class="navbar-brand" href="#">-->
+        <!--&lt;!&ndash;<img src="https://mdbootstrap.com/img/logo/mdb-transparent.png" height="30" class="d-inline-block align-top" alt="">&ndash;&gt;-->
+        <!--<img src="/public/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">-->
+    <!--</a>-->
+    <!--&lt;!&ndash; Collapsible content &ndash;&gt;-->
+    <!--<div class="collapse navbar-collapse" id="basicExampleNav">-->
+        <!--&lt;!&ndash; Links &ndash;&gt;-->
+        <!--<ul class="navbar-nav mr-auto">-->
+            <!--<li class="nav-item active">-->
+                <!--<a class="nav-link" href="#">Home-->
+                    <!--<span class="sr-only">(current)</span>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href="#">Features</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</nav>-->
 <div id="createMenu" class="dropdown">
     <!--Trigger-->
     <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">Create</button>
     <!--Menu-->
     <div class="dropdown-menu dropdown-success" >
-        <li class="dropdown-item" data-location="/newcompany" style="font-size: 12.97px !important;
-        font-weight: 400 !important;cursor: pointer">Create Company</li>
-        <li class="dropdown-item" data-location="/newcampaign" style="font-size: 12.97px !important;
-        font-weight: 400 !important;cursor: pointer">Create Campaign</li>
+        <a class="dropdown-item" data-location="/newcompany" style="font-size: 12.97px !important;
+        font-weight: 400 !important;cursor: pointer" href="/newcompany">Create Company</a>
+        <a class="dropdown-item" data-location="/newcampaign" style="font-size: 12.97px !important;
+        font-weight: 400 !important;cursor: pointer" href="/newcampaign">Create Campaign</a>
     </div>
 </div>
 <div style="height: 10vh">
@@ -90,18 +163,38 @@
                 <form class="needs-validation" novalidate>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx4" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx4">Prospect</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx5" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx5">Email Delivered</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx6" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx6">Opened</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx7" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx7">Responses</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx1" class="form-control" value="" required>
                         <label class="font-weight-bold" for="inputIconEx1">Email Blast Responses</label>
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx2" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx1">LinkedIn Responses</label>
+                        <label class="font-weight-bold" for="inputIconEx2">LinkedIn Responses</label>
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx3" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx1">New LinkedIn Connections</label>
+                        <label class="font-weight-bold" for="inputIconEx3">New LinkedIn Connections</label>
                     </div>
                 </form>
             </div>
@@ -147,11 +240,12 @@
 
 
     var defaultRes1,defaultRes2,defaultRes3;
-    var res1Col,res2Col,res3Col;
+    var res1Col,res2Col,res3Col,prosCol,deliCol,openCol,resCol;
     var currentToken = null;
     var currentCampId = null;
+    var next =0;
 
-        lazyLoad();
+        lazyLoad(next);
         function lazyLoad(next) {
             $("#loader").removeClass('invisible');
             $.ajax({
@@ -164,46 +258,35 @@
                 success: function (data) {
                     let tableDom = '';
                     if(data.rowData.length > 0){
-                        let campRecords = data.campRecord;
                         for(i=0;i<data.rowData.length;i++){
 
-                            const tempCampRecord = {
-                                'cus1':'',
-                                'cus2':'',
-                                'cus3':'',
-                            };
-                            if(campRecords.hasOwnProperty(data.rowData[i].campaignId)){
-                                const campReocrd = campRecords[data.rowData[i].campaignId];
-                                tempCampRecord.cus1 = campReocrd.customCol1 ;
-                                tempCampRecord.cus2 = campReocrd.customCol2 ;
-                                tempCampRecord.cus3 = campReocrd.customCol3 ;
-                            }
 
                             tableDom += `<tr>
-                                        <th class="col-1" data-token=${data.rowData[i].token} scope="row">${data.rowData[i].company}</th>
-                                        <td class="col-2" data-campid=${data.rowData[i].campaignId}>${data.rowData[i].campaign}</td>
+                                        <th class="col-1" data-token=${data.rowData[i].companyId} scope="row">${data.rowData[i].companyName}</th>
+                                        <td class="col-2" data-campid=${data.rowData[i]._id}>${data.rowData[i].campaignName}</td>
                                         <td class="col-1">${data.rowData[i].status}</td>
-                                        <td class="col-1">${data.rowData[i].prospects}</td>
-                                        <td class="col-1">${data.rowData[i].delivered} (${data.rowData[i].deliveredPrecentage}%)</td>
-                                        <td class="col-1">${data.rowData[i].opened} (${data.rowData[i].openedPrecentage}%)</td>
-                                        <td class="col-1">${data.rowData[i].responses} (${data.rowData[i].responsesPrecentage}%)</td>
-                                        <td class="col-1 cus1">${tempCampRecord.cus1}</td>
-                                        <td class="col-1 cus2">${tempCampRecord.cus2}</td>
-                                        <td class="col-1 cus3">${tempCampRecord.cus3}</td>
+                                        <td class="col-1 reg1" data-prospect=${data.rowData[i].prospects}>${data.rowData[i].prospects}</td>
+                                        <td class="col-1 reg2" data-delivered=${data.rowData[i].delivered}>${data.rowData[i].delivered} (${data.rowData[i].deliveredPercentage}%)</td>
+                                        <td class="col-1 reg3" data-opened=${data.rowData[i].opened} >${data.rowData[i].opened} (${data.rowData[i].openedPercentage}%)</td>
+                                        <td class="col-1 reg4" data-response=${data.rowData[i].response} >${data.rowData[i].response} (${data.rowData[i].responsesPercentage}%)</td>
+                                        <td class="col-1 cus1">${data.rowData[i].customCol1}</td>
+                                        <td class="col-1 cus2">${data.rowData[i].customCol2}</td>
+                                        <td class="col-1 cus3">${data.rowData[i].customCol3}</td>
                                         <td class="col-1"><a data-toggle="modal" data-target="#editor"><i class="fa fa-pencil fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
                                         </tr>`
                         }
                         $("table").append(tableDom)
                     }
                     $("#loader").addClass('invisible');
-                    if(data.next != undefined){
-                        lazyLoad(data.next);
+                    if(data.rowData.length != 0){
+                        next++;
+                        lazyLoad(next);
                     }
 
 
                 },
                 error : function (xhr, ajaxOptions, thrownError) {
-
+                    // lazyLoad(next);
                     if(xhr.status!=200) {
                         $("#loader").addClass('invisible');
                     }
@@ -221,9 +304,23 @@
         res3Col = $(this).closest('tr').find('.cus3');
         defaultRes3= res3Col.text();
 
+        prosCol = $(this).closest('tr').find('.reg1');
+        defaultRes4= prosCol.text();
+        deliCol = $(this).closest('tr').find('.reg2');
+        defaultRes5= deliCol.data('delivered');
+        openCol = $(this).closest('tr').find('.reg3');
+        defaultRes6= openCol.data('opened');
+        resCol = $(this).closest('tr').find('.reg4');
+        defaultRes7= resCol.data('response');
+        console.log(defaultRes3,defaultRes5,defaultRes6,defaultRes7);
         $('#inputIconEx1').val(defaultRes1);
         $('#inputIconEx2').val(defaultRes2);
         $('#inputIconEx3').val(defaultRes3);
+
+        $('#inputIconEx4').val(defaultRes4);
+        $('#inputIconEx5').val(defaultRes5);
+        $('#inputIconEx6').val(defaultRes6);
+        $('#inputIconEx7').val(defaultRes7);
 
         currentToken = $(this).closest('tr').find('th').data('token');
         currentCampId = $(this).closest("tr").find("td").first().data('campid');
@@ -234,6 +331,10 @@
         var tempVal1 = $('#inputIconEx1').val();
         var tempVal2 = $('#inputIconEx2').val();
         var tempVal3 = $('#inputIconEx3').val();
+        var tempVal4 = $('#inputIconEx4').val();
+        var tempVal5 = $('#inputIconEx5').val();
+        var tempVal6 = $('#inputIconEx6').val();
+        var tempVal7 = $('#inputIconEx7').val();
 
         $.ajax({
             'url':'/saveCampaignRecord',
@@ -245,14 +346,22 @@
                 customCol1: tempVal1,
                 customCol2: tempVal2,
                 customCol3: tempVal3,
+                prospects: tempVal4,
+                delivered: tempVal5,
+                opened: tempVal6,
+                response: tempVal7,
             },
             'success': function (data) {
 
-
-                alert(data.message);
+                var updatedRecord = data.result;
+                alert('Campaign Record Updated Successfully');
                 res1Col.text(tempVal1);
                 res2Col.text(tempVal2);
                 res3Col.text(tempVal3);
+                prosCol.text(tempVal4);
+                deliCol.text(updatedRecord.delivered+'('+updatedRecord.deliveredPercentage+'%)');
+                openCol.text(updatedRecord.opened+'('+updatedRecord.openedPercentage+'%)');
+                resCol.text(updatedRecord.response+'('+updatedRecord.responsesPercentage+'%)')
                 // $("[data-tid='"+tempCurrentItemId+"']").closest('tr').find("td a")[2].dataset.colid = newSelection.join(",");
                 //change data-colid
             },
@@ -268,9 +377,6 @@
     });
 
 
-    $(".dropdown-item").click(function (e) {
-        window.location = $(this).data("location");
-    })
 
 </script>
 <style>
@@ -298,11 +404,7 @@
         color: white !important;
 
     }
-    #createMenu{
-        position: absolute;
-        top:0px;
-        right: 5px;
-    }
+
 </style>
 </body>
 </html>
