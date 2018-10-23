@@ -7,8 +7,8 @@ CompanyController.addNewCompany = function (req,res) {
     try {
         const newCompany = req.body;
         newCompany.deliveredPercentage = Math.floor(100*newCompany.delivered/newCompany.prospects);
-        newCompany.openedPercentage = prospects != 0 ? Math.floor(100*newCompany.opened/newCompany.prospects) : 0;
-        newCompany.responsesPercentage = prospects != 0 ? Math.floor(100*newCompany.response/newCompany.prospects): 0;
+        newCompany.openedPercentage = newCompany.prospects != 0 ? Math.floor(100*newCompany.opened/newCompany.prospects) : 0;
+        newCompany.responsesPercentage = newCompany.prospects != 0 ? Math.floor(100*newCompany.response/newCompany.prospects): 0;
         // newCompany.isActive = 1;
         Company.addCompany(Company(newCompany),function (err,company) {
             if(err){
