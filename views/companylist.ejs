@@ -100,7 +100,7 @@
                 <th class="col-3" scope="row"><%= items[i].companyName %></th>
                 <th><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></th>
                 <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/deleteCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
-                <td class="col-1"><a title="Send Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
+                <td class="col-1"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
                 <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Settings" data-toggle="modal" data-target="#reportConfig"><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
             </tr>
             <%}%>
@@ -110,7 +110,105 @@
     <div class="col-md-1"></div>
 </div>
 
+<div class="modal fade" id="emailConfig" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">Email Configuration for Onetime Mail</p>
 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                </div>
+
+                <form class="needs-validation" novalidate>
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="inputIconEx1" class="form-control" value="matt@prospectgenai.com" required>
+                        <label for="inputIconEx1">E-mail address</label>
+                    </div>
+                </form>
+                <p class="font-weight-bold" id="addEmail"><i class="fa fa-envelope-o cyan-text" aria-hidden="true"></i>&nbsp;Add Another Email </p>
+                <p class="font-weight-bold" id="addCustomMessage"><i class="fa fa-envelope-o purple-text" aria-hidden="true"></i>&nbsp;Add Custom Message </p>
+                <textarea class="form-control" id="customMessage" rows="7"></textarea>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="custom-control custom-checkbox  font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="customChecked1" checked>
+                            <label class="custom-control-label" for="customChecked1">Company</label>
+                        </div>
+                        <div class="custom-control custom-checkbox font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="customChecked2" checked>
+                            <label class="custom-control-label" for="customChecked2">Campaign</label>
+                        </div>
+                        <div class="custom-control custom-checkbox font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="customChecked3" checked>
+                            <label class="custom-control-label" for="customChecked3">Status</label>
+                        </div>
+                        <div class="custom-control custom-checkbox font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="customChecked4" checked>
+                            <label class="custom-control-label" for="customChecked4">Prospects</label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6" >
+
+                        <div class="custom-control custom-checkbox font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="customChecked5" checked>
+                            <label class="custom-control-label" for="customChecked5">Email Delivered</label>
+                        </div>
+                        <div class="custom-control custom-checkbox font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="customChecked6" checked>
+                            <label class="custom-control-label" for="customChecked6">Opened</label>
+                        </div>
+                        <div class="custom-control custom-checkbox font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="customChecked7" checked>
+                            <label class="custom-control-label" for="customChecked7">Responses</label>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <p class="font-weight-bold" ><i class="fa  cyan-text" aria-hidden="true"></i>&nbsp;Additional Columns </p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="custom-control custom-checkbox  font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="defaultChecked8" checked>
+                            <label class="custom-control-label" for="defaultChecked8">Email Blast Responses</label>
+                        </div>
+                        <div class="custom-control custom-checkbox  font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="defaultChecked9" checked>
+                            <label class="custom-control-label" for="defaultChecked9">LinkedIn Responses</label>
+                        </div>
+                        <div class="custom-control custom-checkbox  font-weight-bold">
+                            <input type="checkbox" class="custom-control-input" id="defaultChecked10" checked>
+                            <label class="custom-control-label" for="defaultChecked10">New LinkedIn Connections</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" id="sendEmail" class="btn btn-success waves-effect waves-light">Send now
+                    <i class="fa fa-diamond ml-1"></i>
+                </a>
+                <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
@@ -120,6 +218,141 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        var inputCount = 1;
+        var currentToken = null;
+        var currentItemId = null;
+        var tempCurrentItemId = null;
+
+        $(".fa-bell").click(function (e) {
+            $(".additionalEmails").remove();
+            $("#emailConfig input[type='checkbox']").prop('checked',true);
+            currentToken = $(this).closest('tr').find('td')[0].innerHTML;
+            console.log(currentToken);
+        });
+
+        $("#addEmail").click(function (e) {
+            inputCount++;
+            console.log('fired');
+            var newInputFieldHtml = `<div class="md-form additionalEmails">
+                <i class="fa fa-envelope prefix"></i>
+                <input type="text"  id="inputIconEx`+inputCount+`" class="form-control" required>
+                <label for="inputIconEx`+inputCount+`">E-mail address</label>
+            </div>`;
+            $(".needs-validation").append(newInputFieldHtml);
+        });
+
+        $("#sendEmail").click(function (e) {
+
+            var doValidation = true;
+            var customSelection = [];
+
+            $("#emailConfig input[type='checkbox']").each(function (index) {
+                if($(this).prop('checked')){
+                    customSelection.push(index+1);
+                }
+            });
+            console.log(customSelection);
+
+            if(doValidation){
+
+                var emailAddressList = [];
+                var nodes= document.querySelectorAll("#emailConfig input[class='form-control']");
+                for(i=0;i<nodes.length;i++){
+                    emailAddressList.push(nodes[i].value)
+                }
+                console.log(emailAddressList);
+                $(".additionalEmails").remove();
+                document.querySelector('[data-dismiss="modal"]').click();
+                $("#loader").removeClass('invisible');
+
+                $.ajax({
+                    url: '/sendEmail',
+                    method: 'post',
+                    dataType: 'json',
+                    data: {
+                        emailAddressList : emailAddressList,
+                        token: currentToken,
+                        customSelection: customSelection,
+                        customMessage : $("#customMessage").val()
+                    },
+                    success: function (data) {
+                        $("#loader").addClass('invisible');
+                        alert('Email Sent Successfully');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        if(xhr.status!=200) {
+                            $("#loader").addClass('invisible');
+                            alert('Something went wrong with Sending Email, please refresh the page and try again');
+                        }
+                    }
+                });
+
+
+                currentToken = null;
+                inputCount =1;
+
+
+            }
+
+        });
+
+
+        $(".fa-cog").click(function (e) {
+
+            currentItemId = $(this).closest('tr').find('td a').first().data('tid');
+            console.log('current item id'+currentItemId);
+            var currentSelection = $(this).closest('a')[0].dataset.colid.split(",").map(o=>Number(o));
+            console.log(currentSelection);
+            //attr('checked', 'checked');
+            $("#reportConfig input[type='checkbox']").each(function (index) {
+
+                if(currentSelection.indexOf(index+1)>-1){
+                    $(this).prop('checked',true);
+                }
+                else {
+                    $(this).prop('checked',false);
+                }
+            });
+        });
+        $("#saveReportConfig").click(function (e) {
+            tempCurrentItemId = currentItemId;
+            var newSelection = [];
+
+            for(i=1;i<=7;i++){
+                if($("#defaultChecked"+i).prop('checked')){
+                    console.log(i);
+                    newSelection.push(i);
+                }
+            }
+
+            console.log(newSelection);
+            $("#reportConfig").modal('hide');
+            $.ajax({
+                'url':'/saveReportConfig',
+                'method': 'post',
+                'dataType': 'json',
+                'data': {
+                    id:currentItemId,
+                    emailColumns: newSelection
+                },
+                'success': function (data) {
+
+
+                    alert(data.message);
+                    $("[data-tid='"+tempCurrentItemId+"']").closest('tr').find("td a")[2].dataset.colid = newSelection.join(",");
+                    //change data-colid
+                },
+                'error': function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.data.message);
+
+                }
+            });
+            currentItemId = null;
+        });
+    });
+</script>
 <style>
     #tableDiv{
         margin-top: 40px;
