@@ -118,34 +118,6 @@ EmailController.getEmailBody = function(rowData,customSelection,customMessage){
                     </tr>
 
                     <tr>
-                        <td align="center">
-
-                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-
-                                <tr>
-                                    <td align="center" height="70" style="height:70px;background-color: rgb(2, 8, 67);">
-                                        <!--<a href="" style="display: block; border-style: none !important; border: 0 !important;"><img width="100" border="0" style="display: block; width: 100px;" src="http://dash.prospectgenai.com/img/ProspectGen_AI01_white.png" alt="" /></a>-->
-                                    </td>
-                                </tr>
-                                <tr>
-                        <td align="center">
-
-                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-
-                                <tr>
-                                    <td align="left" style='padding-top: 10px;font-family: "Poppins", sans-serif;
-line-height: 1.5;'>
-                                       ${customMessage}
-                                       </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <tr>
                         <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
                     </tr>
 
@@ -187,8 +159,9 @@ line-height: 24px;
 margin-bottom: 16px;
 text-align: center;
 width: 100%'>
-                    <thead style='background-color: rgb(2, 8, 67);
+                    <thead style=';
 border-collapse: collapse;
+background-image: linear-gradient(to right, rgba(95,186,125,0.9) 0%, rgba(16,138,236,0.9) 100%);
 box-sizing: border-box;
 color: rgb(255, 255, 255);
 font-family: "Poppins", sans-serif;
