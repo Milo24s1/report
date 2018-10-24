@@ -25,6 +25,9 @@ const CompanySchema = mongoose.Schema({
     isActive:{
         type: Number,
         default: 1
+    },
+    defaultMessage: {
+        type: String
     }
 
 
@@ -37,7 +40,7 @@ module.exports.getCompanyList = function(callback){
     Company.find({},null,{sort:{companyName:1}},callback);
 };
 module.exports.getItemById = function (id, callback) {
-
+    Company.findById(id,callback);
 };
 
 module.exports.addCompany = function (company,callback) {

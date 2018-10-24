@@ -228,7 +228,7 @@
         $(".fa-bell").click(function (e) {
             $(".additionalEmails").remove();
             $("#emailConfig input[type='checkbox']").prop('checked',true);
-            currentToken = $(this).closest('tr').find('td')[0].innerHTML;
+            currentToken = $(this).closest('tr').find('td .btn-danger').data('tid');
             console.log(currentToken);
         });
 
@@ -273,7 +273,7 @@
                     dataType: 'json',
                     data: {
                         emailAddressList : emailAddressList,
-                        token: currentToken,
+                        companyId: currentToken,
                         customSelection: customSelection,
                         customMessage : $("#customMessage").val()
                     },

@@ -63,8 +63,8 @@ module.exports.addCampaignRecord = function (campaign,callback) {
     campaign.save(callback);
 };
 
-module.exports.getCampaignRecordsByToken = function (token,callback) {
-    const query = {'token':token};
+module.exports.getCampaignRecordsByCompanyId = function (companyId,callback) {
+    const query = {'companyId':companyId};
     CampaignRecord.find(query,callback);
 };
 
