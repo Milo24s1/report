@@ -26,6 +26,9 @@ CampaignController.addNewCampaign = function(req,res){
 
     try {
         const newCampaignRecord = new CampaignRecord(req.body);
+        newCampaignRecord.deliveredPercentage = Math.floor(100*newCampaignRecord.delivered/newCampaignRecord.prospects);
+        newCampaignRecord.openedPercentage = newCampaignRecord.prospects != 0 ? Math.floor(100*newCampaignRecord.opened/newCampaignRecord.prospects) : 0;
+        newCampaignRecord.responsesPercentage = newCampaignRecord.prospects != 0 ? Math.floor(100*newCampaignRecord.response/newCampaignRecord.prospects): 0;
         CampaignRecord.addCampaignRecord(newCampaignRecord,function (err, result) {
 
             if(err){
