@@ -118,6 +118,28 @@ EmailController.getEmailBody = function(rowData,customSelection,customMessage){
                     </tr>
 
                     <tr>
+                        <td align="center">
+
+                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+
+                        <td align="center">
+
+                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+
+                                <tr>
+                                    <td align="left" style='padding-top: 10px;font-family: "Poppins", sans-serif;
+line-height: 1.5;'>
+                                       ${customMessage != undefined ? customMessage : ''}
+                                       </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
                     </tr>
 
