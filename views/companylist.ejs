@@ -29,7 +29,7 @@
 
     <!-- Navbar brand -->
     <a class="navbar-brand" href="/">
-        <img src="/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">
+        <!--<img src="/img/INmastery-02.png" height="30" class="d-inline-block align-top" alt="">-->
     </a>
 
     <!-- Collapse button -->
@@ -101,7 +101,7 @@
                 <th><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></th>
                 <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/deleteCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
                 <td class="col-1"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
-                <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Settings" data-toggle="modal" data-target="#reportConfig"><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
+                <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Edit Company Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
             </tr>
             <%}%>
             </tbody>
@@ -225,6 +225,10 @@
         var currentItemId = null;
         var tempCurrentItemId = null;
 
+        $(".fa-cog").click(function (e) {
+
+            window.location = '/editCompany/'+$(this).closest('tr').find('td .btn-danger').data('tid');
+        });
         $(".fa-bell").click(function (e) {
             $(".additionalEmails").remove();
             $("#emailConfig input[type='checkbox']").prop('checked',true);
@@ -299,58 +303,6 @@
         });
 
 
-        $(".fa-cog").click(function (e) {
-
-            currentItemId = $(this).closest('tr').find('td a').first().data('tid');
-            console.log('current item id'+currentItemId);
-            var currentSelection = $(this).closest('a')[0].dataset.colid.split(",").map(o=>Number(o));
-            console.log(currentSelection);
-            //attr('checked', 'checked');
-            $("#reportConfig input[type='checkbox']").each(function (index) {
-
-                if(currentSelection.indexOf(index+1)>-1){
-                    $(this).prop('checked',true);
-                }
-                else {
-                    $(this).prop('checked',false);
-                }
-            });
-        });
-        $("#saveReportConfig").click(function (e) {
-            tempCurrentItemId = currentItemId;
-            var newSelection = [];
-
-            for(i=1;i<=7;i++){
-                if($("#defaultChecked"+i).prop('checked')){
-                    console.log(i);
-                    newSelection.push(i);
-                }
-            }
-
-            console.log(newSelection);
-            $("#reportConfig").modal('hide');
-            $.ajax({
-                'url':'/saveReportConfig',
-                'method': 'post',
-                'dataType': 'json',
-                'data': {
-                    id:currentItemId,
-                    emailColumns: newSelection
-                },
-                'success': function (data) {
-
-
-                    alert(data.message);
-                    $("[data-tid='"+tempCurrentItemId+"']").closest('tr').find("td a")[2].dataset.colid = newSelection.join(",");
-                    //change data-colid
-                },
-                'error': function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.data.message);
-
-                }
-            });
-            currentItemId = null;
-        });
     });
 </script>
 <style>

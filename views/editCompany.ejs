@@ -78,12 +78,12 @@
 <div class="row" style="height:20vh">
     <div class="col-md-3"></div>
     <div class="col-md-6  border border-light p-5">
-        <p class="h4 mb-4">Add Company</p>
+        <p class="h4 mb-4">Edit Company</p>
         <div id="loader" class="loader invisible center-block"></div>
         <form id="addCompanyForm" method="post">
             <div class="md-form mt-3">
                 <label class="active" for="companyName">Company Name</label>
-                <input type="text" id="companyName" class="form-control" name="companyName" required>
+                <input type="text" id="companyName" class="form-control" name="companyName" value="<%=company.companyName%>" required>
 
             </div>
             <div class="md-form mt-3 ">
@@ -94,19 +94,19 @@
                             <div class="col-md-6">
 
                                 <div class="custom-control custom-checkbox  font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="dayChecked1" >
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked1" <% if(company.defaultMailDays.indexOf(1)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="dayChecked1">Monday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="dayChecked2" >
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked2" <% if(company.defaultMailDays.indexOf(2)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="dayChecked2">Tuesday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="dayChecked3" >
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked3" <% if(company.defaultMailDays.indexOf(3)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="dayChecked3">Wednesday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="dayChecked4" >
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked4" <% if(company.defaultMailDays.indexOf(4)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="dayChecked4">Thursday</label>
                                 </div>
 
@@ -114,15 +114,15 @@
                             <div class="col-md-6" >
 
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="dayChecked5" >
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked5" <% if(company.defaultMailDays.indexOf(5)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="dayChecked5">Friday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="dayChecked6" >
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked6" <% if(company.defaultMailDays.indexOf(6)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="dayChecked6">Saturday</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="dayChecked7" >
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked7" <% if(company.defaultMailDays.indexOf(7)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="dayChecked7">Sunday</label>
                                 </div>
 
@@ -143,19 +143,19 @@
                             <div class="col-md-6">
 
                                 <div class="custom-control custom-checkbox  font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked1" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked1" <% if(company.emailColumns.indexOf(1)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked1">Company</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked2" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked2" <% if(company.emailColumns.indexOf(2)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked2">Campaign</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked3" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked3" <% if(company.emailColumns.indexOf(3)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked3">Status</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked4" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked4" <% if(company.emailColumns.indexOf(4)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked4">Prospects</label>
                                 </div>
 
@@ -163,19 +163,19 @@
                             <div class="col-md-6" >
 
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked5" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked5" <% if(company.emailColumns.indexOf(5)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked5">Email Delivered</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked6" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked6" <% if(company.emailColumns.indexOf(6)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked6">Opened</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked7" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked7" <% if(company.emailColumns.indexOf(7)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked7">Responses</label>
                                 </div>
                                 <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked8" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked8" <% if(company.emailColumns.indexOf(8)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked8">Responses</label>
                                 </div>
 
@@ -195,15 +195,15 @@
                         <div class="row text-center">
                             <div class="col-md-12">
                                 <div class="custom-control custom-checkbox  font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked9" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked9" <% if(company.emailColumns.indexOf(9)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked9">Email Blast Responses</label>
                                 </div>
                                 <div class="custom-control custom-checkbox  font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked10" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked10" <% if(company.emailColumns.indexOf(10)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked10">LinkedIn Responses</label>
                                 </div>
                                 <div class="custom-control custom-checkbox  font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked11" checked>
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked11" <% if(company.emailColumns.indexOf(11)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked11">New LinkedIn Connections</label>
                                 </div>
                             </div>
@@ -221,11 +221,11 @@
                 <div class="card">
 
                 </div>
-                <input type="email" id="senderEmailAddress" class="form-control" required>
+                <input type="email" id="senderEmailAddress" class="form-control" value="<%=company.senderEmail%>" required>
                 <label class="active" for="senderEmailAddress">Sender Email Address</label>
             </div>
             <div class="md-form mt-3">
-                <input type="password" id="senderPassword" class="form-control" required>
+                <input type="password" id="senderPassword" class="form-control" value="<%=company.senderPassword%>" required>
                 <label class="active" for="senderPassword">Password</label>
             </div>
             <p class="h4 mb-4">Send Report to</i></p>
@@ -234,9 +234,12 @@
                 <i class="fa fa-envelope prefix"></i>
                 <input type="email" id="inputIconEx1" class="form-control" value="" required>
                 <label for="inputIconEx1">E-mail address</label>
-                <button id="#additionalReciver"><i class="fa fa-plus"></i></button>
+
             </div>
-            <button id="addCompany" class="btn btn-success">Add Company</button>
+            <input id="existingSendTo" type="hidden" value="<%=company.sendTo.join(",")%>">
+            <button id="#additionalReciver"><i class="fa fa-plus"></i></button>
+
+            <button id="addCompany" class="btn btn-success">Save Company</button>
         </form>
     </div>
     <div class="col-md-3"></div>
@@ -257,6 +260,9 @@
 
 <script>
     $(document).ready(function (e) {
+
+        var existingSendTo =$("#existingSenders").split(",");
+
 
         $("#addCompany").click(function (e) {
             e.preventDefault();

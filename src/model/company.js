@@ -21,6 +21,29 @@ CompanyController.addNewCompany = function (req,res) {
     }
 };
 
+CompanyController.editCompany = function(req,res){
+
+    try {
+        Company.getItemById(req.params.id,function (err,data) {
+            if(err){
+                res.render("error",{error:''});
+            }
+            else {
+                if(data==null){
+                    res.render("error",{error:'Invalid Company'});
+                }
+                else {
+                    console.log(data);
+                    res.render('editCompany',{company:data});
+                }
+
+            }
+        })
+    }
+    catch (e) {
+        res.render("error",{error:''});
+    }
+};
 
 CompanyController.readCompanyFromDatabase = function(req, res){
     try {

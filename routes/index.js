@@ -19,6 +19,10 @@ router.post('/addNewCompany',(req,res,next)=>{
     CompanyController.addNewCompany(req,res);
 });
 
+router.get('/editCompany/:id', function(req, res){
+    CompanyController.editCompany(req,res);
+});
+
 router.get('/companies', function(req, res){
     CompanyController.readCompanyFromDatabase(req,res);
 
