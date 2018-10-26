@@ -183,7 +183,7 @@ text-align: center;
 width: 100%'>
                     <thead style=';
 border-collapse: collapse;
-background-image: linear-gradient(to right, rgba(95,186,125,0.9) 0%, rgba(16,138,236,0.9) 100%);
+background-color: rgb(2, 8, 67);
 box-sizing: border-box;
 color: rgb(255, 255, 255);
 font-family: "Poppins", sans-serif;
