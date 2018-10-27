@@ -120,14 +120,14 @@
             <tr>
                 <th scope="col">Company</th>
                 <th scope="col">Campaign</th>
-                <th scope="col">Status</th>
-                <th scope="col">Prospects</th>
+                <th scope="col">Campaign Status</th>
+                <th scope="col">Email Prospects</th>
                 <th scope="col">Email Delivered</th>
-                <th scope="col">Opened</th>
-                <th scope="col">Responses</th>
-                <th scope="col">Email Blast Responses</th>
-                <th scope="col">LinkedIn Responses</th>
-                <th scope="col">New LinkedIn Connections</th>
+                <th scope="col">Email Opened</th>
+                <th scope="col">Email Responses</th>
+                <th scope="col">Connection Requests</th>
+                <th scope="col">New Connections</th>
+                <th scope="col">Message Responses</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -173,7 +173,7 @@
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx4" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx4">Prospect</label>
+                        <label class="font-weight-bold" for="inputIconEx4">Email Prospect</label>
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
@@ -183,27 +183,27 @@
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx6" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx6">Opened</label>
+                        <label class="font-weight-bold" for="inputIconEx6">Email Opened</label>
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx7" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx7">Responses</label>
+                        <label class="font-weight-bold" for="inputIconEx7">Email Responses</label>
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx1" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx1">Email Blast Responses</label>
+                        <label class="font-weight-bold" for="inputIconEx1">Connection Requests</label>
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx2" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx2">LinkedIn Responses</label>
+                        <label class="font-weight-bold" for="inputIconEx2">New Connections</label>
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx3" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx3">New LinkedIn Connections</label>
+                        <label class="font-weight-bold" for="inputIconEx3">Message Responses</label>
                     </div>
                 </form>
             </div>
@@ -271,17 +271,17 @@
 
 
                             tableDom += `<tr>
-                                        <th class="col-1" data-token=${data.rowData[i].companyId} scope="row">${data.rowData[i].companyName}</th>
-                                        <td class="col-2" data-campid=${data.rowData[i]._id}>${data.rowData[i].campaignName}</td>
-                                        <td class="col-1">${data.rowData[i].status}</td>
-                                        <td class="col-1 reg1" data-prospect=${data.rowData[i].prospects}>${data.rowData[i].prospects}</td>
-                                        <td class="col-1 reg2" data-delivered=${data.rowData[i].delivered}>${data.rowData[i].delivered} (${data.rowData[i].deliveredPercentage}%)</td>
-                                        <td class="col-1 reg3" data-opened=${data.rowData[i].opened} >${data.rowData[i].opened} (${data.rowData[i].openedPercentage}%)</td>
-                                        <td class="col-1 reg4" data-response=${data.rowData[i].response} >${data.rowData[i].response} (${data.rowData[i].responsesPercentage}%)</td>
-                                        <td class="col-1 cus1">${data.rowData[i].customCol1}</td>
-                                        <td class="col-1 cus2">${data.rowData[i].customCol2}</td>
-                                        <td class="col-1 cus3">${data.rowData[i].customCol3}</td>
-                                        <td class="col-1"><a data-toggle="modal" data-target="#editor"><i class="fa fa-pencil fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
+                                        <th class="camp-col" data-token=${data.rowData[i].companyId} scope="row">${data.rowData[i].companyName}</th>
+                                        <td class="camp-col" data-campid=${data.rowData[i]._id}>${data.rowData[i].campaignName}</td>
+                                        <td class="status-col">${data.rowData[i].status}</td>
+                                        <td class="number-col reg1" data-prospect=${data.rowData[i].prospects}>${data.rowData[i].prospects}</td>
+                                        <td class="number-col reg2" data-delivered=${data.rowData[i].delivered}>${data.rowData[i].delivered} (${data.rowData[i].deliveredPercentage}%)</td>
+                                        <td class="number-col reg3" data-opened=${data.rowData[i].opened} >${data.rowData[i].opened} (${data.rowData[i].openedPercentage}%)</td>
+                                        <td class="number-col reg4" data-response=${data.rowData[i].response} >${data.rowData[i].response} (${data.rowData[i].responsesPercentage}%)</td>
+                                        <td class="number-col cus1">${data.rowData[i].customCol1}</td>
+                                        <td class="number-col cus2">${data.rowData[i].customCol2}</td>
+                                        <td class="number-col cus3">${data.rowData[i].customCol3}</td>
+                                        <td class="edit-col"><a data-toggle="modal" data-target="#editor"><i class="fa fa-pencil fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
                                         </tr>`
                         }
                         $("table").append(tableDom)
@@ -420,6 +420,62 @@
         background-color: #00c851 !important;
         color: white !important;
 
+    }
+    table td, table th{
+        font-size: 12px;
+
+        width: 10%;
+
+        border-bottom-color: rgb(222, 226, 230);
+
+        border-bottom-style: solid;
+
+        border-bottom-width: 1px;
+
+        border-collapse: collapse;
+
+        border-top-color: rgb(255, 255, 255);
+
+        border-top-style: none;
+
+        border-top-width: 0px;
+
+        box-sizing: border-box;
+
+        font-family: "Poppins", sans-serif;
+
+        font-weight: 400;
+
+        line-height: 21.6px;
+
+        padding-bottom: 16px;
+
+        padding-top: 17.6px;
+
+        text-align: left;
+
+        padding-left: 0.75rem;
+
+        vertical-align: bottom;
+    }
+
+    .camp-col{
+        width: 30%;
+        flex: 0 0 30%;
+        max-width: 30%;
+    }
+    .status-col{
+        width: 10%;
+        flex: 0 0 10%;
+        max-width: 10%;
+    }
+    .number-col{
+        flex: 0 0 6%;
+        max-width: 6%;
+    }
+    .edit-col{
+        flex: 0 0 8%;
+        max-width: 8%;
     }
 
 </style>

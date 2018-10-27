@@ -200,9 +200,9 @@ height: 65px;'>
                             ${customSelection.indexOf('5')>-1?'<th scope="col">Email Delivered</th>':''}
                             ${customSelection.indexOf('6')>-1?'<th scope="col">Opened</th>':''}
                             ${customSelection.indexOf('7')>-1?'<th scope="col">Responses</th>':''}
-                            ${customSelection.indexOf('8')>-1?'<th scope="col">Email Blast Responses</th>':''}
-                            ${customSelection.indexOf('9')>-1?'<th scope="col">LinkedIn Responses</th>':''}
-                            ${customSelection.indexOf('10')>-1?'<th scope="col">New LinkedIn Connections</th>':''}
+                            ${customSelection.indexOf('8')>-1?'<th scope="col">Connection Requests</th>':''}
+                            ${customSelection.indexOf('9')>-1?'<th scope="col">New Connections</th>':''}
+                            ${customSelection.indexOf('10')>-1?'<th scope="col">Message Responses</th>':''}
                             
                         </tr>
                     </thead>
