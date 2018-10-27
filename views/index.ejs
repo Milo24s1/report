@@ -162,6 +162,15 @@
 
                 <form class="needs-validation" novalidate>
                     <div class="md-form">
+                        <select id="status" class="form-control">
+                            <option>DRAFT</option>
+                            <option>RUNNING</option>
+                            <option>STOPPED</option>
+                            <option>DELETED</option>
+                        </select>
+                        <label class="font-weight-bold" for="status">Status</label>
+                    </div>
+                    <div class="md-form">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx4" class="form-control" value="" required>
                         <label class="font-weight-bold" for="inputIconEx4">Prospect</label>
@@ -240,7 +249,7 @@
 
 
     var defaultRes1,defaultRes2,defaultRes3;
-    var res1Col,res2Col,res3Col,prosCol,deliCol,openCol,resCol;
+    var res1Col,res2Col,res3Col,prosCol,deliCol,openCol,resCol,statusCol;
     var currentToken = null;
     var currentCampId = null;
     var next =0;
@@ -296,6 +305,11 @@
     });
 
     $('body').on('click', '.fa-pencil', function(){
+
+        statusCol = $(this).closest('tr').find("td:nth-child(3)")
+        var statusText = statusCol.text();
+        $("#status").val(statusText);
+
         $('label').addClass('active');
         res1Col = $(this).closest('tr').find('.cus1');
         defaultRes1= res1Col.text();
@@ -336,12 +350,15 @@
         var tempVal6 = $('#inputIconEx6').val();
         var tempVal7 = $('#inputIconEx7').val();
 
+        var updatedStatusValue = $("#status option:selected").val();
+
         $.ajax({
             'url':'/saveCampaignRecord',
             'method': 'post',
             'dataType': 'json',
             'data': {
                 campId:currentCampId,
+                status: updatedStatusValue,
                 token: currentToken,
                 customCol1: tempVal1,
                 customCol2: tempVal2,
@@ -361,9 +378,9 @@
                 prosCol.text(tempVal4);
                 deliCol.text(updatedRecord.delivered+'('+updatedRecord.deliveredPercentage+'%)');
                 openCol.text(updatedRecord.opened+'('+updatedRecord.openedPercentage+'%)');
-                resCol.text(updatedRecord.response+'('+updatedRecord.responsesPercentage+'%)')
-                // $("[data-tid='"+tempCurrentItemId+"']").closest('tr').find("td a")[2].dataset.colid = newSelection.join(",");
-                //change data-colid
+                resCol.text(updatedRecord.response+'('+updatedRecord.responsesPercentage+'%)');
+                statusCol.text(updatedStatusValue);
+
             },
             'error': function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.data.message);
