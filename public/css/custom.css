@@ -28,3 +28,11 @@ footer ,thead, nav{
     color: white !important;
 
 }
+#addMoreEmail{
+    padding-left: 16.433px;
+    padding-right: 16.433px;
+    border-radius: 50%
+}
+.badge-danger{
+    cursor: pointer;
+}

@@ -20,6 +20,22 @@ CompanyController.addNewCompany = function (req,res) {
         res.status(500).send({err:e});
     }
 };
+CompanyController.updateCompany = function(req,res){
+    try {
+        Company.findByIdAndUpdate(req.body.id,req.body.updateObject,function (err,data) {
+
+            if(err){
+                res.status(500).send({err:err});
+            }
+            else {
+                res.status(200).send({data:data});
+            }
+        });
+    }
+    catch (e) {
+        res.status(500).send({err:e});
+    }
+};
 
 CompanyController.editCompany = function(req,res){
 

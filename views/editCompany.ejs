@@ -228,18 +228,28 @@
                 <input type="password" id="senderPassword" class="form-control" value="<%=company.senderPassword%>" required>
                 <label class="active" for="senderPassword">Password</label>
             </div>
-            <p class="h4 mb-4">Send Report to</i></p>
-            <div class="md-form mt-3 sendTO" >
-
-                <i class="fa fa-envelope prefix"></i>
-                <input type="email" id="inputIconEx1" class="form-control" value="" required>
+            <p class="h4 mb-4">Send Report to</p>
+            <div class="md-form mt-3 card">
+                <ul class="list-group">
+                    <%for(let r of company.sendTo){%>
+                    <li class="list-group-item d-flex justify-content-between align-items-center" data-email="<%=r%>">
+                        <%=r%>
+                        <span title="Delete Email" class="badge badge-danger badge-pill">DELETE</span>
+                    </li>
+                    <%}%>
+                </ul>
+            </div>
+            <div class="md-form mt-3 input-group sendTO" >
                 <label for="inputIconEx1">E-mail address</label>
+                <input type="email" id="inputIconEx1" class="form-control" value="" required>
 
+                <span class="input-group-btn">
+                    <a id="addMoreEmail" title="Add Email" class="btn btn-info"><i class="fa fa-plus"></i></a>
+                </span>
             </div>
             <input id="existingSendTo" type="hidden" value="<%=company.sendTo.join(",")%>">
-            <button id="#additionalReciver"><i class="fa fa-plus"></i></button>
-
-            <button id="addCompany" class="btn btn-success">Save Company</button>
+            <input id="companyId" type="hidden" value="<%=company._id%>">
+            <button id="saveCompany" class="btn btn-success">Save Company</button>
         </form>
     </div>
     <div class="col-md-3"></div>
@@ -261,10 +271,25 @@
 <script>
     $(document).ready(function (e) {
 
-        var existingSendTo =$("#existingSenders").split(",");
+        $('body').on('click','.badge-pill',function (e) {
+            $(this).parent().remove();
+        });
 
 
-        $("#addCompany").click(function (e) {
+        $("#addMoreEmail").click(function (e) {
+            e.preventDefault();
+            var newEmail = `<li class="list-group-item d-flex justify-content-between align-items-center" data-email=`+$("#inputIconEx1").val()+`>`+
+                $("#inputIconEx1").val()+`
+                        <span title="Delete Email" class="badge badge-danger badge-pill">DELETE</span>
+                    </li>`;
+
+            $(".list-group").append(newEmail);
+            $("#inputIconEx1").val("");
+        });
+
+
+
+        $("#saveCompany").click(function (e) {
             e.preventDefault();
 
             var doFormValidation = true;
@@ -286,27 +311,33 @@
                 }
                 
                 var sendTo = [];
-                $(".sendTO input").each(function (index) {
-                    if($(this).val() != ''){
-                        sendTo.push($(this).val());
-                    }
+                $(".badge-pill").parent().each(function (index) {
+                    sendTo.push($(this).data('email'));
                 });
+
+                if($("#inputIconEx1").val() !=''){
+                    sendTo.push($("#inputIconEx1").val());
+                }
 
                 $.ajax({
 
-                    url:'/addNewCompany',
+                    url:'/updateCompany',
                     method: 'POST',
                     dataType: 'json',
                     data: {
-                        companyName : $("#companyName").val(),
-                        defaultMailDays: defaultMailDays,
-                        emailColumns: emailColumns,
-                        senderEmail: $("#senderEmailAddress").val(),
-                        senderPassword: $("#senderPassword").val(),
-                        sendTo: sendTo
+                        id:$("#companyId").val(),
+                        updateObject: {
+                            _id:$("#companyId").val(),
+                            companyName:$("#companyName").val(),
+                            defaultMailDays : defaultMailDays,
+                            emailColumns: emailColumns,
+                            senderEmail: $("#senderEmailAddress").val(),
+                            senderPassword: $("#senderPassword").val(),
+                            sendTo: sendTo,
+                        }
                     },
                     success: function (data) {
-                        console.log('sucess is called');
+                        alert('Updated Successfully');
                         window.location = '/companies';
                     },
                     error : function (xhr, ajaxOptions, thrownError) {
