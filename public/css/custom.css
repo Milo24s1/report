@@ -13,8 +13,8 @@ footer ,thead, nav{
 }
 #createMenu{
     position: absolute;
-    top:0px;
-    right: 5px;
+    /*top:0px;*/
+    /*right: 5px;*/
 }
 
 .dropdown-item{
@@ -35,4 +35,7 @@ footer ,thead, nav{
 }
 .badge-danger{
     cursor: pointer;
+}
+.topMargin{
+    margin-top: 20px;
 }
