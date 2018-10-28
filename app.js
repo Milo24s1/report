@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const config = require('./config/credintials');
 const indexRouter = require('./routes/index');
+const User = require('./src/model/user');
 
 const app = express();
 const port = process.env.PORT || 9999;
@@ -24,6 +25,7 @@ mongoose.connection.on('error',(error)=>{
     console.log('Database error '+error);
 });
 
+app.use('/',User.checkUser);
 app.use('/',indexRouter);
 app.listen(port, function(){
 
