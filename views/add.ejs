@@ -225,13 +225,19 @@
                 <input type="password" id="senderPassword" class="form-control" required>
                 <label class="active" for="senderPassword">Password</label>
             </div>
-            <p class="h4 mb-4">Send Report to</i></p>
+            <p class="h4 mb-4">Send Report to</p>
             <div class="md-form mt-3 sendTO" >
 
                 <i class="fa fa-envelope prefix"></i>
                 <input type="email" id="inputIconEx1" class="form-control" value="" required>
                 <label for="inputIconEx1">E-mail address</label>
                 <button id="#additionalReciver"><i class="fa fa-plus"></i></button>
+            </div>
+
+            <p class="h4 mb-4">Default Message</p>
+            <div class="md-form mt-3" >
+
+                <textarea class="form-control" id="defaultMessage" rows="7"></textarea>
             </div>
             <button id="addCompany" class="btn btn-success">Add Company</button>
         </form>
@@ -294,7 +300,8 @@
                         emailColumns: emailColumns,
                         senderEmail: $("#senderEmailAddress").val(),
                         senderPassword: $("#senderPassword").val(),
-                        sendTo: sendTo
+                        sendTo: sendTo,
+                        defaultMessage:$("#defaultMessage").val()
                     },
                     success: function (data) {
                         console.log('sucess is called');

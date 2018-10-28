@@ -244,6 +244,12 @@
                     <a id="addMoreEmail" title="Add Email" class="btn btn-info"><i class="fa fa-plus"></i></a>
                 </span>
             </div>
+
+            <p class="h4 mb-4">Default Message</p>
+            <div class="md-form mt-3" >
+                <textarea class="form-control" id="defaultMessage" rows="7"><%=company.defaultMessage %></textarea>
+            </div>
+
             <input id="existingSendTo" type="hidden" value="<%=company.sendTo.join(",")%>">
             <input id="companyId" type="hidden" value="<%=company._id%>">
             <button id="saveCompany" class="btn btn-success">Save Company</button>
@@ -331,6 +337,7 @@
                             senderEmail: $("#senderEmailAddress").val(),
                             senderPassword: $("#senderPassword").val(),
                             sendTo: sendTo,
+                            defaultMessage:$("#defaultMessage").val()
                         }
                     },
                     success: function (data) {
