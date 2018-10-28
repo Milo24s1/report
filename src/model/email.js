@@ -180,7 +180,8 @@ font-weight: 300;
 line-height: 24px;
 margin-bottom: 16px;
 text-align: center;
-width: 100%'>
+width: 1600px;
+overflow-x: auto;'>
                     <thead style=';
 border-collapse: collapse;
 background-color: rgb(2, 8, 67);
