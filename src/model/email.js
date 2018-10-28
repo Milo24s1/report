@@ -180,7 +180,7 @@ font-weight: 300;
 line-height: 24px;
 margin-bottom: 16px;
 text-align: center;
-width: 1600px;
+min-width: 880px;
 overflow-x: auto;'>
                     <thead style=';
 border-collapse: collapse;
@@ -197,10 +197,10 @@ height: 65px;'>
                             ${customSelection.indexOf('1')>-1?'<th style="padding-left: 0.75rem;" scope="col">Company</th>':''}
                             ${customSelection.indexOf('2')>-1?'<th scope="col">Campaign</th>':''}
                             ${customSelection.indexOf('3')>-1?'<th scope="col">Status</th>':''}
-                            ${customSelection.indexOf('4')>-1?'<th scope="col">Prospects</th>':''}
+                            ${customSelection.indexOf('4')>-1?'<th scope="col">Email Prospects</th>':''}
                             ${customSelection.indexOf('5')>-1?'<th scope="col">Email Delivered</th>':''}
-                            ${customSelection.indexOf('6')>-1?'<th scope="col">Opened</th>':''}
-                            ${customSelection.indexOf('7')>-1?'<th scope="col">Responses</th>':''}
+                            ${customSelection.indexOf('6')>-1?'<th scope="col">Email Opened</th>':''}
+                            ${customSelection.indexOf('7')>-1?'<th scope="col">Email Responses</th>':''}
                             ${customSelection.indexOf('8')>-1?'<th scope="col">Connection Requests</th>':''}
                             ${customSelection.indexOf('9')>-1?'<th scope="col">New Connections</th>':''}
                             ${customSelection.indexOf('10')>-1?'<th scope="col">Message Responses</th>':''}

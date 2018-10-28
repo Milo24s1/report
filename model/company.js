@@ -6,11 +6,11 @@ const CompanySchema = mongoose.Schema({
     },
     defaultMailDays : {
         type: [Number],
-        default: undefined
+        default: []
     },
     emailColumns : {
         type: [Number],
-        default: undefined
+        default: []
     },
     senderEmail:{
         type: String,
@@ -20,7 +20,7 @@ const CompanySchema = mongoose.Schema({
     },
     sendTo:{
         type: [String],
-        default: undefined
+        default: []
     },
     isActive:{
         type: Number,
