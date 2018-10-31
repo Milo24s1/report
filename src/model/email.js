@@ -110,21 +110,21 @@ EmailController.getEmailBody = function(rowData,customSelection,customMessage){
     let header = `<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" >
 
         <tr>
-            <td align="center">
-                <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+            <td align="left">
+                <table border="0" align="left" width="590" cellpadding="0" cellspacing="0" class="container590">
 
                     <tr>
                         <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
                     </tr>
 
                     <tr>
-                        <td align="center">
+                        <td align="left">
 
-                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+                            <table border="0" align="left" width="590" cellpadding="0" cellspacing="0" class="container590">
 
-                        <td align="center">
+                        <td align="left">
 
-                            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
+                            <table border="0" align="left" width="590" cellpadding="0" cellspacing="0" class="container590">
 
                                 <tr>
                                     <td align="left" style='padding-top: 10px;font-family: "Poppins", sans-serif;
@@ -221,7 +221,7 @@ text-align: left;
 
 
         html += `<tr>
-                            ${customSelection.indexOf('1')>-1?`<th style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('1')>-1?`<th style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -237,7 +237,7 @@ text-align: left;
         text-align: left;
         padding-left: 0.75rem;
         vertical-align: bottom;'scope="row">${rowData[i].companyName}</th>`:''}
-                            ${customSelection.indexOf('2')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('2')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -252,7 +252,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].campaignName}</td>`:''}
-                            ${customSelection.indexOf('3')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('3')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -267,7 +267,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].status}</td>`:''}
-                            ${customSelection.indexOf('4')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('4')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -282,7 +282,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].prospects}</td>`:''}
-                            ${customSelection.indexOf('5')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('5')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -297,7 +297,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].delivered} (${rowData[i].deliveredPercentage}%)</td>`:''}
-                            ${customSelection.indexOf('6')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('6')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -312,7 +312,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].opened} (${rowData[i].openedPercentage}%)</td>`:''}
-                            ${customSelection.indexOf('7')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('7')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -327,7 +327,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].response} (${rowData[i].responsesPercentage}%)</td>`:''}
-                            ${customSelection.indexOf('8')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('8')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -342,7 +342,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].customCol1}</td>`:''}
-                            ${customSelection.indexOf('9')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('9')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -357,7 +357,7 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].customCol2} </td>`:''}
-                            ${customSelection.indexOf('10')>-1?`<td style='font-size: 12px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('10')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
