@@ -26,7 +26,7 @@ CampaignController.addNewCampaign = function(req,res){
 
     try {
         const newCampaignRecord = new CampaignRecord(req.body);
-        newCampaignRecord.deliveredPercentage = Math.floor(100*newCampaignRecord.delivered/newCampaignRecord.prospects);
+        newCampaignRecord.deliveredPercentage = isNaN(Math.floor(100*newCampaignRecord.delivered/newCampaignRecord.prospects))?0 :Math.floor(100*newCampaignRecord.delivered/newCampaignRecord.prospects);
         newCampaignRecord.openedPercentage = newCampaignRecord.prospects != 0 ? Math.floor(100*newCampaignRecord.opened/newCampaignRecord.prospects) : 0;
         newCampaignRecord.responsesPercentage = newCampaignRecord.prospects != 0 ? Math.floor(100*newCampaignRecord.response/newCampaignRecord.prospects): 0;
         CampaignRecord.addCampaignRecord(newCampaignRecord,function (err, result) {
@@ -75,9 +75,9 @@ CampaignController.saveCampaignRecord = function(req,res){
                     customCol1: req.body.customCol1 ,
                     customCol2: req.body.customCol2 ,
                     customCol3: req.body.customCol3 ,
-                    deliveredPercentage: Math.floor(100*req.body.delivered/req.body.prospects) ,
-                    openedPercentage: Math.floor(100*req.body.opened/req.body.delivered) ,
-                    responsesPercentage: Math.floor(100*req.body.response/req.body.delivered) ,
+                    deliveredPercentage: isNaN(Math.floor(100*req.body.delivered/req.body.prospects))? 0: Math.floor(100*req.body.delivered/req.body.prospects) ,
+                    openedPercentage: isNaN(Math.floor(100*req.body.opened/req.body.delivered))? 0 : Math.floor(100*req.body.opened/req.body.delivered) ,
+                    responsesPercentage: isNaN(Math.floor(100*req.body.response/req.body.delivered))? 0 : Math.floor(100*req.body.response/req.body.delivered) ,
                 }}, {new: true}, function (err,data) {
             if(err){
                 res.status(500).send({err:err});
