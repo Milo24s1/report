@@ -378,8 +378,11 @@
                 res3Col.text(tempVal3);
                 prosCol.text(tempVal4);
                 deliCol.text(updatedRecord.delivered+'('+updatedRecord.deliveredPercentage+'%)');
+                deliCol.data('delivered',updatedRecord.delivered);
                 openCol.text(updatedRecord.opened+'('+updatedRecord.openedPercentage+'%)');
+                openCol.data('opened',updatedRecord.opened);
                 resCol.text(updatedRecord.response+'('+updatedRecord.responsesPercentage+'%)');
+                resCol.data('response',updatedRecord.response);
                 statusCol.text(updatedStatusValue);
 
             },
