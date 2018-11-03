@@ -203,6 +203,10 @@
                                     <input type="checkbox" class="custom-control-input" id="defaultChecked10" checked>
                                     <label class="custom-control-label" for="defaultChecked10">Message Responses</label>
                                 </div>
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked11" checked>
+                                    <label class="custom-control-label" for="defaultChecked11">Welcome Responses</label>
+                                </div>
                             </div>
                         </div>
 
@@ -276,7 +280,7 @@
                 
                 
                 var emailColumns= [];
-                for(i=1;i<=10;i++){
+                for(i=1;i<=11;i++){
                     if($("#defaultChecked"+i).prop('checked')){
                         emailColumns.push(i);
                     }

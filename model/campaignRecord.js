@@ -42,6 +42,10 @@ const CampaignRecordSchema = mongoose.Schema({
         type: String,
         default:''
     },
+    customCol4:{
+        type: String,
+        default:''
+    },
     deliveredPercentage:{
         type: Number,
         default: 0

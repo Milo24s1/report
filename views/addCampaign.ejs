@@ -153,6 +153,11 @@
                 <input type="text" id="inputIconEx7" class="form-control" value="" required>
                 <label class="font-weight-bold" for="inputIconEx7">Message Responses</label>
             </div>
+            <div class="md-form">
+                <i class="fa fa-group prefix"></i>
+                <input type="text" id="inputIconEx8" class="form-control" value="" required>
+                <label class="font-weight-bold" for="inputIconEx8">Welcome Responses</label>
+            </div>
 
 
             <button id="addCampaign" class="btn btn-success">Add Campaign</button>
@@ -198,6 +203,7 @@
                         customCol1: getFormattedValue($("#inputIconEx5").val()),
                         customCol2: getFormattedValue($("#inputIconEx6").val()),
                         customCol3: getFormattedValue($("#inputIconEx7").val()),
+                        customCol4: getFormattedValue($("#inputIconEx8").val()),
                     },
                     success: function (data) {
                         alert('Campaign Record saved carefully');

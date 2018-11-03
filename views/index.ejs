@@ -127,6 +127,7 @@
                 <th scope="col">Email Responses</th>
                 <th scope="col">Connection Requests</th>
                 <th scope="col">New Connections</th>
+                <th scope="col">Welcome Responses</th>
                 <th scope="col">Message Responses</th>
                 <th scope="col"></th>
             </tr>
@@ -203,6 +204,11 @@
                     </div>
                     <div class="md-form">
                         <i class="fa fa-group prefix"></i>
+                        <input type="text" id="inputIconEx8" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="inputIconEx8">Welcome Responses</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx3" class="form-control" value="" required>
                         <label class="font-weight-bold" for="inputIconEx3">Message Responses</label>
                     </div>
@@ -249,7 +255,7 @@
     $(document).ready(function () {
 
 
-    var defaultRes1,defaultRes2,defaultRes3;
+    var defaultRes1,defaultRes2,defaultRes3,defaultRes8;
     var res1Col,res2Col,res3Col,prosCol,deliCol,openCol,resCol,statusCol;
     var currentToken = null;
     var currentCampId = null;
@@ -281,6 +287,7 @@
                                         <td class="number-col reg4" data-response=${data.rowData[i].response} >${data.rowData[i].response} (${data.rowData[i].responsesPercentage}%)</td>
                                         <td class="number-col cus1">${data.rowData[i].customCol1}</td>
                                         <td class="number-col cus2">${data.rowData[i].customCol2}</td>
+                                        <td class="number-col cus4">${data.rowData[i].customCol4}</td>
                                         <td class="number-col cus3">${data.rowData[i].customCol3}</td>
                                         <td class="edit-col"><a data-toggle="modal" data-target="#editor"><i class="fa fa-pencil fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
                                         </tr>`
@@ -318,6 +325,8 @@
         defaultRes2= res2Col.text();
         res3Col = $(this).closest('tr').find('.cus3');
         defaultRes3= res3Col.text();
+        res4Col = $(this).closest('tr').find('.cus4');
+        defaultRes8= res4Col.text();
 
         prosCol = $(this).closest('tr').find('.reg1');
         defaultRes4= prosCol.text();
@@ -327,10 +336,11 @@
         defaultRes6= openCol.data('opened');
         resCol = $(this).closest('tr').find('.reg4');
         defaultRes7= resCol.data('response');
-        console.log(defaultRes3,defaultRes5,defaultRes6,defaultRes7);
+
         $('#inputIconEx1').val(defaultRes1);
         $('#inputIconEx2').val(defaultRes2);
         $('#inputIconEx3').val(defaultRes3);
+        $('#inputIconEx8').val(defaultRes8);
 
         $('#inputIconEx4').val(defaultRes4);
         $('#inputIconEx5').val(defaultRes5);
@@ -350,6 +360,7 @@
         var tempVal5 = $('#inputIconEx5').val();
         var tempVal6 = $('#inputIconEx6').val();
         var tempVal7 = $('#inputIconEx7').val();
+        var tempVal8 = $('#inputIconEx8').val();
 
         var updatedStatusValue = $("#status option:selected").val();
 
@@ -364,6 +375,7 @@
                 customCol1: tempVal1,
                 customCol2: tempVal2,
                 customCol3: tempVal3,
+                customCol4: tempVal8,
                 prospects: tempVal4,
                 delivered: tempVal5,
                 opened: tempVal6,
@@ -376,6 +388,7 @@
                 res1Col.text(tempVal1);
                 res2Col.text(tempVal2);
                 res3Col.text(tempVal3);
+                res4Col.text(tempVal8);
                 prosCol.text(tempVal4);
                 deliCol.text(updatedRecord.delivered+'('+updatedRecord.deliveredPercentage+'%)');
                 deliCol.data('delivered',updatedRecord.delivered);

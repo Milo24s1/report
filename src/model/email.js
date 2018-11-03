@@ -203,6 +203,7 @@ height: 65px;'>
                             ${customSelection.indexOf('7')>-1?'<th scope="col">Email Responses</th>':''}
                             ${customSelection.indexOf('8')>-1?'<th scope="col">Connection Requests</th>':''}
                             ${customSelection.indexOf('9')>-1?'<th scope="col">New Connections</th>':''}
+                            ${customSelection.indexOf('11')>-1?'<th scope="col">Welcome Responses</th>':''}
                             ${customSelection.indexOf('10')>-1?'<th scope="col">Message Responses</th>':''}
                             
                         </tr>
@@ -357,6 +358,21 @@ text-align: left;
         padding-top: 17.6px;
         text-align: left;
         vertical-align: bottom;'>${rowData[i].customCol2} </td>`:''}
+                            ${customSelection.indexOf('11')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-collapse: collapse;
+        border-top-color: rgb(255, 255, 255);
+        border-top-style: none;
+        border-top-width: 0px;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        line-height: 21.6px;
+        padding-bottom: 16px;
+        padding-top: 17.6px;
+        text-align: left;
+        vertical-align: bottom;'>${rowData[i].customCol4} </td>`:''}
                             ${customSelection.indexOf('10')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;

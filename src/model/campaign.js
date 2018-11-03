@@ -35,7 +35,7 @@ CampaignController.addNewCampaign = function(req,res){
                 res.status(500).send({error:err});
             }
             else {
-                res.status(200).send({});
+                res.status(200).send({data:result});
             }
         });
     }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Add Company</title>
+    <title>Edit Company</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
@@ -75,7 +75,7 @@
         font-weight: 400 !important;cursor: pointer" href="/newcampaign">Create Campaign</a>
     </div>
 </div>
-<div class="row topMargin" style="height:20vh">
+<div class="row topMargin" style="margin-top: 70px">
     <div class="col-md-3"></div>
     <div class="col-md-6  border border-light p-5">
         <p class="h4 mb-4">Edit Company</p>
@@ -203,6 +203,10 @@
                                     <input type="checkbox" class="custom-control-input" id="defaultChecked10" <% if(company.emailColumns.indexOf(10)>-1){%> checked<%}%>>
                                     <label class="custom-control-label" for="defaultChecked10">Message Responses</label>
                                 </div>
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked11" <% if(company.emailColumns.indexOf(11)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="defaultChecked11">Welcome Responses</label>
+                                </div>
                             </div>
                         </div>
 
@@ -307,7 +311,7 @@
                 
                 
                 var emailColumns= [];
-                for(i=1;i<=10;i++){
+                for(i=1;i<=11;i++){
                     if($("#defaultChecked"+i).prop('checked')){
                         emailColumns.push(i);
                     }
