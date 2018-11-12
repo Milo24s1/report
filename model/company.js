@@ -28,6 +28,9 @@ const CompanySchema = mongoose.Schema({
     },
     defaultMessage: {
         type: String
+    },
+    accountEmail:{
+        type: String
     }
 
 

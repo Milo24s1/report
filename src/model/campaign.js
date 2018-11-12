@@ -1,6 +1,7 @@
 const CampaignController = {};
 const Company = require('../../model/company');
 const CampaignRecord = require('../../model/campaignRecord');
+const jetbuzzCredintials = require('./config/jetbuzzCredintials');
 
 
 
@@ -86,6 +87,50 @@ CampaignController.saveCampaignRecord = function(req,res){
                 res.status(200).send({result:data});
             }
         });
+    }
+    catch (e) {
+        res.status(500).send({err:e});
+    }
+
+
+};
+CampaignController.updateCampaignRecordViaJetbuzz = function(req,res){
+    try {
+        if(req.body.jetbuzzSecret == jetbuzzCredintials.jetbuzzSecret){
+            Company.find({'accountEmail':req.body.accountEmail},function (err,data) {
+                if(err){
+                    console.log(err);
+                    res.status(500).send({err:err});
+                }
+
+                else {
+                    if(data.length>0){
+                        CampaignRecord.findOneAndUpdate({companyId:data[0]._id}, { $set:
+                                {
+                                    customCol1: req.body.connectionRequest ,
+                                    customCol2: req.body.connected ,
+                                    customCol3: req.body.replied_to_other_messages ,
+                                    customCol4: req.body.replied_to_connection ,
+                                }}, {new: true}, function (err,data) {
+                            if(err){
+                                res.status(500).send({err:err});
+                            }
+                            else {
+                                res.status(200).send({result:data});
+                            }
+                        });
+                    }
+                    else {
+                        res.status(200).send({msg:"No Matching campaign found for "+req.body.accountEmail});
+                    }
+
+                }
+            });
+        }
+        else {
+            res.status(400).send({'error':'Bad request'});
+        }
+
     }
     catch (e) {
         res.status(500).send({err:e});
