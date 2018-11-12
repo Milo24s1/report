@@ -1,7 +1,7 @@
 const CampaignController = {};
 const Company = require('../../model/company');
 const CampaignRecord = require('../../model/campaignRecord');
-const jetbuzzCredintials = require('./config/jetbuzzCredintials');
+const jetbuzzCredintials = require('../../config/jetbuzzCredintials');
 
 
 
