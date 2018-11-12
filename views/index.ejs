@@ -121,10 +121,10 @@
                 <th scope="col">Company</th>
                 <th scope="col">Campaign</th>
                 <th scope="col">Campaign Status</th>
-                <th scope="col">Email Prospects</th>
-                <th scope="col">Email Delivered</th>
-                <th scope="col">Email Opened</th>
-                <th scope="col">Email Responses</th>
+                <th class="hidden" scope="col">Email Prospects</th>
+                <th class="hidden" scope="col">Email Delivered</th>
+                <th class="hidden" scope="col">Email Opened</th>
+                <th class="hidden" scope="col">Email Responses</th>
                 <th scope="col">Connection Requests</th>
                 <th scope="col">New Connections</th>
                 <th scope="col">Welcome Responses</th>
@@ -172,22 +172,22 @@
                         </select>
                         <label class="font-weight-bold" for="status">Status</label>
                     </div>
-                    <div class="md-form">
+                    <div class="md-form hidden">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx4" class="form-control" value="" required>
                         <label class="font-weight-bold" for="inputIconEx4">Email Prospect</label>
                     </div>
-                    <div class="md-form">
+                    <div class="md-form hidden">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx5" class="form-control" value="" required>
-                        <label class="font-weight-bold" for="inputIconEx5">Email Delivered</label>
+                        <label class="font-weight-bold " for="inputIconEx5">Email Delivered</label>
                     </div>
-                    <div class="md-form">
+                    <div class="md-form hidden">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx6" class="form-control" value="" required>
                         <label class="font-weight-bold" for="inputIconEx6">Email Opened</label>
                     </div>
-                    <div class="md-form">
+                    <div class="md-form hidden">
                         <i class="fa fa-group prefix"></i>
                         <input type="text" id="inputIconEx7" class="form-control" value="" required>
                         <label class="font-weight-bold" for="inputIconEx7">Email Responses</label>
@@ -281,11 +281,11 @@
                                         <th class="camp-col" data-token=${data.rowData[i].companyId} scope="row">${data.rowData[i].companyName}</th>
                                         <td class="camp-col" data-campid=${data.rowData[i]._id}>${data.rowData[i].campaignName}</td>
                                         <td class="status-col">${data.rowData[i].status}</td>
-                                        <td class="number-col reg1" data-prospect=${data.rowData[i].prospects}>${data.rowData[i].prospects}</td>
-                                        <td class="number-col reg2" data-delivered=${data.rowData[i].delivered}>${data.rowData[i].delivered} (${data.rowData[i].deliveredPercentage}%)</td>
-                                        <td class="number-col reg3" data-opened=${data.rowData[i].opened} >${data.rowData[i].opened} (${data.rowData[i].openedPercentage}%)</td>
-                                        <td class="number-col reg4" data-response=${data.rowData[i].response} >${data.rowData[i].response} (${data.rowData[i].responsesPercentage}%)</td>
-                                        <td class="number-col cus1">${data.rowData[i].customCol1}</td>
+                                        <td class="number-col reg1 hidden" data-prospect=${data.rowData[i].prospects}>${data.rowData[i].prospects}</td>
+                                        <td class="number-col reg2 hidden" data-delivered=${data.rowData[i].delivered}>${data.rowData[i].delivered} (${data.rowData[i].deliveredPercentage}%)</td>
+                                        <td class="number-col reg3 hidden" data-opened=${data.rowData[i].opened} >${data.rowData[i].opened} (${data.rowData[i].openedPercentage}%)</td>
+                                        <td class="number-col reg4 hidden" data-response=${data.rowData[i].response} >${data.rowData[i].response} (${data.rowData[i].responsesPercentage}%)</td>
+                                        <td class="number-col cus1 ">${data.rowData[i].customCol1}</td>
                                         <td class="number-col cus2">${data.rowData[i].customCol2}</td>
                                         <td class="number-col cus4">${data.rowData[i].customCol4}</td>
                                         <td class="number-col cus3">${data.rowData[i].customCol3}</td>
