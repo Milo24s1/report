@@ -159,24 +159,24 @@
                                     <input type="checkbox" class="custom-control-input" id="defaultChecked3" checked>
                                     <label class="custom-control-label" for="defaultChecked3">Status</label>
                                 </div>
-                                <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked4" checked>
+                                <div class="custom-control custom-checkbox font-weight-bold hidden">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked4" >
                                     <label class="custom-control-label" for="defaultChecked4">Email Prospects</label>
                                 </div>
 
                             </div>
                             <div class="col-md-6" >
 
-                                <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked5" checked>
+                                <div class="custom-control custom-checkbox font-weight-bold hidden">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked5" >
                                     <label class="custom-control-label" for="defaultChecked5">Email Delivered</label>
                                 </div>
-                                <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked6" checked>
+                                <div class="custom-control custom-checkbox font-weight-bold hidden">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked6" >
                                     <label class="custom-control-label" for="defaultChecked6">Email Opened</label>
                                 </div>
-                                <div class="custom-control custom-checkbox font-weight-bold">
-                                    <input type="checkbox" class="custom-control-input" id="defaultChecked7" checked>
+                                <div class="custom-control custom-checkbox font-weight-bold hidden">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked7" >
                                     <label class="custom-control-label" for="defaultChecked7">Email Responses</label>
                                 </div>
 
@@ -286,7 +286,7 @@
                 
                 var emailColumns= [];
                 for(i=1;i<=11;i++){
-                    if($("#defaultChecked"+i).prop('checked')){
+                    if(!$("#defaultChecked"+i).hasClass('hidden') && $("#defaultChecked"+i).prop('checked')){
                         emailColumns.push(i);
                     }
                 }

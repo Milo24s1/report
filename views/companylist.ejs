@@ -155,24 +155,24 @@
                             <input type="checkbox" class="custom-control-input" id="customChecked3" checked>
                             <label class="custom-control-label" for="customChecked3">Campaign Status</label>
                         </div>
-                        <div class="custom-control custom-checkbox font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="customChecked4" checked>
+                        <div class="custom-control custom-checkbox font-weight-bold hidden">
+                            <input type="checkbox" class="custom-control-input" id="customChecked4" >
                             <label class="custom-control-label" for="customChecked4">Email Prospects</label>
                         </div>
 
                     </div>
                     <div class="col-md-6" >
 
-                        <div class="custom-control custom-checkbox font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="customChecked5" checked>
+                        <div class="custom-control custom-checkbox font-weight-bold hidden">
+                            <input type="checkbox" class="custom-control-input" id="customChecked5" >
                             <label class="custom-control-label" for="customChecked5">Email Delivered</label>
                         </div>
-                        <div class="custom-control custom-checkbox font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="customChecked6" checked>
+                        <div class="custom-control custom-checkbox font-weight-bold hidden">
+                            <input type="checkbox" class="custom-control-input" id="customChecked6" >
                             <label class="custom-control-label" for="customChecked6">Email Opened</label>
                         </div>
-                        <div class="custom-control custom-checkbox font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="customChecked7" checked>
+                        <div class="custom-control custom-checkbox font-weight-bold hidden">
+                            <input type="checkbox" class="custom-control-input" id="customChecked7" >
                             <label class="custom-control-label" for="customChecked7">Email Responses</label>
                         </div>
 
@@ -257,7 +257,8 @@
             var customSelection = [];
 
             $("#emailConfig input[type='checkbox']").each(function (index) {
-                if($(this).prop('checked')){
+
+                if(!$(this).parent().hasClass('hidden') && $(this).prop('checked')){
                     customSelection.push(index+1);
                 }
             });
