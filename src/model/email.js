@@ -75,7 +75,10 @@ EmailController.sendCompanyEmail = function(companyId,customSelection,customRece
                                        if (error) {
                                            callback(500,error);
                                        }
-                                       callback(200,`Message sent: ${info.messageId}`);
+                                       else {
+                                           callback(200,`Message sent: ${info.messageId}`);
+                                       }
+
                                    });
 
 
