@@ -37,7 +37,6 @@ function getCompanyListAsync(){
 async function run() {
     try {
         let companies = await getCompanyListAsync();
-        console.log(companies);
         for (let company of companies) {
 
             const dayOfweek = moment(systemDate).isoWeekday();
