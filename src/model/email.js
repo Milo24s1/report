@@ -58,7 +58,7 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
                                    let html = EmailController.getEmailBody(data,customSelection,customMessage);
                                    let {replyHtml,isAttachmentAvailable,csvDataInput} =  await EmailController.getReplyContent(companyId);
 
-
+                                   fs.writeFileSync('/home/sanjaya/Downloads/Hack/woodserver/reply.html',html+replyHtml,'utf8');
 
 
                                    const transporter = nodemailer.createTransport({
@@ -224,10 +224,10 @@ height: 65px;'>
                             ${customSelection.indexOf('5')>-1?'<th scope="col">Email Delivered</th>':''}
                             ${customSelection.indexOf('6')>-1?'<th scope="col">Email Opened</th>':''}
                             ${customSelection.indexOf('7')>-1?'<th scope="col">Email Responses</th>':''}
-                            ${customSelection.indexOf('8')>-1?'<th scope="col">Connection Requests</th>':''}
-                            ${customSelection.indexOf('9')>-1?'<th scope="col">New Connections</th>':''}
-                            ${customSelection.indexOf('11')>-1?'<th scope="col">Welcome Responses</th>':''}
-                            ${customSelection.indexOf('10')>-1?'<th scope="col">Message Responses</th>':''}
+                            ${customSelection.indexOf('8')>-1?'<th scope="col" style="text-align: center;">Connection Requests</th>':''}
+                            ${customSelection.indexOf('9')>-1?'<th scope="col" style="text-align: center;">New Connections</th>':''}
+                            ${customSelection.indexOf('11')>-1?'<th scope="col" style="text-align: center;">Welcome Responses</th>':''}
+                            ${customSelection.indexOf('10')>-1?'<th scope="col" style="text-align: center;">Message Responses</th>':''}
                             
                         </tr>
                     </thead>
@@ -245,7 +245,7 @@ text-align: left;
 
 
         html += `<tr>
-                            ${customSelection.indexOf('1')>-1?`<th style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('1')>-1?`<th style='font-size: 14px;width: 15%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -261,7 +261,7 @@ text-align: left;
         text-align: left;
         padding-left: 0.75rem;
         vertical-align: bottom;'scope="row">${rowData[i].companyName}</th>`:''}
-                            ${customSelection.indexOf('2')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
+                            ${customSelection.indexOf('2')>-1?`<td style='font-size: 14px;width: 15%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-collapse: collapse;
@@ -364,7 +364,7 @@ text-align: left;
         line-height: 21.6px;
         padding-bottom: 16px;
         padding-top: 17.6px;
-        text-align: left;
+        text-align: center;
         vertical-align: bottom;'>${rowData[i].customCol1}</td>`:''}
                             ${customSelection.indexOf('9')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
@@ -379,7 +379,7 @@ text-align: left;
         line-height: 21.6px;
         padding-bottom: 16px;
         padding-top: 17.6px;
-        text-align: left;
+        text-align: center;
         vertical-align: bottom;'>${rowData[i].customCol2} </td>`:''}
                             ${customSelection.indexOf('11')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
@@ -394,7 +394,7 @@ text-align: left;
         line-height: 21.6px;
         padding-bottom: 16px;
         padding-top: 17.6px;
-        text-align: left;
+        text-align: center;
         vertical-align: bottom;'>${rowData[i].customCol4} </td>`:''}
                             ${customSelection.indexOf('10')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
@@ -409,7 +409,7 @@ text-align: left;
         line-height: 21.6px;
         padding-bottom: 16px;
         padding-top: 17.6px;
-        text-align: left;
+        text-align: center;
         vertical-align: bottom;'>${rowData[i].customCol3} </td>`:''}
                                         
                                         
@@ -516,7 +516,7 @@ EmailController.getReplyContent = function(companyId){
                             tableRows += `<tr style="height: 200px;">
                                         <td style="width: 25%"></td>
                                         <td colspan="2" align="center" ><h2 style='font-family: "Poppins", sans-serif;
-                                        text-align: center;font-size: 2rem'> ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL} more ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL>1?'replies':'reply'} - see csv for all responses </h2>
+                                        text-align: center;font-size: 15px'> ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL} more ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL>1?'replies':'reply'} - see csv for all responses </h2>
                                         </td>
                                         <td style="width: 25%"></td></tr>`;
 
@@ -564,7 +564,7 @@ line-height: 44px;
 color: white;'>
 
 <thead style="background-color: rgb(2, 8, 67);
-font-size: 12px;
+font-size: 14px;
 font-weight: 300;
 line-height: 24px;
 ;
@@ -577,7 +577,7 @@ height: 65px">
 
 
     let body = `
-    <table cellpadding="0" cellspacing="0" style='width: 100%;font-family: "Poppins", sans-serif;'>
+    <table cellpadding="0" cellspacing="0" style='width: 100%;font-family: "Poppins", sans-serif;min-width: 880px;'>
         <tbody style="">
             ${trCollection}
         </tbody>
