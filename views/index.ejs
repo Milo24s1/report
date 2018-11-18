@@ -163,6 +163,10 @@
 
                 <form class="needs-validation" novalidate>
                     <div class="md-form">
+                        <input type="text" id="campaignName" class="form-control" value="" required>
+                        <label class="font-weight-bold" for="campaignName">Camapaign</label>
+                    </div>
+                    <div class="md-form">
                         <select id="status" class="form-control">
                             <option>Draft</option>
                             <option >Running</option>
@@ -284,7 +288,7 @@
 
 
     var defaultRes1,defaultRes2,defaultRes3,defaultRes8;
-    var res1Col,res2Col,res3Col,prosCol,deliCol,openCol,resCol,statusCol;
+    var res1Col,res2Col,res3Col,prosCol,deliCol,openCol,resCol,statusCol,campCol;
     var currentToken = null;
     var currentCampId = null;
     var next =0;
@@ -342,6 +346,10 @@
 
     $('body').on('click', '.fa-pencil', function(){
 
+        campCol = $(this).closest('tr').find("td:nth-child(2)")
+        var campaignText = campCol.text();
+        $("#campaignName").val(campaignText);
+
         statusCol = $(this).closest('tr').find("td:nth-child(3)")
         var statusText = statusCol.text();
         $("#status").val(statusText);
@@ -391,6 +399,7 @@
         var tempVal8 = $('#inputIconEx8').val();
 
         var updatedStatusValue = $("#status option:selected").val();
+        var updatedCampValue = $("#campaignName").val();
 
         $.ajax({
             'url':'/saveCampaignRecord',
@@ -398,6 +407,7 @@
             'dataType': 'json',
             'data': {
                 campId:currentCampId,
+                campaignName:updatedCampValue,
                 status: updatedStatusValue,
                 token: currentToken,
                 customCol1: tempVal1,
@@ -425,6 +435,7 @@
                 resCol.text(updatedRecord.response+'('+updatedRecord.responsesPercentage+'%)');
                 resCol.data('response',updatedRecord.response);
                 statusCol.text(updatedStatusValue);
+                campCol.text(updatedCampValue);
 
             },
             'error': function (xhr, ajaxOptions, thrownError) {

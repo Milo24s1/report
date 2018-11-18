@@ -70,6 +70,7 @@ CampaignController.saveCampaignRecord = function(req,res){
     try {
         CampaignRecord.findByIdAndUpdate(req.body.campId, { $set:
                 {
+                    campaignName: req.body.campaignName ,
                     status: req.body.status ,
                     prospects: req.body.prospects ,
                     delivered: req.body.delivered ,
