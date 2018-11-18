@@ -50,8 +50,8 @@ CampaignController.addNewCampaign = function(req,res){
 CampaignController.search = function(req,res){
 
     try {
-        const options = {sort:{companyName:-1}};
-        const pagination = { skip: 10*req.body.next,limit: 10 };
+        const options = {sort:{companyName:1}};
+        const pagination = { sort:{companyName:1},skip: 10*req.body.next,limit: 10 };
         CampaignRecord.getNextResultSet({},options,pagination,function (err,data) {
             if(err){
                 res.status(500).send({error:err});
