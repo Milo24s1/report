@@ -1,6 +1,8 @@
+const moment = require('moment');
 const CampaignController = {};
 const Company = require('../../model/company');
 const CampaignRecord = require('../../model/campaignRecord');
+const People = require('../../model/people');
 const jetbuzzCredintials = require('../../config/jetbuzzCredintials');
 
 
@@ -137,5 +139,103 @@ CampaignController.updateCampaignRecordViaJetbuzz = function(req,res){
     }
 
 
+};
+
+CampaignController.updateCampaignRepliesViaJetbuzz = function(req,res){
+    try {
+        if(req.body.jetbuzzSecret == jetbuzzCredintials.jetbuzzSecret){
+            Company.find({'accountEmail':req.body.accountEmail},function (err,data) {
+                if(err){
+                    console.log(err);
+                    res.status(500).send({err:err});
+                }
+
+                else {
+                    if(data.length>0){
+                        CampaignRecord.find({companyId:data[0]._id},  function (err,data) {
+                            if(err){
+                                res.status(500).send({err:err});
+                            }
+                            else {
+                                if(data.length>0){
+                                    //TODO currently multiple campaigns are not supported
+                                    if(data.length==1){
+                                        const replies =req.body.replies;
+                                        let peopleRecords = [];
+                                        for(let reply of replies){
+                                            reply.companyId = data[0].companyId;
+                                            reply.campaignId= ''+data[0]._id;
+                                            reply.addedDate= moment();
+                                            peopleRecords.push(reply);
+
+                                        }
+
+                                        People.addPeopleRecord(peopleRecords,(err,data)=>{
+
+                                            if(err){
+                                                console.log(err);
+                                                res.status(200).send({msg:err});
+                                            }
+                                            else {
+                                                res.status(200).send({msg:data});
+                                            }
+                                        });
+
+
+
+                                    }
+                                    else {
+                                        res.status(200).send({msg:"Multiple Campaigns found for "+req.body.accountEmail});
+                                    }
+                                }
+                                else {
+                                    res.status(200).send({msg:"No Matching campaign found for "+req.body.accountEmail});
+                                }
+
+                            }
+                        });
+                    }
+                    else {
+                        res.status(200).send({msg:"No Matching Company found for "+req.body.accountEmail});
+                    }
+
+                }
+            });
+        }
+        else {
+            res.status(400).send({'error':'Bad request'});
+        }
+
+    }
+    catch (e) {
+        res.status(500).send({err:e});
+    }
+
+
+};
+
+CampaignController.getCampaignRepliedList = function(req,res){
+    try {
+        const perPage = 20;
+        const options= {
+            sort: req.body.sortParams,
+            skip: perPage*Number(req.body.pageNumber),
+            limit: perPage
+        };
+        People.getPeopleList(req.body.searchParams,null,options,function (err,data) {
+
+            if(err){
+                console.log(err);
+                res.status(400).send({msg:'Could not load the list',e:err});
+            }
+            else {
+                res.status(200).send({list:data});
+            }
+        })
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).send({msg:'Could not load the list',e:e})
+    }
 };
 module.exports = CampaignController;

@@ -8,5 +8,9 @@ router.post('/jetbuzzUpdate',function (req,res) {
     CampaignController.updateCampaignRecordViaJetbuzz(req,res);
 });
 
+router.post('/jetbuzzReplies',function (req,res) {
+    CampaignController.updateCampaignRepliesViaJetbuzz(req,res);
+});
+
 
 module.exports = router;

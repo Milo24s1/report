@@ -57,6 +57,10 @@ router.post('/sendEmail',function (req,res) {
     EmailController.sendInstantEmail(req,res);
 });
 
+router.post('/getCampaignReach',function (req,res) {
+   CampaignController.getCampaignRepliedList(req,res);
+});
+
 
 
 

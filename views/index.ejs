@@ -225,6 +225,34 @@
         <!--/.Content-->
     </div>
 </div>
+<div class="modal fade" id="reachModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">People who reach back</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body" style="height: 370px;overflow-y: auto">
+                <ul class="list-group reach-list">
+
+                </ul>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
 <div style="height: 50vh">
 </div>
 
@@ -285,10 +313,10 @@
                                         <td class="number-col reg2 hidden" data-delivered=${data.rowData[i].delivered}>${data.rowData[i].delivered} (${data.rowData[i].deliveredPercentage}%)</td>
                                         <td class="number-col reg3 hidden" data-opened=${data.rowData[i].opened} >${data.rowData[i].opened} (${data.rowData[i].openedPercentage}%)</td>
                                         <td class="number-col reg4 hidden" data-response=${data.rowData[i].response} >${data.rowData[i].response} (${data.rowData[i].responsesPercentage}%)</td>
-                                        <td class="number-col cus1 ">${data.rowData[i].customCol1}</td>
-                                        <td class="number-col cus2">${data.rowData[i].customCol2}</td>
-                                        <td class="number-col cus4">${data.rowData[i].customCol4}</td>
-                                        <td class="number-col cus3">${data.rowData[i].customCol3}</td>
+                                        <td class="number-col cus1 reach">${data.rowData[i].customCol1}</td>
+                                        <td class="number-col cus2 reach">${data.rowData[i].customCol2}</td>
+                                        <td class="number-col cus4 reach">${data.rowData[i].customCol4}</td>
+                                        <td class="number-col cus3 reach">${data.rowData[i].customCol3}</td>
                                         <td class="edit-col"><a data-toggle="modal" data-target="#editor"><i class="fa fa-pencil fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
                                         </tr>`
                         }
@@ -410,6 +438,63 @@
 
     });
 
+    $('body').on('click','.reach',function () {
+
+        var campId = $(this).parent().find('td:nth-child(2)').data('campid');
+        lazyReachLoad(0,campId);
+    });
+
+    function lazyReachLoad(next,campId) {
+        $.ajax({
+            url:'/getCampaignReach',
+            method:'POST',
+            dataType: 'json',
+            data:{
+                searchParams : {campaignId:campId},
+                sortParams: {addedDate:-1},
+                pageNumber:next
+            },
+            success: function (data) {
+
+                var reachListDom = ``;
+
+                for(i=0;i<data.list.length;i++){
+                    var item = data.list[i];
+                    reachListDom += `
+                        <li class="list-group-item">
+                            <div>
+                                <div class="nameIcon">${item.name.slice(0,1).toUpperCase()}</div>
+                                <div class="textContent">
+                                    <div class="font-weight-bold" style="color: black">${item.name}</div>
+                                    <div class=" font-weight-bold" style="font-size: 13px;color: #e94813;">${item.pCompany}</div>
+                                    <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${item.title}</div>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                }
+
+
+                if(next==0){
+                    $(".list-group-item").remove();
+                }
+                $(".reach-list").append(reachListDom);
+                if(next==0){
+                    $("#reachModal").modal('show');
+                }
+                if(data.list.length==20){
+                    next++;
+                    lazyReachLoad(next);
+                }
+
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+        });
+    }
+
 
 
 </script>
@@ -493,6 +578,22 @@
     .edit-col{
         flex: 0 0 8%;
         max-width: 8%;
+    }
+    .nameIcon{
+        background-color: red;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        padding-top: 12px;
+        padding-left: 18px;
+        font-size: 16px;
+        font-weight: 800;
+        color: white;
+        position: absolute;
+    }
+    .textContent{
+        margin-left: 75px;
+        padding-right: 10px;
     }
 
 </style>

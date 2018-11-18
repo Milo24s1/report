@@ -2,8 +2,13 @@ const EmailController = {};
 const nodemailer = require('nodemailer');
 const moment = require('moment');
 const fs = require('fs');
+const csv = require('to-csv');
 const Company = require('../../model/company');
 const CampaignRecord = require('../../model/campaignRecord');
+const People = require('../../model/people');
+const REPLIES_SHOWN_IN_EMAIL = 12;
+const DATA_PULLING_DAY = 2;
+
 
 EmailController.sendInstantEmail = function(req,res){
 
@@ -19,7 +24,7 @@ EmailController.sendInstantEmail = function(req,res){
     }
 };
 
-EmailController.sendCompanyEmail = function(companyId,customSelection,customReceivers,customMessage,callback){
+EmailController.sendCompanyEmail =  async function(companyId,customSelection,customReceivers,customMessage,callback){
     try {
 
         Company.getItemById(companyId,function (err,company) {
@@ -45,12 +50,18 @@ EmailController.sendCompanyEmail = function(companyId,customSelection,customRece
 
                         if(customReceivers != undefined){
 
-                            CampaignRecord.getCampaignRecordsByCompanyId(companyId,function (err,data) {
+                            CampaignRecord.getCampaignRecordsByCompanyId(companyId,async function (err,data) {
                                if(err){
                                    callback(500,err);
                                }
                                else {
-                                   const html = EmailController.getEmailBody(data,customSelection,customMessage);
+                                   let html = EmailController.getEmailBody(data,customSelection,customMessage);
+                                   let {replyHtml,isAttachmentAvailable,csvDataInput} =  await EmailController.getReplyContent(companyId);
+                                   fs.writeFileSync('/home/sanjaya/Downloads/Hack/woodserver/reply.html',html+replyHtml,'utf8');
+
+
+                                   callback(200,`Message sent:`);
+                                   return;
 
 
                                    const transporter = nodemailer.createTransport({
@@ -68,8 +79,20 @@ EmailController.sendCompanyEmail = function(companyId,customSelection,customRece
                                        to: customReceivers.join(','), // list of receivers
                                        subject: `ProspectGen AI: ${company.companyName} Weekly Report Snapshot ${moment().format("YYYY-MM-DD")}`, // Subject line
                                        // text: 'Hello world?', // plain text body
-                                       html: html // html body
+                                       html: html+replyHtml // html body
                                    };
+
+
+
+
+                                   let csvData = csv(csvDataInput);
+                                   //let isAttachmentAvailable = true;
+                                   if(isAttachmentAvailable){
+                                       mailOptions.attachments =  [{
+                                           filename: `${company.companyName}_replies.csv`,
+                                           content: csvData
+                                       }]
+                                   }
 
                                    transporter.sendMail(mailOptions, (error, info) => {
                                        if (error) {
@@ -405,5 +428,181 @@ text-align: left;
 
 
     return header+html;
+};
+
+EmailController.getReplyContent = function(companyId){
+
+    let replyContent = ``;
+    let formattedCsvDataInput = [];
+    let fromDate = getFromDate();
+
+
+    return new Promise(resolve=>{
+        try {
+            People.getPeopleList({companyId:companyId,addedDate:{$gte: fromDate}},{ name: 1, pCompany: 1, title:1,companyId:1,_id: 0 },null,function (err,data) {
+                if(err){
+                    console.log(err);
+                    resolve({replyHtml:replyContent,isAttachmentAvailable:false,csvDataInput:formattedCsvDataInput});
+                }
+                else {
+
+                    const numOfSearchResult = data.length;
+                    if(numOfSearchResult>0){
+                        if(numOfSearchResult>REPLIES_SHOWN_IN_EMAIL){
+                            isAttachmentAvailable = true;
+                        }
+                        else {
+                            isAttachmentAvailable = false;
+                        }
+
+                        //add data to up to max level
+                        let i=0;
+                        let tableRows = ``;
+                        while (i< REPLIES_SHOWN_IN_EMAIL && i <numOfSearchResult){
+
+                            tableRows += `
+                            <tr style="text-align: center;height: 100px;">
+                                <td style="width: 25%"> `;
+
+                            if(i<numOfSearchResult){
+                                tableRows += `<div>
+                                <div class="font-weight-bold" style="color: black;font-weight: bold;">${data[i].name}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${data[i].pCompany}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i].title}</div>
+                            </div>`;
+
+                                formattedCsvDataInput.push({'Name':data[i].name,'Company':data[i].pCompany,'Title':data[i].title});
+                            }
+
+                            tableRows +=`</td><td style="width: 25%">`;
+
+                            if(i+1 <numOfSearchResult){
+                                tableRows += `<div>
+                                <div class="font-weight-bold" style="color: black;font-weight: bold;">${data[i+1].name}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${data[i+1].pCompany}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i+1].title}</div>
+                            </div>`;
+                                formattedCsvDataInput.push({'Name':data[i+1].name,'Company':data[i+1].pCompany,'Title':data[i+1].title});
+                            }
+
+
+                            tableRows +=`</td><td style="width: 25%">`;
+
+                            if(i+2 <numOfSearchResult){
+                                tableRows += `<div>
+                                <div class="font-weight-bold" style="color: black;font-weight: bold;">${data[i+2].name}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${data[i+2].pCompany}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i+2].title}</div>
+                            </div>`;
+                                formattedCsvDataInput.push({'Name':data[i+2].name,'Company':data[i+2].pCompany,'Title':data[i+2].title});
+                            }
+
+                            tableRows +=`</td><td style="width: 25%">`;
+
+                            if(i+3 <numOfSearchResult){
+                                tableRows += `<div>
+                                <div class="font-weight-bold" style="color: black;font-weight: bold;"">${data[i+3].name}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${data[i+3].pCompany}</div>
+                                <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i+3].title}</div>
+                            </div>`;
+                                formattedCsvDataInput.push({'Name':data[i+3].name,'Company':data[i+3].pCompany,'Title':data[i+3].title});
+                            }
+
+
+                            tableRows += `</td></tr>`;
+
+                            i=i+4;
+                        }
+
+
+                        if(isAttachmentAvailable){
+                            tableRows += `<tr style="height: 200px;">
+                                        <td style="width: 25%"></td>
+                                        <td colspan="2" align="center" ><h2 style='font-family: "Poppins", sans-serif;color: white;
+                                        text-align: center;font-size: 2rem'> ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL} more ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL>1?'replies':'reply'}\n Checkout all the Replies in csv </h2>
+                                        </td>
+                                        <td style="width: 25%"></td></tr>`;
+
+
+                            for (let i= REPLIES_SHOWN_IN_EMAIL;i<numOfSearchResult;i++){
+                                formattedCsvDataInput.push({'Name':data[i].name,'Company':data[i].pCompany,'Title':data[i].title});
+                            }
+                        }
+
+                        replyContent = EmailController.concatReplySections(tableRows);
+                        resolve( {replyHtml:replyContent,isAttachmentAvailable: true, csvDataInput:formattedCsvDataInput});
+                    }
+                    else {
+                        resolve ({replyHtml:replyContent,isAttachmentAvailable:false,csvDataInput:formattedCsvDataInput});
+                    }
+
+                }
+
+            });
+        }
+        catch (e) {
+            console.log(e);
+            resolve({replyHtml:replyContent,isAttachmentAvailable:false,csvDataInput:formattedCsvDataInput});
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+};
+
+EmailController.concatReplySections = function(trCollection){
+
+    let header = `<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" style='font-family: "Poppins", sans-serif;
+font-size: 18px;
+font-weight: 300;
+line-height: 44px;
+color: white;'>
+
+<thead style="background-color: rgb(2, 8, 67);
+font-size: 12px;
+font-weight: 300;
+line-height: 24px;
+;
+
+height: 65px">
+<th>People Reach Back</th>
+</thead>
+
+</table>`;
+
+
+    let body = `
+    <table cellpadding="0" cellspacing="0" style='width: 100%;font-family: "Poppins", sans-serif;'>
+        <tbody style="background: linear-gradient(to bottom right,#b3dd87,#6ccda7);">
+            ${trCollection}
+        </tbody>
+    </table>
+    
+    `;
+
+    return header+body;
+};
+
+function getFromDate(){
+    let systemDate = moment().format("YYYY-MM-DD");
+    let currentDay = moment(systemDate).isoWeekday();
+
+    let subs = 0;
+    if(currentDay<DATA_PULLING_DAY){
+        subs = 6;
+    }
+    else if(currentDay>DATA_PULLING_DAY){
+        subs = currentDay - DATA_PULLING_DAY;
+    }
+
+    return moment(systemDate).subtract(subs, 'days');
 }
 module.exports = EmailController;

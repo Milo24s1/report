@@ -17,6 +17,7 @@
     "moment": "^2.22.2",
     "mongoose": "^5.3.1",
     "nodemailer": "^4.6.8",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "to-csv": "github:jwerle/to-csv"
   }
 }
