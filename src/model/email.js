@@ -57,11 +57,8 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
                                else {
                                    let html = EmailController.getEmailBody(data,customSelection,customMessage);
                                    let {replyHtml,isAttachmentAvailable,csvDataInput} =  await EmailController.getReplyContent(companyId);
-                                   fs.writeFileSync('/home/sanjaya/Downloads/Hack/woodserver/reply.html',html+replyHtml,'utf8');
 
 
-                                   callback(200,`Message sent:`);
-                                   return;
 
 
                                    const transporter = nodemailer.createTransport({
@@ -518,8 +515,8 @@ EmailController.getReplyContent = function(companyId){
                         if(isAttachmentAvailable){
                             tableRows += `<tr style="height: 200px;">
                                         <td style="width: 25%"></td>
-                                        <td colspan="2" align="center" ><h2 style='font-family: "Poppins", sans-serif;color: white;
-                                        text-align: center;font-size: 2rem'> ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL} more ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL>1?'replies':'reply'}\n Checkout all the Replies in csv </h2>
+                                        <td colspan="2" align="center" ><h2 style='font-family: "Poppins", sans-serif;
+                                        text-align: center;font-size: 2rem'> ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL} more ${numOfSearchResult-REPLIES_SHOWN_IN_EMAIL>1?'replies':'reply'} - see csv for all responses </h2>
                                         </td>
                                         <td style="width: 25%"></td></tr>`;
 
@@ -573,7 +570,7 @@ line-height: 24px;
 ;
 
 height: 65px">
-<th>People Reach Back</th>
+<th>this week’s responses</th>
 </thead>
 
 </table>`;
@@ -581,7 +578,7 @@ height: 65px">
 
     let body = `
     <table cellpadding="0" cellspacing="0" style='width: 100%;font-family: "Poppins", sans-serif;'>
-        <tbody style="background: linear-gradient(to bottom right,#b3dd87,#6ccda7);">
+        <tbody style="">
             ${trCollection}
         </tbody>
     </table>
