@@ -58,7 +58,6 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
                                    let html = EmailController.getEmailBody(data,customSelection,customMessage);
                                    let {replyHtml,isAttachmentAvailable,csvDataInput} =  await EmailController.getReplyContent(companyId);
 
-                                   fs.writeFileSync('/home/sanjaya/Downloads/Hack/woodserver/reply.html',html+replyHtml,'utf8');
 
 
                                    const transporter = nodemailer.createTransport({
