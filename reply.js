@@ -45,28 +45,27 @@ function run() {
                         const jetbuzzAccounts = getAccounts(html);
                         for (let k in jetbuzzAccounts){
 
-
                                 const accountGetOption = {
                                     jar: true,
                                     followAllRedirects: true,
-                                    url:jetbuzzAccounts[k]+'campaigns/?do=campaigns&act=campaigns',
+                                    url: jetbuzzAccounts[k] + 'campaigns/?do=campaigns&act=campaigns',
                                     method: 'GET'
                                 };
 
                                 console.log(accountGetOption);
 
-                                request.get(accountGetOption,(error,response,html)=>{
+                                request.get(accountGetOption, (error, response, html) => {
 
-                                    if(error){
-                                        console.log('account error'+error);
+                                    if (error) {
+                                        console.log('account error' + error);
                                     }
                                     else {
                                         const isActiveOnly = true;
-                                        const campaignsLinks = getCampaignLinks(html,isActiveOnly);
-                                        for(let campaignLink of campaignsLinks){
+                                        const campaignsLinks = getCampaignLinks(html, isActiveOnly);
+                                        for (let campaignLink of campaignsLinks) {
 
                                             const pageNumber = 1;
-                                            getReplyForCampaign(campaignLink,pageNumber,k);
+                                            getReplyForCampaign(campaignLink, pageNumber, k);
                                         }
                                     }
                                 });
@@ -131,10 +130,10 @@ function getReplyForCampaign(campaignLink,pageNumber,accountEmail) {
     };
 
     if(pageNumber==1){
-        getOptions.url = campaignLink+'?statusOrder=10&filter[0]=1';
+        getOptions.url = campaignLink+'?statusOrder=100&filter[0]=1';
     }
     else{
-        getOptions.url = campaignLink+'?statusOrder=10&page='+pageNumber;
+        getOptions.url = campaignLink+'?statusOrder=100&page='+pageNumber;
     }
 
     const jetbuzzCampaignId = campaignLink.split('campaigns/')[1].split("/")[0];
@@ -175,7 +174,7 @@ function extractCampaignRepliesFromList(jetbuzzCampaignId,html) {
                 $("#campaign_people tbody tr").each(function (index) {
 
                     //console.log($(this).attr('id'));
-                    if($(this).find('td:nth-child(8)').text().trim() =='Replied'){
+                    if($(this).find('td:nth-child(8)').text().trim() =='Replied' || $(this).find('td:nth-child(8)').text().trim() =='Talking'){
                         const singleReply = {};
                         singleReply.name = $(this).find('td:nth-child(2)').text();
                         singleReply.pCompany = $(this).find('td:nth-child(3)').text();
