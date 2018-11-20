@@ -6,7 +6,7 @@ const jetbuzzCredintials = require('./config/jetbuzzCredintials');
 const DASHBOARD_API = `http://dash.prospectgenai.com/api/jetbuzzReplies`;
 // const DASHBOARD_API = `http://localhost:9999/api/jetbuzzReplies`;
 
-
+run();
 function run() {
     const getOption = {
         jar: true,
@@ -185,6 +185,3 @@ function postDataToDashboard(replies,accountEmail) {
         }
     });
 }
-const html = fs.readFileSync('/home/sanjaya/Videos/jetcamp.html','utf8');
-const {continueToNextPage,repliesInfo} = extractCampaignRepliesFromList(1,html);
-postDataToDashboard(repliesInfo,'louis@altitudemarketing.com');
