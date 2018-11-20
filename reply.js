@@ -41,25 +41,35 @@ function run() {
                         console.log('login error'+error);
                     }
                     else {
+                        console.log('logged in to account');
                         const jetbuzzAccounts = getAccounts(html);
                         for (let k in jetbuzzAccounts){
 
                             const accountGetOption = {
                                 jar: true,
                                 followAllRedirects: true,
-                                url:jetbuzzAccounts[k],
+                                url:jetbuzzAccounts[k]+'campaigns/?do=campaigns&act=campaigns',
                                 method: 'GET'
                             };
 
-                            request.get(accountGetOption,(error,response,html)=>{
-                                const isActiveOnly = true;
-                                const campaignsLinks = getCampaignLinks(html,isActiveOnly);
-                                for(let campaignLink of campaignsLinks){
+                            console.log(accountGetOption);
 
-                                    const pageNumber = 1;
-                                    getReplyForCampaign(campaignLink,pageNumber,k);
+                            request.get(accountGetOption,(error,response,html)=>{
+
+                                if(error){
+                                    console.log('account error'+error);
+                                }
+                                else {
+                                    const isActiveOnly = true;
+                                    const campaignsLinks = getCampaignLinks(html,isActiveOnly);
+                                    for(let campaignLink of campaignsLinks){
+
+                                        const pageNumber = 1;
+                                        getReplyForCampaign(campaignLink,pageNumber,k);
+                                    }
                                 }
                             });
+
                         }
                     }
                 });
@@ -90,6 +100,20 @@ function getCampaignLinks(html,isActiveOnly) {
     if(html != undefined){
 
         const $ = cheerio.load(html);
+        $("table tbody tr").each(function () {
+           const campaignStatus = $(this).find('td:nth-child(2)').text().trim();
+           const campaignLink = $(this).find('a').attr('href');
+
+           if(isActiveOnly){
+                if(campaignStatus=='Active'){
+                    campaignLinks.push(campaignLink);
+                }
+           }
+           else {
+               campaignLinks.push(campaignLink);
+           }
+
+        });
     }
 
     return campaignLinks;
@@ -112,17 +136,19 @@ function getReplyForCampaign(campaignLink,pageNumber,accountEmail) {
 
     const jetbuzzCampaignId = campaignLink.split('campaigns/')[1].split("/")[0];
 
-    request.get(getOptions,(error,response,html)=>{
+    request.get(getOptions,async (error,response,html)=>{
 
         if(error){
             console.log(error);
         }
         else {
 
-            const {continueToNextPage,repliesInfo} = extractCampaignRepliesFromList(jetbuzzCampaignId,html);
+            const {continueToNextPage,repliesInfo} = await extractCampaignRepliesFromList(jetbuzzCampaignId,html);
+            console.log(continueToNextPage);
             postDataToDashboard(repliesInfo,accountEmail);
             if(continueToNextPage){
-                getReplyForCampaign(campaignLink,pageNumber++,accountEmail);
+                pageNumber++
+                getReplyForCampaign(campaignLink,pageNumber,accountEmail);
             }
 
         }
@@ -135,28 +161,32 @@ function extractCampaignRepliesFromList(jetbuzzCampaignId,html) {
 
     let continueToNextPage = true;
     const repliesOnThisPage = [];
-    if(html!=undefined){
-        const $ = cheerio.load(html);
-        $("#campaign_people tbody tr").each(function (index) {
 
-            //console.log($(this).attr('id'));
-            if($(this).find('td:nth-child(8)').text().trim() =='Replied'){
-                const singleReply = {};
-                singleReply.name = $(this).find('td:nth-child(2)').text();
-                singleReply.pCompany = $(this).find('td:nth-child(3)').text();
-                singleReply.title = $(this).find('td:nth-child(5)').text();
-                singleReply.uniqueId = jetbuzzCampaignId+'_'+$(this).attr('id');
-                repliesOnThisPage.push(singleReply);
-            }
-            else {
-                continueToNextPage = false;
-            }
+    return new Promise(resolve => {
+        if(html!=undefined){
+            const $ = cheerio.load(html);
+            $("#campaign_people tbody tr").each(function (index) {
+
+                //console.log($(this).attr('id'));
+                if($(this).find('td:nth-child(8)').text().trim() =='Replied'){
+                    const singleReply = {};
+                    singleReply.name = $(this).find('td:nth-child(2)').text();
+                    singleReply.pCompany = $(this).find('td:nth-child(3)').text();
+                    singleReply.title = $(this).find('td:nth-child(5)').text();
+                    singleReply.uniqueId = jetbuzzCampaignId+'_'+$(this).attr('id');
+                    repliesOnThisPage.push(singleReply);
+                }
+                else {
+                    continueToNextPage = false;
+                }
 
 
-        });
-    }
+            });
+        }
 
-    return {continueToNextPage:continueToNextPage,repliesInfo:repliesOnThisPage};
+        resolve ({continueToNextPage:continueToNextPage,repliesInfo:repliesOnThisPage});
+    });
+
 }
 
 
@@ -180,7 +210,7 @@ function postDataToDashboard(replies,accountEmail) {
             console.log(error);
         }
         else {
-            console.log(html);
+            // console.log(html);
             console.log('Successfully Posted');
         }
     });
