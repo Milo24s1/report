@@ -3,8 +3,8 @@ const cheerio = require('cheerio');
 const moment = require('moment');
 const fs = require('fs');
 const jetbuzzCredintials = require('./config/jetbuzzCredintials');
-// const DASHBOARD_API = `http://dash.prospectgenai.com/api/jetbuzzReplies`;
-const DASHBOARD_API = `http://localhost:9999/api/jetbuzzReplies`;
+const DASHBOARD_API = `http://dash.prospectgenai.com/api/jetbuzzReplies`;
+// const DASHBOARD_API = `http://localhost:9999/api/jetbuzzReplies`;
 
 
 function run() {
