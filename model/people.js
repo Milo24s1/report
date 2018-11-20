@@ -24,7 +24,7 @@ const PeopleSchema = mongoose.Schema({
     }
 });
 
-PeopleSchema.index({ companyId: 1, campaignId: 1, uniqueId: 1}, { unique: true });
+PeopleSchema.index({ companyId: 1, uniqueId: 1}, { unique: true });
 
 const People = mongoose.model('People',PeopleSchema);
 
