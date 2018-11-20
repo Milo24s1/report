@@ -431,6 +431,7 @@ EmailController.getReplyContent = function(companyId){
     let replyContent = ``;
     let formattedCsvDataInput = [];
     let fromDate = getFromDate();
+    let isAttachmentAvailable = false;
 
 
     return new Promise(resolve=>{
@@ -526,7 +527,7 @@ EmailController.getReplyContent = function(companyId){
                         }
 
                         replyContent = EmailController.concatReplySections(tableRows);
-                        resolve( {replyHtml:replyContent,isAttachmentAvailable: true, csvDataInput:formattedCsvDataInput});
+                        resolve( {replyHtml:replyContent,isAttachmentAvailable: isAttachmentAvailable, csvDataInput:formattedCsvDataInput});
                     }
                     else {
                         resolve ({replyHtml:replyContent,isAttachmentAvailable:false,csvDataInput:formattedCsvDataInput});
