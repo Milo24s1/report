@@ -45,30 +45,33 @@ function run() {
                         const jetbuzzAccounts = getAccounts(html);
                         for (let k in jetbuzzAccounts){
 
-                            const accountGetOption = {
-                                jar: true,
-                                followAllRedirects: true,
-                                url:jetbuzzAccounts[k]+'campaigns/?do=campaigns&act=campaigns',
-                                method: 'GET'
-                            };
 
-                            console.log(accountGetOption);
+                                const accountGetOption = {
+                                    jar: true,
+                                    followAllRedirects: true,
+                                    url:jetbuzzAccounts[k]+'campaigns/?do=campaigns&act=campaigns',
+                                    method: 'GET'
+                                };
 
-                            request.get(accountGetOption,(error,response,html)=>{
+                                console.log(accountGetOption);
 
-                                if(error){
-                                    console.log('account error'+error);
-                                }
-                                else {
-                                    const isActiveOnly = true;
-                                    const campaignsLinks = getCampaignLinks(html,isActiveOnly);
-                                    for(let campaignLink of campaignsLinks){
+                                request.get(accountGetOption,(error,response,html)=>{
 
-                                        const pageNumber = 1;
-                                        getReplyForCampaign(campaignLink,pageNumber,k);
+                                    if(error){
+                                        console.log('account error'+error);
                                     }
-                                }
-                            });
+                                    else {
+                                        const isActiveOnly = true;
+                                        const campaignsLinks = getCampaignLinks(html,isActiveOnly);
+                                        for(let campaignLink of campaignsLinks){
+
+                                            const pageNumber = 1;
+                                            getReplyForCampaign(campaignLink,pageNumber,k);
+                                        }
+                                    }
+                                });
+
+
 
                         }
                     }
@@ -145,9 +148,11 @@ function getReplyForCampaign(campaignLink,pageNumber,accountEmail) {
 
             const {continueToNextPage,repliesInfo} = await extractCampaignRepliesFromList(jetbuzzCampaignId,html);
             console.log(continueToNextPage);
-            postDataToDashboard(repliesInfo,accountEmail);
+            if(repliesInfo.length>0){
+                postDataToDashboard(repliesInfo,accountEmail);
+            }
             if(continueToNextPage){
-                pageNumber++
+                pageNumber++;
                 getReplyForCampaign(campaignLink,pageNumber,accountEmail);
             }
 
@@ -165,23 +170,31 @@ function extractCampaignRepliesFromList(jetbuzzCampaignId,html) {
     return new Promise(resolve => {
         if(html!=undefined){
             const $ = cheerio.load(html);
-            $("#campaign_people tbody tr").each(function (index) {
 
-                //console.log($(this).attr('id'));
-                if($(this).find('td:nth-child(8)').text().trim() =='Replied'){
-                    const singleReply = {};
-                    singleReply.name = $(this).find('td:nth-child(2)').text();
-                    singleReply.pCompany = $(this).find('td:nth-child(3)').text();
-                    singleReply.title = $(this).find('td:nth-child(5)').text();
-                    singleReply.uniqueId = jetbuzzCampaignId+'_'+$(this).attr('id');
-                    repliesOnThisPage.push(singleReply);
-                }
-                else {
-                    continueToNextPage = false;
-                }
+            if($("#campaign_people tbody tr") !=undefined && $("#campaign_people tbody tr").length>0){
+                $("#campaign_people tbody tr").each(function (index) {
+
+                    //console.log($(this).attr('id'));
+                    if($(this).find('td:nth-child(8)').text().trim() =='Replied'){
+                        const singleReply = {};
+                        singleReply.name = $(this).find('td:nth-child(2)').text();
+                        singleReply.pCompany = $(this).find('td:nth-child(3)').text();
+                        singleReply.title = $(this).find('td:nth-child(5)').text();
+                        singleReply.uniqueId = jetbuzzCampaignId+'_'+$(this).attr('id');
+                        repliesOnThisPage.push(singleReply);
+                    }
+                    else {
+                        continueToNextPage = false;
+                    }
 
 
-            });
+                });
+            }
+
+            else {
+                continueToNextPage = false;
+            }
+
         }
 
         resolve ({continueToNextPage:continueToNextPage,repliesInfo:repliesOnThisPage});
