@@ -9,7 +9,7 @@ function run() {
 	const getOption = {
 		jar: true,
 		followAllRedirects: true,
-		url:'https://jetbuzz.io/login/',
+		url:'https://ulinc.co/login/',
 		method: 'GET'
 	};
 
@@ -25,12 +25,12 @@ function run() {
 				const postOption = {
 					jar: true,
 					followAllRedirects: true,
-					url:'https://jetbuzz.io/login/',
+					url:'https://ulinc.co/login/',
 					method: 'POST',
 					form: {
 						'email':jetbuzzCredintials.jetbuzzUsername,
 						'password':jetbuzzCredintials.jetbuzzPassword,
-						'sign':'Log+in'
+						'sign':1
 					}
 				};
 
