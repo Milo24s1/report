@@ -11,7 +11,7 @@ function run() {
     const getOption = {
         jar: true,
         followAllRedirects: true,
-        url:'https://jetbuzz.io/login/',
+        url:'https://ulinc.co/login/',
         method: 'GET'
     };
 
@@ -27,12 +27,12 @@ function run() {
                 const postOption = {
                     jar: true,
                     followAllRedirects: true,
-                    url:'https://jetbuzz.io/login/',
+                    url:'https://ulinc.co/login/',
                     method: 'POST',
                     form: {
                         'email':jetbuzzCredintials.jetbuzzUsername,
                         'password':jetbuzzCredintials.jetbuzzPassword,
-                        'sign':'Log+in'
+                        'sign':1
                     }
                 };
 
@@ -146,7 +146,6 @@ function getReplyForCampaign(campaignLink,pageNumber,accountEmail) {
         else {
 
             const {continueToNextPage,repliesInfo} = await extractCampaignRepliesFromList(jetbuzzCampaignId,html);
-            console.log(continueToNextPage);
             if(repliesInfo.length>0){
                 postDataToDashboard(repliesInfo,accountEmail);
             }
@@ -223,7 +222,7 @@ function postDataToDashboard(replies,accountEmail) {
         }
         else {
             // console.log(html);
-            console.log('Successfully Posted');
+            console.log('Successfully Posted for :'+accountEmail);
         }
     });
 }
