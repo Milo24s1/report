@@ -60,7 +60,7 @@ function run() {
                                         console.log('account error' + error);
                                     }
                                     else {
-                                        const isActiveOnly = true;
+                                        const isActiveOnly = false;
                                         const campaignsLinks = getCampaignLinks(html, isActiveOnly);
                                         for (let campaignLink of campaignsLinks) {
 
