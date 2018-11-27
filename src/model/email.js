@@ -81,9 +81,9 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
 
 
 
-                                   let csvData = csv(csvDataInput);
                                    //let isAttachmentAvailable = true;
                                    if(isAttachmentAvailable){
+                                       let csvData = csv(csvDataInput);
                                        mailOptions.attachments =  [{
                                            filename: `${company.companyName}_replies.csv`,
                                            content: csvData
