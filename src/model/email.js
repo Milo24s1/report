@@ -7,6 +7,7 @@ const Company = require('../../model/company');
 const CampaignRecord = require('../../model/campaignRecord');
 const People = require('../../model/people');
 const REPLIES_SHOWN_IN_EMAIL = 12;
+const ADD_ATTACHMENT_ALWAYS = true;
 const DATA_PULLING_DAY = 2;
 
 
@@ -449,6 +450,9 @@ EmailController.getReplyContent = function(companyId){
                             isAttachmentAvailable = true;
                         }
                         else {
+                            if(ADD_ATTACHMENT_ALWAYS==true){
+                                isAttachmentAvailable = true;
+                            }
                             isAttachmentAvailable = false;
                         }
 
