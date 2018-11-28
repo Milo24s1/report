@@ -446,15 +446,16 @@ EmailController.getReplyContent = function(companyId){
 
                     const numOfSearchResult = data.length;
                     if(numOfSearchResult>0){
-                        if(numOfSearchResult>REPLIES_SHOWN_IN_EMAIL){
-                            isAttachmentAvailable = true;
-                        }
-                        else {
-                            if(ADD_ATTACHMENT_ALWAYS==true){
-                                isAttachmentAvailable = true;
-                            }
-                            isAttachmentAvailable = false;
-                        }
+                        isAttachmentAvailable = true;
+                        // if(numOfSearchResult>REPLIES_SHOWN_IN_EMAIL){
+                        //     isAttachmentAvailable = true;
+                        // }
+                        // else {
+                        //     if(ADD_ATTACHMENT_ALWAYS == true){
+                        //         isAttachmentAvailable = true;
+                        //     }
+                        //     isAttachmentAvailable = false;
+                        // }
 
                         //add data to up to max level
                         let i=0;
@@ -516,7 +517,7 @@ EmailController.getReplyContent = function(companyId){
                         }
 
 
-                        if(isAttachmentAvailable){
+                        if(isAttachmentAvailable && (numOfSearchResult > REPLIES_SHOWN_IN_EMAIL)){
                             tableRows += `<tr style="height: 200px;">
                                         <td style="width: 25%"></td>
                                         <td colspan="2" align="center" ><h2 style='font-family: "Poppins", sans-serif;
