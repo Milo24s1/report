@@ -42,3 +42,6 @@ footer ,thead, nav{
 .hidden{
     display: none;
 }
+#basicExampleNav{
+    font-weight: bolder;
+}

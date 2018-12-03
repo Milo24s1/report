@@ -3,6 +3,7 @@ const router = express.Router();
 const CompanyController = require('../src/model/company');
 const CampaignController = require('../src/model/campaign');
 const EmailController = require('../src/model/email');
+const ReplyIOController = require('../src/model/replyIO');
 
 /*
 GET home page
@@ -61,6 +62,13 @@ router.post('/getCampaignReach',function (req,res) {
    CampaignController.getCampaignRepliedList(req,res);
 });
 
+router.get('/replyIOHome',(req,res)=>{
+    res.render('replyIOHome')
+});
+
+router.get('/getReplyIOCampaigns',(req,res)=>{
+    ReplyIOController.getReplyIOCampaigns(req,res);
+});
 
 
 

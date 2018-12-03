@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Prospectgenai - Reply.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/css/mdb.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+
+</head>
+<body>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark ">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="/">
+        <img src="/img/ProspectGen_AI01_white.png" height="30" class="d-inline-block align-top" alt="">
+    </a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/companies">Companies</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/replyIOHome">Reply.IO
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Links -->
+
+    </div>
+    <!-- Collapsible content -->
+
+</nav>
+<!--Top Margin-->
+<div class="topMargin" style="height: 10vh">
+</div>
+
+<!--Content-->
+<div id="tableDiv" class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <table class="table">
+            <thead class="white-text">
+                <tr>
+                    <th>Company</th>
+                    <th>Campaign</th>
+                    <th>People</th>
+                    <th>Delivered</th>
+                    <th>Open</th>
+                    <th>Response</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+<!--Loader-->
+<div class="flex-center flex-column">
+    <div id="loader" class="loader invisible center-block"></div>
+</div>
+
+<div style="height: 50vh">
+</div>
+<!-- Footer -->
+<footer class="page-footer font-small ">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https:// prospectgenai.com/">  prospectgenai.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        lazyLoad();
+        function lazyLoad() {
+
+            $.ajax({
+               url: '/getReplyIOCampaigns',
+               method: 'GET',
+               dataType: 'json',
+               success: function (data) {
+                   var sortedKeys =Object.keys(data).sort();
+                   console.log(sortedKeys);
+                   var trCollection = ``;
+                   for(i=0;i<sortedKeys.length;i++){
+
+                       var record = data[sortedKeys[i]];
+
+                       trCollection += `
+                        <tr>
+                            <td class="textCol">${sortedKeys[i]}</td>
+                            <td class="textCol">Email Campaign</td>
+                            <td class="numCol">${record.peopleCount}</td>
+                            <td class="numCol">${record.deliveriesCount}</td>
+                            <td class="numCol">${record.opensCount}</td>
+                            <td class="numCol">${record.repliesCount}</td>
+                        </tr>
+
+                       `;
+
+                   }
+                   $("table").append(trCollection);
+               } ,
+               error: function () {
+
+               }
+            });
+        }
+    });
+</script>
+
+
+<style>
+    table td, table th{
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        line-height: 21.6px;
+        text-align: left;
+    }
+
+    .numCol{
+        text-align: center !important;
+        width: 10%;
+    }
+    .textCol{
+        width: 30%;
+    }
+</style>
+</body>
+</html>

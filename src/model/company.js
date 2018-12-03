@@ -24,7 +24,6 @@ CompanyController.updateCompany = function(req,res){
     try {
         if(req.body.updateObject.sendTo == undefined){
             req.body.updateObject.sendTo = [];
-            console.log('set new len');
         }
         Company.findByIdAndUpdate(req.body.id,req.body.updateObject,function (err,data) {
 
