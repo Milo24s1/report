@@ -437,7 +437,7 @@ EmailController.getReplyContent = function(companyId){
 
     return new Promise(resolve=>{
         try {
-            People.getPeopleList({companyId:companyId,addedDate:{$gte: fromDate}},{ name: 1, pCompany: 1, title:1,companyId:1,_id: 0 },null,function (err,data) {
+            People.getPeopleList({companyId:companyId,addedDate:{$gte: fromDate}},{ name: 1, pCompany: 1, title:1,companyId:1,phone:1,email:1,_id: 0 },null,function (err,data) {
                 if(err){
                     console.log(err);
                     resolve({replyHtml:replyContent,isAttachmentAvailable:false,csvDataInput:formattedCsvDataInput});
@@ -473,7 +473,7 @@ EmailController.getReplyContent = function(companyId){
                                 <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i].title}</div>
                             </div>`;
 
-                                formattedCsvDataInput.push({'Name':data[i].name,'Company':data[i].pCompany,'Title':data[i].title});
+                                formattedCsvDataInput.push({'Name':data[i].name,'Company':data[i].pCompany,'Title':data[i].title,'Email':data[i].email,'Phone':data[i].phone});
                             }
 
                             tableRows +=`</td><td style="width: 25%">`;
@@ -484,7 +484,7 @@ EmailController.getReplyContent = function(companyId){
                                 <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${data[i+1].pCompany}</div>
                                 <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i+1].title}</div>
                             </div>`;
-                                formattedCsvDataInput.push({'Name':data[i+1].name,'Company':data[i+1].pCompany,'Title':data[i+1].title});
+                                formattedCsvDataInput.push({'Name':data[i+1].name,'Company':data[i+1].pCompany,'Title':data[i+1].title,'Email':data[i+1].email,'Phone':data[i+1].phone});
                             }
 
 
@@ -496,7 +496,7 @@ EmailController.getReplyContent = function(companyId){
                                 <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${data[i+2].pCompany}</div>
                                 <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i+2].title}</div>
                             </div>`;
-                                formattedCsvDataInput.push({'Name':data[i+2].name,'Company':data[i+2].pCompany,'Title':data[i+2].title});
+                                formattedCsvDataInput.push({'Name':data[i+2].name,'Company':data[i+2].pCompany,'Title':data[i+2].title,'Email':data[i+2].email,'Phone':data[i+2].phone});
                             }
 
                             tableRows +=`</td><td style="width: 25%">`;
@@ -507,7 +507,7 @@ EmailController.getReplyContent = function(companyId){
                                 <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${data[i+3].pCompany}</div>
                                 <div class=" font-weight-bold" style="font-size: 13px;color: #150505;">${data[i+3].title}</div>
                             </div>`;
-                                formattedCsvDataInput.push({'Name':data[i+3].name,'Company':data[i+3].pCompany,'Title':data[i+3].title});
+                                formattedCsvDataInput.push({'Name':data[i+3].name,'Company':data[i+3].pCompany,'Title':data[i+3].title,'Email':data[i+3].email,'Phone':data[i+3].phone});
                             }
 
 
@@ -527,7 +527,7 @@ EmailController.getReplyContent = function(companyId){
 
 
                             for (let i= REPLIES_SHOWN_IN_EMAIL;i<numOfSearchResult;i++){
-                                formattedCsvDataInput.push({'Name':data[i].name,'Company':data[i].pCompany,'Title':data[i].title});
+                                formattedCsvDataInput.push({'Name':data[i].name,'Company':data[i].pCompany,'Title':data[i].title,'Email':data[i].email,'Phone':data[i].phone});
                             }
                         }
 

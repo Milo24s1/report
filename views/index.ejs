@@ -433,12 +433,14 @@
                     var item = data.list[i];
                     reachListDom += `
                         <li class="list-group-item">
-                            <div>
+                            <div class="card" style="padding: 15px;">
                                 <div class="nameIcon">${item.name.slice(0,1).toUpperCase()}</div>
                                 <div class="textContent">
                                     <div class="font-weight-bold" style="color: black">${item.name}</div>
                                     <div class=" font-weight-bold" style="font-size: 13px;color: #e94813;">${item.pCompany}</div>
                                     <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${item.title}</div>
+                                    <div class=" font-weight-bold" style="font-size: 13px;color: #aa490d;">${item.phone}</div>
+                                    <div class=" font-weight-bold" style="font-size: 13px;color: blue;">${item.email}</div>
                                 </div>
                             </div>
                         </li>
@@ -551,16 +553,16 @@
         max-width: 8%;
     }
     .nameIcon{
-        background-color: red;
+        background-color: #0ea882;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        padding-top: 12px;
-        padding-left: 18px;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 800;
         color: white;
         position: absolute;
+        text-align: center;
+        line-height: 2.7;
     }
     .textContent{
         margin-left: 75px;

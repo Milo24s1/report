@@ -19,6 +19,14 @@ const PeopleSchema = mongoose.Schema({
     title:{
         type: String
     },
+    phone:{
+        type: String,
+        default: ''
+    },
+    email:{
+        type: String,
+        default: ''
+    },
     uniqueId: {
         type: String
     }

@@ -145,7 +145,8 @@ function getReplyForCampaign(campaignLink,pageNumber,accountEmail) {
         }
         else {
 
-            const {continueToNextPage,repliesInfo} = await extractCampaignRepliesFromList(jetbuzzCampaignId,html);
+            let {continueToNextPage,repliesInfo,contactIdList} = await extractCampaignRepliesFromList(jetbuzzCampaignId,html);
+            repliesInfo = await  addExtraInformationForReplyEntities(repliesInfo,contactIdList,campaignLink);
             if(repliesInfo.length>0){
                 postDataToDashboard(repliesInfo,accountEmail);
             }
@@ -164,6 +165,7 @@ function extractCampaignRepliesFromList(jetbuzzCampaignId,html) {
 
     let continueToNextPage = true;
     const repliesOnThisPage = [];
+    const contactIdList = [];
 
     return new Promise(resolve => {
         if(html!=undefined){
@@ -180,6 +182,7 @@ function extractCampaignRepliesFromList(jetbuzzCampaignId,html) {
                         singleReply.title = $(this).find('td:nth-child(5)').text();
                         singleReply.uniqueId = jetbuzzCampaignId+'_'+$(this).attr('id');
                         repliesOnThisPage.push(singleReply);
+                        contactIdList.push($(this).attr('id').split("_")[1]);
                     }
                     else {
                         continueToNextPage = false;
@@ -195,9 +198,65 @@ function extractCampaignRepliesFromList(jetbuzzCampaignId,html) {
 
         }
 
-        resolve ({continueToNextPage:continueToNextPage,repliesInfo:repliesOnThisPage});
+        resolve ({continueToNextPage:continueToNextPage,repliesInfo:repliesOnThisPage,contactIdList:contactIdList});
     });
 
+}
+
+
+function addExtraInformationForReplyEntities(repliesInfo,contactIdList,campaignLink) {
+
+    return new Promise(resolve => {
+
+        const csvPostOptions = {
+            method: 'POST',
+            jar: true,
+            followAllRedirects: true,
+            url:campaignLink+'?do=campaigns&act=export',
+            form: {
+                id: campaignLink.split("/")[5],
+                ids: contactIdList.join(","),
+                status: 3
+            }
+
+        };
+
+        try {
+            request.post(csvPostOptions,(error,response,html)=>{
+
+                if(error){
+                    resolve(repliesInfo);
+                }
+                else {
+                    if(html!= undefined){
+
+                        const csvLines = html.split("\n");
+                        const sortedContactIdList = contactIdList.sort();
+
+                        for (let i=0;i<repliesInfo.length;i++){
+                            const contactId =repliesInfo[i].uniqueId.split("_")[2] ;
+                            const index = sortedContactIdList.indexOf(contactId);
+                            const matchingCsvLine = csvLines[index];
+                            const csvArray = CSVtoArray(matchingCsvLine);
+                            if(csvArray){
+                                repliesInfo[i].phone = csvArray['6'];
+                                repliesInfo[i].email = csvArray['5'];
+                            }
+
+                        }
+
+                        resolve(repliesInfo);
+                    }
+                }
+
+            });
+        }
+        catch (e) {
+            console.log('catch'+e);
+            resolve(repliesInfo)
+        }
+
+    });
 }
 
 
@@ -226,3 +285,23 @@ function postDataToDashboard(replies,accountEmail) {
         }
     });
 }
+
+function CSVtoArray(text) {
+    var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
+    var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+    // Return NULL if input string is not well formed CSV string.
+    if (!re_valid.test(text)) return null;
+    var a = [];                     // Initialize array to receive values.
+    text.replace(re_value, // "Walk" the string using replace with callback.
+        function(m0, m1, m2, m3) {
+            // Remove backslash from \' in single quoted values.
+            if      (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
+            // Remove backslash from \" in double quoted values.
+            else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
+            else if (m3 !== undefined) a.push(m3);
+            return ''; // Return empty string.
+        });
+    // Handle special case of empty last value.
+    if (/,\s*$/.test(text)) a.push('');
+    return a;
+};
