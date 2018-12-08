@@ -3,12 +3,28 @@ const ReplyIOCampaignRecord = require('./model/replyIOCampaignRecord');
 const mongoose = require('mongoose');
 const config = require('./config/credintials');
 
+/**
+ * return diff of two arrays
+ * @param a1
+ * @param a2
+ * @returns {Uint8Array}
+ */
+function diff(a1, a2) {
+    return a1.concat(a2).filter(function(val, index, arr){
+        return arr.indexOf(val) === arr.lastIndexOf(val);
+    });
+}
+
+/**
+ * fetch existing campaign records from database
+ * @returns {Promise<any>}
+ */
 function getCampaignIdList(){
     const idArray = [];
 
     return new Promise(resolve => {
         try {
-            ReplyIOCampaignRecord.getCampaignList({status:'Active'},function(error,data){
+            ReplyIOCampaignRecord.getCampaignList({},function(error,data){
                 console.log('callback called');
                 if(error){
                     console.log(error);
@@ -30,6 +46,11 @@ function getCampaignIdList(){
 
     });
 }
+
+/**
+ * fetch campaign records from api and do a comparison with database campaign records
+ * @returns {Promise<void>}
+ */
 async function run() {
 
     mongoose.connect(config.database);
@@ -45,22 +66,26 @@ async function run() {
     try {
 
        const campaignIdList = await getCampaignIdList();
-       var connecationCount = 0;
+       var connecationCount = 1;
 
        // mongoose.disconnect();
        const apiResponse = await ReplyIOController.callReplyIOAPI('campaigns','GET');
        const formattedResponse = JSON.parse(apiResponse);
+       const updatedRecordIdList = [];
 
        for(let record of formattedResponse){
            connecationCount++;
            if(campaignIdList.includes(record.id)){
+
                //update record
+               updatedRecordIdList.push(record.id);
+               record.status = 'Active';
                ReplyIOCampaignRecord.findOneAndUpdate({id:record.id},{ $set: record},function (err,data) {
                    if(err){
                        console.log(err);
                    }
                    else {
-                       console.log('Updated sucessfully');
+                       console.log('Updated successfully');
                    }
                    connecationCount--;
                    if(connecationCount==0){
@@ -72,19 +97,17 @@ async function run() {
                //insert record
                const newCampaignRecord = new ReplyIOCampaignRecord(record);
                newCampaignRecord.status = 'Active';
-               console.log(newCampaignRecord);
                ReplyIOCampaignRecord.addCampaignRecord(newCampaignRecord,function (err,data) {
 
                    if(err){
                        console.log(err);
                    }
                    else {
-                       console.log('Added sucessfully');
-                       console.log(data);
-                       connecationCount--;
-                       if(connecationCount==0){
-                           mongoose.disconnect();
-                       }
+                       console.log('Added successfully');
+                   }
+                   connecationCount--;
+                   if(connecationCount==0){
+                       mongoose.disconnect();
                    }
                });
 
@@ -92,6 +115,35 @@ async function run() {
        }
 
        //Archive if not updated
+        const archiveRecordIdList = diff(campaignIdList,updatedRecordIdList);
+       if(archiveRecordIdList.length>0){
+           ReplyIOCampaignRecord.update({id:{$in: archiveRecordIdList}}, { $set:
+                   {
+                       status: 'Archive' ,
+                   }}, {"multi": true}, function (err,data) {
+
+               if(err){
+                   console.log(err);
+               }
+               else {
+                   console.log('Archived Successfully');
+
+
+               }
+               connecationCount--;
+               if(connecationCount==0){
+                   mongoose.disconnect();
+               }
+           });
+       }
+       else {
+           connecationCount--;
+           if(connecationCount==0){
+               mongoose.disconnect();
+           }
+       }
+
+
 
     }
     catch (e) {
