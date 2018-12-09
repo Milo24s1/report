@@ -99,12 +99,19 @@ ReplyIOCompanyController.readCompanyFromDatabase = function(req, res){
 
 
 ReplyIOCompanyController.deleteCompanyFromDatabase = function (req,res) {
-    Company.deleteCompany(req.params.id,function (err,data) {
-        res.redirect('/companies');
-        CampaignRecord.deleteCampaignRecordsByCompanyId(req.params.id,function (err,data) {
-            return true;
+    try {
+        ReplyIOCompany.findByIdAndRemove(req.params.id,function (err,data) {
+            res.redirect('/replyIOcompanies');
+            // check this behaviour
+            // CampaignRecord.deleteCampaignRecordsByCompanyId(req.params.id,function (err,data) {
+            //     return true;
+            // });
         });
-    });
+    }
+    catch (e) {
+        res.render('error',{error:''});
+    }
+
 };
 
 

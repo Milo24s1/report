@@ -37,7 +37,6 @@ router.get('/companies', function(req, res){
 
 router.get('/deleteCompany/:id', function(req, res){
     CompanyController.deleteCompanyFromDatabase(req,res);
-
 });
 
 router.get('/newcampaign', function(req, res){
@@ -88,5 +87,8 @@ router.post('/updateReplyIOCompany',function (req,res) {
     ReplyIOCompanyController.updateCompany(req,res);
 });
 
+router.get('/deleteReplyIOCompany/:id', function(req, res){
+    ReplyIOCompanyController.deleteCompanyFromDatabase(req,res);
+});
 
 module.exports = router;

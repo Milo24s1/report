@@ -64,7 +64,7 @@
 <div id="tableDiv" class="row ">
     <div class="col-md-1"></div>
     <div class="col-md-10">
-        <h2 class="h2 mb-4">ReplyIO Companies</h2>
+        <h2 class="h2 mb-4" style="text-align: center">ReplyIO Companies</h2>
         <table class="table">
             <thead class="white-text">
             <th scope="col">Company</th>
@@ -78,7 +78,7 @@
             <tr>
                 <th class="col-3" scope="row"><%= items[i].name %></th>
                 <th><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></th>
-                <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/deleteCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
+                <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/deleteReplyIOCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
                 <td class="col-1"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
                 <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Edit Company Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
             </tr>

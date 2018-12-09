@@ -283,7 +283,7 @@ text-align: left;
         padding-bottom: 16px;
         padding-top: 17.6px;
         text-align: left;
-        vertical-align: bottom;'>${rowData[i].name}</td>`:''}
+        vertical-align: bottom;'>Email Campaign</td>`:''}
                             ${customSelection.indexOf('3')>-1?`<td style='font-size: 14px;width: 10%;border-bottom-color: rgb(222, 226, 230);
         border-bottom-style: solid;
         border-bottom-width: 1px;
