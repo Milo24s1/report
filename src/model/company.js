@@ -5,6 +5,8 @@ const CampaignRecord = require('../../model/campaignRecord');
 
 CompanyController.addNewCompany = function (req,res) {
     try {
+        const isAutoCamp = req.body.isAutoCamp;
+        delete req.body.isAutoCamp;
         const newCompany = req.body;
         // newCompany.isActive = 1;
         Company.addCompany(Company(newCompany),function (err,company) {
@@ -12,7 +14,40 @@ CompanyController.addNewCompany = function (req,res) {
                 res.status(500).send({err:err});
             }
             else {
-                res.status(200).send({});
+                if(isAutoCamp==1){
+
+                    const newCampaignRecord = new CampaignRecord({
+                        campaignName: 'LinkedIn Prospecting',
+                        companyId: company._id,
+                        companyName: company.companyName,
+                        customCol1:0,
+                        customCol2:0,
+                        customCol3:0,
+                        customCol4:0,
+                        delivered:0,
+                        opened:0,
+                        prospects:0,
+                        response:0,
+                        status:'Running'
+                    });
+                    newCampaignRecord.deliveredPercentage = isNaN(Math.floor(100*newCampaignRecord.delivered/newCampaignRecord.prospects))?0 :Math.floor(100*newCampaignRecord.delivered/newCampaignRecord.prospects);
+                    newCampaignRecord.openedPercentage = newCampaignRecord.prospects != 0 ? Math.floor(100*newCampaignRecord.opened/newCampaignRecord.prospects) : 0;
+                    newCampaignRecord.responsesPercentage = newCampaignRecord.prospects != 0 ? Math.floor(100*newCampaignRecord.response/newCampaignRecord.prospects): 0;
+                    console.log(newCampaignRecord);
+                    CampaignRecord.addCampaignRecord(newCampaignRecord,function (err, result) {
+
+                        if(err){
+                            res.status(500).send({error:err});
+                        }
+                        else {
+                            res.status(200).send({data:result});
+                        }
+                    });
+
+                }
+                else {
+                    res.status(200).send(company);
+                }
             }
         });
     }

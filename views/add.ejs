@@ -249,7 +249,13 @@
 
                 <textarea class="form-control" id="defaultMessage" rows="7"></textarea>
             </div>
-            <button id="addCompany" class="btn btn-success">Add Company</button>
+
+
+            <input type="checkbox" class="" id="autocamp" checked>
+            <p class="h6 mb-4" style="display: inline-block">Create Campaign Automatically</p>
+            <div class="md-form mt-3" >
+                <button id="addCompany" class="btn btn-success">Add Company</button>
+            </div>
         </form>
     </div>
     <div class="col-md-3"></div>
@@ -331,7 +337,8 @@
                         senderEmail: $("#senderEmailAddress").val(),
                         senderPassword: $("#senderPassword").val(),
                         sendTo: sendTo,
-                        defaultMessage:$("#defaultMessage").val()
+                        defaultMessage:$("#defaultMessage").val(),
+                        isAutoCamp : $("#autocamp").prop('checked') ? 1: 0
                     },
                     success: function (data) {
                         console.log('sucess is called');
