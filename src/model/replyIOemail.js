@@ -46,7 +46,7 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
 
                     if(customSelection != undefined){
 
-                        if(customReceivers != undefined){
+                        if(customReceivers != undefined && customReceivers.length>0){
 
                             //TODO discuss with client which records needs to be shown (active or archive)
                             ReplyIOCampaignRecord.getCampaignList({},function (err,data) {
@@ -91,16 +91,16 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                             });
                         }
                         else {
-                            callback(400,'No Receivers setup for report, Please set up at lease one Receiver');
+                            callback(400,'No Receivers setup for '+company.name+' report, Please set up at lease one Receiver');
                         }
                     }
                     else {
-                        callback(400,'No columns selected for report, Please select at lease one column');
+                        callback(400,'No columns selected for '+company.name+ ' report, Please select at lease one column');
                     }
 
                 }
                 else {
-                    callback(400,'Sender Account username/password is not configured');
+                    callback(400,'Sender Account username/password is not configured for '+company.name);
                 }
             }
         });
