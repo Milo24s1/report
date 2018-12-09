@@ -70,7 +70,7 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                                    let mailOptions = {
                                        from:  `<${company.senderEmail}>`, // sender address
                                        to: customReceivers.join(','), // list of receivers
-                                       subject: `ProspectGen AI: ReplyIO Weekly Report Snapshot for ${company.name} ${moment().format("YYYY-MM-DD")}`, // Subject line
+                                       subject: `ProspectGen AI: Weekly Email Report Snapshot for ${company.name} ${moment().format("YYYY-MM-DD")}`, // Subject line
                                        // text: 'Hello world?', // plain text body
                                        html: html // html body
                                    };
