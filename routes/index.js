@@ -3,7 +3,9 @@ const router = express.Router();
 const CompanyController = require('../src/model/company');
 const CampaignController = require('../src/model/campaign');
 const EmailController = require('../src/model/email');
+const ReplyIOEmailController = require('../src/model/replyIOemail');
 const ReplyIOController = require('../src/model/replyIO');
+const ReplyIOCompanyController = require('../src/model/replyIOcompany');
 
 /*
 GET home page
@@ -70,6 +72,21 @@ router.get('/getReplyIOCampaigns',(req,res)=>{
     ReplyIOController.getReplyIOCampaigns(req,res);
 });
 
+router.get('/replyIOcompanies',(req,res)=>{
+   ReplyIOController.getReplyIOCompanies(req,res);
+});
+
+router.post('/sendReplyIOEmail',function (req,res) {
+    ReplyIOEmailController.sendInstantEmail(req,res);
+});
+
+router.get('/editReplyIOCompany/:id', function(req, res){
+    ReplyIOCompanyController.editCompany(req,res);
+});
+
+router.post('/updateReplyIOCompany',function (req,res) {
+    ReplyIOCompanyController.updateCompany(req,res);
+});
 
 
 module.exports = router;

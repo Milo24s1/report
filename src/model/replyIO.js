@@ -3,7 +3,28 @@ const request = require('request');
 const replyIOCredintials = require('../../config/replyIOCredintials');
 const API_BASE_PATH = 'https://api.reply.io/v1/';
 const ReplyIOCampaignRecord = require('../../model/replyIOCampaignRecord');
+const ReplyIOCompany = require('../../model/replyIOCompany');
 
+ReplyIOController.getReplyIOCompanies = function(req,res){
+
+    try {
+        ReplyIOCompany.getCompanyList({},null,null,(error,data)=>{
+
+            if(error){
+
+            }
+            else {
+                res.render('replyIOcompanylist',{items:data});
+            }
+
+        });
+    }
+    catch (e) {
+        console.log('catch ---->'+e);
+        res.render('error',{error:''});
+    }
+
+};
 ReplyIOController.getReplyIOCampaigns = function(req,res){
     try {
         ReplyIOCampaignRecord.getCampaignList({'status':'Active'},function (err,data) {

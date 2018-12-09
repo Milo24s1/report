@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Edit ReplyIO Company</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/css/mdb.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark ">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="/">
+        <img src="/img/ProspectGen_AI01_white.png" height="30" class="d-inline-block align-top" alt="">
+    </a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/replyIOHome">Email</a>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Companies</a>
+                <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/companies">Linkedin</a>
+                    <a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/replyIOcompanies">Email</a>
+                </div>
+            </li>
+
+        </ul>
+        <!-- Links -->
+
+    </div>
+    <!-- Collapsible content -->
+
+</nav>
+<div class="row topMargin" style="margin-top: 70px">
+    <div class="col-md-3"></div>
+    <div class="col-md-6  border border-light p-5">
+        <p class="h4 mb-4">Edit Company</p>
+        <div id="loader" class="loader invisible center-block"></div>
+        <form id="addCompanyForm" method="post">
+            <div class="md-form mt-3">
+                <label class="active" for="companyName">Company Name</label>
+                <input type="text" id="companyName" class="form-control" name="companyName" value="<%=company.name%>" required disabled>
+
+            </div>
+
+            <div class="md-form mt-3 ">
+                <p class="h4 mb-4">Send Report Weekly on</p>
+                <div class="card">
+                    <div id="daySelection" class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-6">
+
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked1" <% if(company.defaultMailDays.indexOf(1)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="dayChecked1">Monday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked2" <% if(company.defaultMailDays.indexOf(2)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="dayChecked2">Tuesday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked3" <% if(company.defaultMailDays.indexOf(3)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="dayChecked3">Wednesday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked4" <% if(company.defaultMailDays.indexOf(4)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="dayChecked4">Thursday</label>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6" >
+
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked5" <% if(company.defaultMailDays.indexOf(5)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="dayChecked5">Friday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked6" <% if(company.defaultMailDays.indexOf(6)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="dayChecked6">Saturday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="dayChecked7" <% if(company.defaultMailDays.indexOf(7)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="dayChecked7">Sunday</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="md-form mt-3 ">
+                <p class="h4 mb-4">Include in Weekly Report</p>
+                <div class="card">
+                    <div id="daySelection" class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-6">
+
+                                <div class="custom-control custom-checkbox  font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked1" <% if(company.emailColumns.indexOf(1)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="defaultChecked1">Company</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked2" <% if(company.emailColumns.indexOf(2)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="defaultChecked2">Campaign</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked3" <% if(company.emailColumns.indexOf(3)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="defaultChecked3">People</label>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-6" >
+                                <div class="custom-control custom-checkbox font-weight-bold ">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked4" <% if(company.emailColumns.indexOf(4)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="defaultChecked4">Delivered</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold ">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked5" <% if(company.emailColumns.indexOf(5)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="defaultChecked5">Open</label>
+                                </div>
+                                <div class="custom-control custom-checkbox font-weight-bold ">
+                                    <input type="checkbox" class="custom-control-input" id="defaultChecked6" <% if(company.emailColumns.indexOf(6)>-1){%> checked<%}%>>
+                                    <label class="custom-control-label" for="defaultChecked6">Response</label>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <p class="h4 mb-4">Sender Account Information &nbsp;<i data-toggle="tooltip" title="Enable less secuure app in gmail" class="fa fa-question"></i></p>
+            <div class="md-form mt-3">
+                <div class="card">
+
+                </div>
+                <input type="email" id="senderEmailAddress" class="form-control" value="<%=company.senderEmail%>" required>
+                <label class="active" for="senderEmailAddress">Sender Email Address</label>
+            </div>
+            <div class="md-form mt-3">
+                <input type="password" id="senderPassword" class="form-control" value="<%=company.senderPassword%>" required>
+                <label class="active" for="senderPassword">Password</label>
+            </div>
+            <p class="h4 mb-4">Send Report to</p>
+            <div class="md-form mt-3 card">
+                <ul class="list-group">
+                    <%for(let r of company.sendTo){%>
+                    <li class="list-group-item d-flex justify-content-between align-items-center" data-email="<%=r%>">
+                        <%=r%>
+                        <span title="Delete Email" class="badge badge-danger badge-pill">DELETE</span>
+                    </li>
+                    <%}%>
+                </ul>
+            </div>
+            <div class="md-form mt-3 input-group sendTO" >
+                <label for="inputIconEx1">E-mail address</label>
+                <input type="email" id="inputIconEx1" class="form-control" value="" required>
+
+                <span class="input-group-btn">
+                    <a id="addMoreEmail" title="Add Email" class="btn btn-info"><i class="fa fa-plus"></i></a>
+                </span>
+            </div>
+
+            <p class="h4 mb-4">Default Message</p>
+            <div class="md-form mt-3" >
+                <textarea class="form-control" id="defaultMessage" rows="7"><%=company.defaultMessage %></textarea>
+            </div>
+
+            <input id="existingSendTo" type="hidden" value="<%=company.sendTo.join(",")%>">
+            <input id="companyId" type="hidden" value="<%=company._id%>">
+            <button id="saveCompany" class="btn btn-success">Save Company</button>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
+
+</body>
+
+<script>
+    $(document).ready(function (e) {
+
+        $('body').on('click','.badge-pill',function (e) {
+            $(this).parent().remove();
+        });
+
+
+        $("#addMoreEmail").click(function (e) {
+            e.preventDefault();
+            var newEmail = `<li class="list-group-item d-flex justify-content-between align-items-center" data-email=`+$("#inputIconEx1").val()+`>`+
+                $("#inputIconEx1").val()+`
+                        <span title="Delete Email" class="badge badge-danger badge-pill">DELETE</span>
+                    </li>`;
+
+            $(".list-group").append(newEmail);
+            $("#inputIconEx1").val("");
+        });
+
+
+
+        $("#saveCompany").click(function (e) {
+            e.preventDefault();
+
+            var doFormValidation = true;
+
+            if(doFormValidation){
+                var defaultMailDays = [];
+                for(i=1;i<=7;i++){
+                    if($("#dayChecked"+i).prop('checked')){
+                        defaultMailDays.push(i);
+                    }
+                }
+                
+                
+                var emailColumns= [];
+                for(i=1;i<=11;i++){
+                    if(!$("#defaultChecked"+i).hasClass('hidden') && $("#defaultChecked"+i).prop('checked')){
+                        emailColumns.push(i);
+                    }
+                }
+                
+                var sendTo = [];
+                $(".badge-pill").parent().each(function (index) {
+                    sendTo.push($(this).data('email'));
+                });
+
+                if($("#inputIconEx1").val() !=''){
+                    sendTo.push($("#inputIconEx1").val());
+                }
+
+                $.ajax({
+
+                    url:'/updateReplyIOCompany',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id:$("#companyId").val(),
+                        updateObject: {
+                            _id:$("#companyId").val(),
+                            name:$("#companyName").val(),
+                            accountEmail : $("#accountEmail").val(),
+                            defaultMailDays : defaultMailDays,
+                            emailColumns: emailColumns,
+                            senderEmail: $("#senderEmailAddress").val(),
+                            senderPassword: $("#senderPassword").val(),
+                            sendTo: sendTo,
+                            defaultMessage:$("#defaultMessage").val()
+                        }
+                    },
+                    success: function (data) {
+                        alert('Updated Successfully');
+                        window.location = '/replyIOcompanies';
+                    },
+                    error : function (xhr, ajaxOptions, thrownError) {
+                        if(xhr.status!=200) {
+
+                            alert('Something went wrong with Saving Company, pleas refresh the page and try again');
+                        }
+                    }
+                });
+            }
+
+        });
+
+    });
+</script>
+
+<style>
+    #daySelection .custom-control{
+        margin-left: 20%;
+    }
+    #additonalColumnSelection .custom-control{
+        margin-left: 10%;
+    }
+
+</style>
+</html>
