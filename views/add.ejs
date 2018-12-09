@@ -232,12 +232,16 @@
                 <label class="active" for="senderPassword">Password</label>
             </div>
             <p class="h4 mb-4">Send Report to</p>
-            <div class="md-form mt-3 sendTO" >
-
-                <i class="fa fa-envelope prefix"></i>
-                <input type="email" id="inputIconEx1" class="form-control" value="" required>
+            <div class="md-form mt-3 card">
+                <ul class="list-group">
+                </ul>
+            </div>
+            <div class="md-form mt-3 input-group sendTO" >
                 <label for="inputIconEx1">E-mail address</label>
-                <button id="#additionalReciver"><i class="fa fa-plus"></i></button>
+                <input type="email" id="inputIconEx1" class="form-control" value="" required>
+                <span class="input-group-btn">
+                    <a id="addMoreEmail" title="Add Email" class="btn btn-info"><i class="fa fa-plus"></i></a>
+                </span>
             </div>
 
             <p class="h4 mb-4">Default Message</p>
@@ -267,6 +271,17 @@
 <script>
     $(document).ready(function (e) {
 
+        $("#addMoreEmail").click(function (e) {
+            e.preventDefault();
+            var newEmail = `<li class="list-group-item d-flex justify-content-between align-items-center" data-email=`+$("#inputIconEx1").val()+`>`+
+                $("#inputIconEx1").val()+`
+                        <span title="Delete Email" class="badge badge-danger badge-pill">DELETE</span>
+                    </li>`;
+
+            $(".list-group").append(newEmail);
+            $("#inputIconEx1").val("");
+        });
+
         $("#addCompany").click(function (e) {
             e.preventDefault();
 
@@ -287,13 +302,21 @@
                         emailColumns.push(i);
                     }
                 }
-                
+
                 var sendTo = [];
-                $(".sendTO input").each(function (index) {
-                    if($(this).val() != ''){
-                        sendTo.push($(this).val());
-                    }
+                $(".badge-pill").parent().each(function (index) {
+                    sendTo.push($(this).data('email'));
                 });
+
+                if($("#inputIconEx1").val() !=''){
+                    sendTo.push($("#inputIconEx1").val());
+                }
+                // var sendTo = [];
+                // $(".sendTO input").each(function (index) {
+                //     if($(this).val() != ''){
+                //         sendTo.push($(this).val());
+                //     }
+                // });
 
                 $.ajax({
 
