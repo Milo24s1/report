@@ -77,7 +77,12 @@
             <% for (var i=0; i< items.length;i++){ %>
             <tr>
                 <th class="col-3" scope="row"><%= items[i].name %></th>
-                <th><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></th>
+                <th><div class="d-inline"><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></div><div class="material-switch " style="padding-left: 95px;
+margin-top: -19px" >
+                        <input id="statusSwitchOption_<%= items[i]._id %>" name="statusSwitchOption_<%= items[i]._id %>" type="checkbox"
+                               data-status=<%= items[i].isActive==1%> <% if(items[i].isActive==1){%> checked<%}%> />
+                        <label for="statusSwitchOption_<%= items[i]._id %>" class="success-color"></label>
+                    </div></th>
                 <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/deleteReplyIOCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
                 <td class="col-1"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
                 <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Edit Company Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
@@ -183,6 +188,36 @@
         var currentToken = null;
         var currentItemId = null;
         var tempCurrentItemId = null;
+
+        //making switch enable/disable
+        $(".material-switch input").click(function( e ) {
+            e.preventDefault();
+            var selectedElement = $(this);
+            var newStatus = $(this).prop('checked');
+            console.log('new sta '+newStatus);
+            var newStatusText = newStatus ? 'Enabled': 'Disabled';
+            $.ajax({
+                url: '/updateReplyIOCompany',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    id: selectedElement.prop('id').split("_")[1],
+                    isActive:$(this).prop('checked') ? 1:0
+                },
+                success: function (data) {
+                    console.log(data);
+
+                    selectedElement.parent().siblings().first().html(newStatusText);
+                    selectedElement.prop('checked',newStatus);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if(xhr.status!=200) {
+                    alert('Something went wrong with Updating Status, please refresh the page and try again');
+                    }
+                }
+            });
+        });
+
 
         $(".fa-cog").click(function (e) {
 

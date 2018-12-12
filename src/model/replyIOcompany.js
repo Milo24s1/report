@@ -22,13 +22,14 @@ ReplyIOCompanyController.addNewCompany = function (req,res) {
 };
 ReplyIOCompanyController.updateCompany = function(req,res){
     try {
-        if(req.body.updateObject.sendTo == undefined){
+        if(req.body.updateObject != undefined && req.body.updateObject.sendTo == undefined){
             req.body.updateObject.sendTo = [];
         }
-        ReplyIOCompany.findByIdAndUpdate(req.body.id,req.body.updateObject,function (err,data) {
+        ReplyIOCompany.update({_id:req.body.id},{$set:req.body.updateObject?req.body.updateObject:req.body},function (err,data) {
 
             if(err){
-                res.status(500).send({err:err});
+                console.log(err);
+                res.status(400).send({err:err});
             }
             else {
                 res.status(200).send({data:data});
@@ -50,6 +51,7 @@ ReplyIOCompanyController.updateCompany = function(req,res){
         });
     }
     catch (e) {
+        console.log(e);
         res.status(500).send({err:e});
     }
 };
