@@ -108,7 +108,17 @@
             <tr>
                 <th class="col-3" scope="row"><%= items[i].companyName %></th>
                 <th><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></th>
-                <th><a data-original-title="Quick Info" data-animation="false" data-easein="slideRightIn" href="#" class="" data-html="true" rel="popover" data-placement="right" data-content="<div><b>Send to</b><br><%= items[i].sendTo==null?'': items[i].sendTo.join(" , ") %></div>"><i class="fa fa-info-circle fa-2x grey-text pr-3" aria-hidden="true"></i></a></th>
+                <th><a data-original-title="Quick Info" data-animation="false" data-easein="slideRightIn" href="#" class="" data-html="true" rel="popover" data-placement="right"
+                       data-content="
+                       <div><b>Send to</b><br><%= items[i].sendTo==null?'': items[i].sendTo.join(" , ") %></div>
+                       <br>
+                       <div><b>Company Email</b><br><%= items[i].accountEmail %></div>
+                       <br>
+                       <div><b>Sender Email</b><br><%= items[i].senderEmail %></div>
+                       <br>
+                       <div><b>Sender Password</b><br><%= items[i].senderPassword==''?'Not Set':'Set' %></div>
+                        ">
+                        <i class="fa fa-info-circle fa-2x grey-text pr-3" aria-hidden="true"></i></a></th>
                 <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/deleteCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
                 <td class="col-1"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
                 <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Edit Company Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
