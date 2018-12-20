@@ -98,6 +98,7 @@
             <thead class="white-text">
             <th scope="col">Company</th>
             <th scope="col">Status</th>
+            <th scope="col">Info</th>
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -107,6 +108,7 @@
             <tr>
                 <th class="col-3" scope="row"><%= items[i].companyName %></th>
                 <th><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></th>
+                <th><a data-original-title="Quick Info" data-animation="false" data-easein="slideRightIn" href="#" class="" data-html="true" rel="popover" data-placement="right" data-content="<div><b>Send to</b><br><%= items[i].sendTo==null?'': items[i].sendTo.join(" , ") %></div>"><i class="fa fa-info-circle fa-2x grey-text pr-3" aria-hidden="true"></i></a></th>
                 <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/deleteCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
                 <td class="col-1"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
                 <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Edit Company Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
@@ -230,8 +232,17 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+
 <script>
     $(document).ready(function () {
+
+        $('a[rel=popover]').popover({ trigger: "hover focus" });
+
+
+
+
         var inputCount = 1;
         var currentToken = null;
         var currentItemId = null;
