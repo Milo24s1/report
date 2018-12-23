@@ -1,3 +1,6 @@
 module.exports ={
-    apiKey: ''
+    apiKey: '',
+    replyIOSecret: '',
+    email:'',
+    password: ''
 };

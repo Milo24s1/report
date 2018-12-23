@@ -1,9 +1,11 @@
 const ReplyIOController = {};
 const request = require('request');
+const moment = require('moment');
 const replyIOCredintials = require('../../config/replyIOCredintials');
 const API_BASE_PATH = 'https://api.reply.io/v1/';
 const ReplyIOCampaignRecord = require('../../model/replyIOCampaignRecord');
 const ReplyIOCompany = require('../../model/replyIOCompany');
+const ReplyIOPeople = require('../../model/replyIOPeople');
 
 ReplyIOController.getReplyIOCompanies = function(req,res){
 
@@ -108,6 +110,41 @@ ReplyIOController.callReplyIOAPI = function(api,method){
           resolve(e);
       }
   }) ;
+};
+
+
+ReplyIOController.updateCampaignRepliesViaCron = function(req,res){
+    try {
+        if(req.body.replyIOSecret == replyIOCredintials.replyIOSecret){
+            const replies =req.body.replies.map(o=>{
+                o.lastReplyDate = moment(o.lastReplyDate);
+                o.addedDate = moment();
+                return o;
+            });
+            console.log(replies.length);
+
+
+
+            ReplyIOPeople.addPeopleRecord(replies,(err,data)=>{
+                if(err){
+                    console.log(err);
+                    res.status(200).send({msg:err});
+                }
+                else {
+                    res.status(200).send({msg:data});
+                }
+            });
+
+        }
+        else {
+            res.status(400).send({'error':'Bad request'});
+        }
+
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).send({err:e});
+    }
 };
 
 async function test(){
