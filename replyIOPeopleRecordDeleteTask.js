@@ -2,7 +2,8 @@ const moment = require('moment');
 const request = require('request');
 const replyIOCredintials = require('./config/replyIOCredintials');
 let systemDate = moment().format("YYYY-MM-DD");
-const DELETE_API_PATH = 'http://localhost:9999/api/deleteReplyIOPeople';
+const userConfig = require('./config/userConfig');
+const DELETE_API_PATH = userConfig.systemHost+'api/deleteReplyIOPeople';
 if(process.argv.length==3){
     systemDate = process.argv[2];
 }

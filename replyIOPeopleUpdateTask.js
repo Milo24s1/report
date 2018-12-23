@@ -1,11 +1,12 @@
 const replyIOConfig = require('./config/replyIOConfig');
 const replyIOCredintials = require('./config/replyIOCredintials');
 const config = require('./config/credintials');
+const userConfig = require('./config/userConfig');
 const ReplyIOController = require('./src/model/replyIO');
 const request = require('request');
 const cheerio = require('cheerio');
 const fs = require('fs');
-const DASHBOARD_API = `http://localhost:9999/api/replyIOReplies`;
+const DASHBOARD_API = `${userConfig.systemHost}api/replyIOReplies`;
 
 
 run();
