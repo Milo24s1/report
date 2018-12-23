@@ -17,9 +17,16 @@ router.post('/jetbuzzReplies',function (req,res) {
  * this is route for post data from replyIOPeopleUpdateTask
  */
 router.post('/replyIOReplies',function (req,res) {
-    console.log('called route');
     ReplyIOController.updateCampaignRepliesViaCron(req,res);
 });
 
+
+/**
+ * this is the route for delete replyIOPeopleRecords
+ * @type {Router|router}
+ */
+router.post('/deleteReplyIOPeople',(req,res)=>{
+    ReplyIOController.deleteReplyIOPeople(req,res);
+});
 
 module.exports = router;

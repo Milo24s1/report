@@ -147,6 +147,28 @@ ReplyIOController.updateCampaignRepliesViaCron = function(req,res){
     }
 };
 
+
+ReplyIOController.deleteReplyIOPeople = function(req,res){
+
+    try {
+        const fromDate = req.body.fromDate != undefined ? moment(req.body.fromDate): moment();
+        ReplyIOPeople.removeRecords({addedDate:{$lte: fromDate}},function (err,data) {
+            if(err){
+               console.log(e);
+               res.status(500).send({err:e});
+            }
+            else {
+                res.status(200).send({msg:"Successfully Deleted"});
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).send({"err":e});
+    }
+
+
+};
 async function test(){
     console.log('calling test funcion');
     const result = await ReplyIOController.callReplyIOAPI('campaigns','GET');

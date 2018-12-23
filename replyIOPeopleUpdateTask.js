@@ -293,6 +293,7 @@ function postDataToDashboard(replies) {
 
 function filterPostFields(prospects) {
     const filteredRepliesSet = [];
+    let item = {};
     for (let prospect of prospects){
         item.id = prospect.id;
         item.email = prospect.email;
