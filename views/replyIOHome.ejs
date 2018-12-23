@@ -212,11 +212,12 @@
                         reachListDom += `
                         <li class="list-group-item" style="border: none;">
                             <div class="card" style="padding: 15px;">
-                                <div class="nameIcon">${item.name.slice(0,1).toUpperCase()}</div>
+                                <div class="nameIcon">${item.name.slice(0, 1).toUpperCase()}</div>
                                 <div class="textContent">
                                     <div class="font-weight-bold" style="color: black">${item.name}</div>
                                     <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${item.title}</div>
                                     <div class=" font-weight-bold" style="font-size: 13px;color: blue;">${item.email}</div>
+                                    <div class=" font-weight-bold" style="font-size: 13px;color: #ff1b9b;">${new Date(item.lastReplyDate).toLocaleString()}</div>
                                 </div>
                             </div>
                         </li>
