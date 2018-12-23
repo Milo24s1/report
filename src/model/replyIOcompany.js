@@ -1,6 +1,7 @@
 const ReplyIOCompanyController = {};
 const ReplyIOCompany = require('../../model/replyIOCompany');
-const CampaignRecord = require('../../model/campaignRecord');
+const ReplyIOPeople = require('../../model/replyIOPeople');
+const ReplyIOCampaignRecord = require('../../model/replyIOCampaignRecord');
 
 
 ReplyIOCompanyController.addNewCompany = function (req,res) {
@@ -117,5 +118,62 @@ ReplyIOCompanyController.deleteCompanyFromDatabase = function (req,res) {
 };
 
 
+ReplyIOCompanyController.getReplyIOCompanyReach = function(req,res){
+    try {
+        const perPage = 20;
+        const options= {
+            sort: req.body.sortParams,
+            skip: perPage*Number(req.body.pageNumber),
+            limit: perPage
+        };
+        console.log(req.body.searchParams.campaignIdList);
+        if(req.body.searchParams.campaignIdList.length==''){
+
+            ReplyIOCampaignRecord.getCampaignList({},function (err,data) {
+                if(err){
+                    console.log(err);
+                }
+                else {
+
+                    const campaignIdList = data.
+                    filter(d => d.name.split("-").length>1 && d.name.split("-")[1].trim()==req.body.companyName.trim())
+                        .map(o => o.id);
+
+                    ReplyIOPeople.getPeopleList({campaignId:{$in:campaignIdList}},null,options,function (err,data) {
+
+                        if(err){
+                            console.log(err);
+                            res.status(400).send({msg:'Could not load the list',e:err});
+                        }
+                        else {
+                            res.status(200).send({list:data,campaignIdList:campaignIdList});
+                        }
+                    })
+
+                }
+            });
+        }
+        else {
+            ReplyIOPeople.getPeopleList({campaignId:{$in:req.body.searchParams.campaignIdList}},null,options,function (err,data) {
+
+                if(err){
+                    console.log(err);
+                    res.status(400).send({msg:'Could not load the list',e:err});
+                }
+                else {
+                    res.status(200).send({list:data,campaignIdList:req.body.searchParams.campaignIdList});
+                }
+            })
+        }
+
+
+
+
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).send({msg:'Could not load the list',e:e})
+    }
+};
 
 module.exports = ReplyIOCompanyController;

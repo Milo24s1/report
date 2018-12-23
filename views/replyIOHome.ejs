@@ -94,6 +94,35 @@
     <div id="loader" class="loader invisible center-block"></div>
 </div>
 
+<div class="modal fade" id="reachModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">People who reach back</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body" style="height: 370px;overflow-y: auto">
+                <ul class="list-group reach-list">
+
+                </ul>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
 <div style="height: 50vh">
 </div>
 <!-- Footer -->
@@ -138,12 +167,12 @@
 
                        trCollection += `
                         <tr>
-                            <td class="textCol">${sortedKeys[i]}</td>
+                            <td class="textCol" >${sortedKeys[i]}</td>
                             <td class="textCol">Email Prospecting</td>
                             <td class="numCol">${record.peopleCount}</td>
-                            <td class="numCol">${record.deliveriesCount}</td>
-                            <td class="numCol">${record.opensCount}</td>
-                            <td class="numCol">${record.repliesCount}</td>
+                            <td class="numCol ">${record.deliveriesCount}</td>
+                            <td class="numCol ">${record.opensCount}</td>
+                            <td class="numCol campReach">${record.repliesCount}</td>
                         </tr>
 
                        `;
@@ -154,6 +183,64 @@
                error: function () {
 
                }
+            });
+        }
+
+
+        $('body').on('click','.campReach',function () {
+
+            var companyName = $(this).parent().find('td:nth-child(1)').html();
+            lazyReachLoad(0,companyName,null);
+        });
+
+        function lazyReachLoad(next,companyName,campaignIdList) {
+            $.ajax({
+                url:'/getReplyIOCompanyReach',
+                method:'POST',
+                dataType: 'json',
+                data:{
+                    searchParams : {campaignIdList:campaignIdList},
+                    sortParams: {addedDate:-1},
+                    pageNumber:next,
+                    companyName:companyName
+                },
+                success: function (data) {
+                    var reachListDom = ``;
+
+                    for(i=0;i<data.list.length;i++){
+                        var item = data.list[i];
+                        reachListDom += `
+                        <li class="list-group-item" style="border: none;">
+                            <div class="card" style="padding: 15px;">
+                                <div class="nameIcon">${item.name.slice(0,1).toUpperCase()}</div>
+                                <div class="textContent">
+                                    <div class="font-weight-bold" style="color: black">${item.name}</div>
+                                    <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${item.title}</div>
+                                    <div class=" font-weight-bold" style="font-size: 13px;color: blue;">${item.email}</div>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                    }
+
+
+                    if(next==0){
+                        $(".list-group-item").remove();
+                    }
+                    $(".reach-list").append(reachListDom);
+                    if(next==0){
+                        $("#reachModal").modal('show');
+                    }
+                    if(data.list.length==20){
+                        next++;
+                        lazyReachLoad(next,campId,data.campaignIdList);
+                    }
+
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
             });
         }
     });
@@ -174,6 +261,22 @@
     }
     .textCol{
         width: 30%;
+    }
+    .nameIcon{
+        background-color: #0ea882;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 18px;
+        font-weight: 800;
+        color: white;
+        position: absolute;
+        text-align: center;
+        line-height: 2.7;
+    }
+    .textContent{
+        margin-left: 75px;
+        padding-right: 10px;
     }
 </style>
 </body>

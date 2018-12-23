@@ -91,4 +91,8 @@ router.get('/deleteReplyIOCompany/:id', function(req, res){
     ReplyIOCompanyController.deleteCompanyFromDatabase(req,res);
 });
 
+router.post('/getReplyIOCompanyReach',function (req,res) {
+    ReplyIOCompanyController.getReplyIOCompanyReach(req,res);
+});
+
 module.exports = router;

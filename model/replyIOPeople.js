@@ -40,5 +40,5 @@ module.exports.getPeopleList = function(searchParams,fields,options,callback){
 
 module.exports.removeRecords = function (condition,callback) {
     ReplyIOPeopleRecord.remove(condition,callback);
-}
+};
 
