@@ -3,9 +3,10 @@ const nodemailer = require('nodemailer');
 const moment = require('moment');
 const ReplyIOCompany = require('../../model/replyIOCompany');
 const ReplyIOCampaignRecord = require('../../model/replyIOCampaignRecord');
-const People = require('../../model/people');
+const ReplyIOPeople = require('../../model/replyIOPeople');
 const REPLIES_SHOWN_IN_EMAIL = 12;
 const DATA_PULLING_DAY = 2;
+const csv = require('to-csv');
 
 
 ReplyIOEmailController.sendInstantEmail = function(req,res){
@@ -49,13 +50,13 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                         if(customReceivers != undefined && customReceivers.length>0){
 
                             //TODO discuss with client which records needs to be shown (active or archive)
-                            ReplyIOCampaignRecord.getCampaignList({},function (err,data) {
+                            ReplyIOCampaignRecord.getCampaignList({},async function (err,data) {
                                if(err){
                                    callback(500,err);
                                }
                                else {
 
-                                   let html = ReplyIOEmailController.getEmailBody(data,customSelection,customMessage,company.name);
+                                   let {html,matchingCampaignsIdList} = ReplyIOEmailController.getEmailBody(data,customSelection,customMessage,company.name);
 
                                    const transporter = nodemailer.createTransport({
                                        host: 'smtp.gmail.com',
@@ -74,6 +75,16 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                                        // text: 'Hello world?', // plain text body
                                        html: html // html body
                                    };
+
+
+                                   let {csvDataInput,isAttachmentAvailable} = await getRepliesAsCsvcontent(matchingCampaignsIdList);
+                                   if(isAttachmentAvailable){
+                                       let csvData = csv(csvDataInput);
+                                       mailOptions.attachments =  [{
+                                           filename: `${company.name}_replies.csv`,
+                                           content: csvData
+                                       }];
+                                   }
 
 
                                    transporter.sendMail(mailOptions, (error, info) => {
@@ -117,11 +128,12 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
 ReplyIOEmailController.getEmailBody = function(data,customSelection,customMessage,companyName){
 
     let filteredData = data.filter(d => d.name.split("-").length>1 && d.name.split("-")[1].trim()==companyName);
+    let matchingCampaignsIdList = [];
 
     let counter=0;
     let existingRecords = {};
     for(let d of filteredData){
-
+        matchingCampaignsIdList.push(d.id);
         if(counter==0){
             existingRecords = d;
         }
@@ -351,7 +363,7 @@ text-align: left;
     html += `</tbody></table>`;
 
 
-    return header+html;
+    return {html:header+html,matchingCampaignsIdList:matchingCampaignsIdList};
 };
 
 ReplyIOEmailController.getReplyContent = function(companyId){
@@ -520,6 +532,49 @@ height: 65px">
     return header+body;
 };
 
+function getRepliesAsCsvcontent(matchingCampaignsIdList) {
+    console.log('********* getRepliesAsCsvcontent ****************');
+    let formattedCsvDataInput = [];
+    let fromDate = getFromDate();
+    let isAttachmentAvailable = false;
+
+
+    return new Promise(resolve=>{
+        try {
+            console.log(matchingCampaignsIdList,fromDate);
+            ReplyIOPeople.getPeopleList({campaignId:{$in:matchingCampaignsIdList },lastReplyDate:{$gte: fromDate}},{ name: 1, title:1,email:1,_id: 0 },null,function (err,data) {
+                if(err){
+                    console.log(err);
+                    resolve({isAttachmentAvailable:false,csvDataInput:formattedCsvDataInput});
+                }
+                else {
+
+                    const numOfSearchResult = data.length;
+                    console.log('data len is '+numOfSearchResult);
+                    if(numOfSearchResult>0){
+                        isAttachmentAvailable = true;
+                        //add data to up to max level
+                        for (let i= 0;i<numOfSearchResult;i++){
+                            formattedCsvDataInput.push({'Name':data[i].name,'Title':data[i].title,'Email':data[i].email});
+                        }
+
+                        resolve( {isAttachmentAvailable: isAttachmentAvailable, csvDataInput:formattedCsvDataInput});
+
+                    }
+                    else {
+                        resolve( {isAttachmentAvailable: false, csvDataInput:formattedCsvDataInput});
+                    }
+                }
+
+            });
+        }
+        catch (e) {
+            console.log(e);
+            resolve({isAttachmentAvailable:isAttachmentAvailable,csvDataInput:formattedCsvDataInput});
+        }
+    });
+}
+
 function getFromDate(){
     let systemDate = moment().format("YYYY-MM-DD");
     let currentDay = moment(systemDate).isoWeekday();
@@ -534,4 +589,5 @@ function getFromDate(){
 
     return moment(systemDate).subtract(subs, 'days');
 }
+
 module.exports = ReplyIOEmailController;
