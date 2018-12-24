@@ -196,6 +196,7 @@ function getCampaignReplies(campaignId) {
                     }
                     else {
                         const formattedResponse = JSON.parse(html);
+
                         console.log('posting data from page '+formattedResponse.pageNum+' to API');
                         postDataToDashboard(filterPostFields(formattedResponse.prospects));
 
@@ -280,6 +281,7 @@ function postDataToDashboard(replies) {
         },
     };
 
+    console.log('posting '+repliesPostOptions.form.replies.length+' data');
     request.post(repliesPostOptions,(error,response,html)=>{
 
         if(error){
@@ -287,15 +289,14 @@ function postDataToDashboard(replies) {
         }
         else {
             console.log('Successfully Posted');
-            console.log(html);
         }
     });
 }
 
 function filterPostFields(prospects) {
     const filteredRepliesSet = [];
-    let item = {};
     for (let prospect of prospects){
+        let item = {};
         item.id = prospect.id;
         item.email = prospect.email;
         item.name = prospect.name;
@@ -306,6 +307,7 @@ function filterPostFields(prospects) {
 
         filteredRepliesSet.push(item);
     }
+    console.log('filteredRepliesSet len is '+filteredRepliesSet.length);
     return filteredRepliesSet;
 }
 
