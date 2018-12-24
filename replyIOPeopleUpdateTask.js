@@ -96,7 +96,6 @@ function processCampaignList(campaignList){
                         try {
                             console.log('start processing '+campaign.name);
                             const replyResponse = await getCampaignReplies(campaign.id);
-                            break;
                         }
                         catch (e) {
                             console.log(e);
