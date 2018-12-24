@@ -542,7 +542,7 @@ function getRepliesAsCsvcontent(matchingCampaignsIdList) {
     return new Promise(resolve=>{
         try {
             console.log(matchingCampaignsIdList,fromDate);
-            ReplyIOPeople.getPeopleList({campaignId:{$in:matchingCampaignsIdList },lastReplyDate:{$gte: fromDate}},{ name: 1, title:1,email:1,_id: 0 },null,function (err,data) {
+            ReplyIOPeople.getPeopleList({campaignId:{$in:matchingCampaignsIdList },lastReplyDate:{$gte: fromDate}},{ name: 1, title:1,email:1,lastReplyDate:1,_id: 0 },{sort:{lastReplyDate:-1}},function (err,data) {
                 if(err){
                     console.log(err);
                     resolve({isAttachmentAvailable:false,csvDataInput:formattedCsvDataInput});
@@ -555,7 +555,7 @@ function getRepliesAsCsvcontent(matchingCampaignsIdList) {
                         isAttachmentAvailable = true;
                         //add data to up to max level
                         for (let i= 0;i<numOfSearchResult;i++){
-                            formattedCsvDataInput.push({'Name':data[i].name,'Title':data[i].title,'Email':data[i].email});
+                            formattedCsvDataInput.push({'Name':data[i].name,'Title':data[i].title,'Email':data[i].email,'last Reply Date':data[i].lastReplyDate});
                         }
 
                         resolve( {isAttachmentAvailable: isAttachmentAvailable, csvDataInput:formattedCsvDataInput});
