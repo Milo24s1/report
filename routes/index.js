@@ -6,6 +6,7 @@ const EmailController = require('../src/model/email');
 const ReplyIOEmailController = require('../src/model/replyIOemail');
 const ReplyIOController = require('../src/model/replyIO');
 const ReplyIOCompanyController = require('../src/model/replyIOcompany');
+const EmailQueueController = require('../src/model/emailQueueController');
 
 /*
 GET home page
@@ -93,6 +94,13 @@ router.get('/deleteReplyIOCompany/:id', function(req, res){
 
 router.post('/getReplyIOCompanyReach',function (req,res) {
     ReplyIOCompanyController.getReplyIOCompanyReach(req,res);
+});
+
+router.get('/emailQueue', function(req, res){
+    res.render('emailQueue');
+});
+router.post('/getEmailQueueRecordList',function (req,res) {
+    EmailQueueController.getEmailQueueRecordList(req,res);
 });
 
 module.exports = router;

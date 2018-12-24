@@ -9,6 +9,7 @@ const People = require('../../model/people');
 const REPLIES_SHOWN_IN_EMAIL = 12;
 const ADD_ATTACHMENT_ALWAYS = true;
 const DATA_PULLING_DAY = 2;
+const EmailQueueController = require("../../src/model/emailQueueController");
 
 
 EmailController.sendInstantEmail = function(req,res){
@@ -32,6 +33,7 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
             if(err){
                 console.log(err);
                 callback(500,err);
+                EmailQueueController.addRecord('Linkedin','ERROR',`cant find company with companyID ${companyId}`,'','',customReceivers);
             }
             else {
                 if(company.senderEmail && company.senderPassword){
@@ -54,6 +56,8 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
                             CampaignRecord.getCampaignRecordsByCompanyId(companyId,async function (err,data) {
                                if(err){
                                    callback(500,err);
+                                   EmailQueueController.addRecord('Linkedin','ERROR',`No Campaign found  for report for company ${company.companyName}`,company.companyName,company.senderEmail,customReceivers);
+
                                }
                                else {
                                    let html = EmailController.getEmailBody(data,customSelection,customMessage);
@@ -94,9 +98,13 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
                                    transporter.sendMail(mailOptions, (error, info) => {
                                        if (error) {
                                            callback(500,error);
+                                           EmailQueueController.addRecord('Linkedin','ERROR',`Gmail error  for company ${company.companyName} ${error}`,company.companyName,company.senderEmail,customReceivers);
+
                                        }
                                        else {
                                            callback(200,`Message sent: ${info.messageId}`);
+                                           EmailQueueController.addRecord('Linkedin','SUCCESS',`Message sent: ${info.messageId} for company ${company.companyName}`,company.companyName,company.senderEmail,customReceivers);
+
                                        }
 
                                    });
@@ -107,15 +115,18 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
                         }
                         else {
                             callback(400,'No Receivers setup for report, Please set up at lease one Receiver');
+                            EmailQueueController.addRecord('Linkedin','ERROR',`No Receivers setup for report for company ${company.companyName}`,company.companyName,company.senderEmail,customReceivers);
                         }
                     }
                     else {
                         callback(400,'No columns selected for report, Please select at lease one column');
+                        EmailQueueController.addRecord('Linkedin','ERROR',`No columns selected for report for company ${company.companyName}`,company.companyName,company.senderEmail,customReceivers);
                     }
 
                 }
                 else {
                     callback(400,'Sender Account username/password is not configured');
+                    EmailQueueController.addRecord('Linkedin','ERROR',`Sender Account username/password is not configured for company ${company.companyName}`,company.companyName,'',customReceivers);
                 }
             }
         });

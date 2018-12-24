@@ -7,6 +7,7 @@ const ReplyIOPeople = require('../../model/replyIOPeople');
 const REPLIES_SHOWN_IN_EMAIL = 12;
 const DATA_PULLING_DAY = 2;
 const csv = require('to-csv');
+const EmailQueueController = require("../../src/model/emailQueueController");
 
 
 ReplyIOEmailController.sendInstantEmail = function(req,res){
@@ -30,6 +31,7 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
             if(err){
                 console.log(err);
                 callback(500,err);
+                EmailQueueController.addRecord('ReplyIO','ERROR',`cant find company with companyID ${companyId} ${err}`,'','',customReceivers);
             }
             else {
                 if(company.senderEmail && company.senderPassword){
@@ -53,6 +55,7 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                             ReplyIOCampaignRecord.getCampaignList({},async function (err,data) {
                                if(err){
                                    callback(500,err);
+                                   EmailQueueController.addRecord('ReplyIO','ERROR',`No Campaign found  for report for company ${company.name}`,company.name,company.senderEmail,customReceivers);
                                }
                                else {
 
@@ -90,9 +93,11 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                                    transporter.sendMail(mailOptions, (error, info) => {
                                        if (error) {
                                            callback(500,error);
+                                           EmailQueueController.addRecord('ReplyIO','ERROR',`Gmail error  for company ${company.name} ${error}`,company.name,company.senderEmail,customReceivers);
                                        }
                                        else {
                                            callback(200,`Message sent: ${info.messageId}`);
+                                           EmailQueueController.addRecord('ReplyIO','SUCCESS',`Message sent: ${info.messageId} for company ${company.name}`,company.name,company.senderEmail,customReceivers);
                                        }
 
                                    });
@@ -103,15 +108,18 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                         }
                         else {
                             callback(400,'No Receivers setup for '+company.name+' report, Please set up at lease one Receiver');
+                            EmailQueueController.addRecord('ReplyIO','ERROR',`No Receivers setup for report for company ${company.name}`,company.name,company.senderEmail,customReceivers);
                         }
                     }
                     else {
                         callback(400,'No columns selected for '+company.name+ ' report, Please select at lease one column');
+                        EmailQueueController.addRecord('ReplyIO','ERROR',`No columns selected for report for company ${company.name}`,company.name,company.senderEmail,customReceivers);
                     }
 
                 }
                 else {
                     callback(400,'Sender Account username/password is not configured for '+company.name);
+                    EmailQueueController.addRecord('ReplyIO','ERROR',`Sender Account username/password is not configured for company ${company.name}`,company.name,'',customReceivers);
                 }
             }
         });
@@ -120,6 +128,7 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
     }
     catch (e) {
         callback(500,e);
+        EmailQueueController.addRecord('ReplyIO','ERROR',`App crashed for company with companyID ${companyId} ${e}`,'','',customReceivers);
     }
 
 

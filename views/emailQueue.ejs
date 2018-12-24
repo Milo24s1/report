@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Prospectgenai - Reply.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/css/mdb.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+
+</head>
+<body>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark ">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="/">
+        <img src="/img/ProspectGen_AI01_white.png" height="30" class="d-inline-block align-top" alt="">
+    </a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/replyIOHome">Email
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Companies</a>
+                <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/companies">Linkedin</a>
+                    <a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/replyIOcompanies">Email</a>
+                </div>
+            </li>
+
+        </ul>
+        <!-- Links -->
+
+    </div>
+    <!-- Collapsible content -->
+
+</nav>
+<!--Top Margin-->
+<div class="topMargin" style="height: 10vh">
+</div>
+
+<!--Content-->
+<div id="tableDiv" class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <table class="table">
+            <thead class="white-text">
+            <tr>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Logged</th>
+                <th>Message</th>
+                <th>Company</th>
+                <th>SenderEmail</th>
+                <th>Receivers</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+<!--Loader-->
+<div class="flex-center flex-column">
+    <div id="loader" class="loader invisible center-block"></div>
+</div>
+
+<div class="modal fade" id="reachModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">People who reach back</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body" style="height: 370px;overflow-y: auto">
+                <ul class="list-group reach-list">
+
+                </ul>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<div style="height: 50vh">
+</div>
+<!-- Footer -->
+<footer class="page-footer font-small ">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https:// prospectgenai.com/">  prospectgenai.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        console.log('doc ready');
+        lazyReachLoad(0);
+
+        function lazyReachLoad(next) {
+            console.log('lazyReachLoad called');
+            $.ajax({
+                url:'/getEmailQueueRecordList',
+                method:'POST',
+                dataType: 'json',
+                data:{
+                    searchParams : {},
+                    sortParams: {loggedDate:-1},
+                    pageNumber:next,
+                },
+                success: function (data) {
+                    let tableDom = '';
+                    if(data.list.length > 0){
+                        for(i=0;i<data.list.length;i++){
+
+
+                            tableDom += `<tr>
+                                        <td class="" >${data.list[i].type}</td>
+                                        <td class="" >${data.list[i].status}</td>
+                                        <td class="" >${new Date(data.list[i].loggedDate).toLocaleString()}</td>
+                                        <td class="" >${data.list[i].message}</td>
+                                        <td class="" >${data.list[i].company}</td>
+                                        <td class="" >${data.list[i].senderEmail}</td>
+                                        <td class="" >${data.list[i].receivers}</td>
+                                        </tr>`
+                        }
+                        $("table").append(tableDom)
+                    }
+
+                    if(data.list.length == 20){
+                        next++;
+                        lazyReachLoad(next);
+                    }
+
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if(xhr.status!=200) {
+                        console.log(thrownError);
+                        alert('Something went wrong , Please reload the page');
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+
+<style>
+    table td, table th{
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        line-height: 21.6px;
+        text-align: left;
+    }
+
+    .numCol{
+        text-align: center !important;
+        width: 10%;
+    }
+    .textCol{
+        width: 30%;
+    }
+    .nameIcon{
+        background-color: #0ea882;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 18px;
+        font-weight: 800;
+        color: white;
+        position: absolute;
+        text-align: center;
+        line-height: 2.7;
+    }
+    .textContent{
+        margin-left: 75px;
+        padding-right: 10px;
+    }
+</style>
+</body>
+</html>

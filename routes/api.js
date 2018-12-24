@@ -3,6 +3,7 @@ const router = express.Router();
 const CompanyController = require('../src/model/company');
 const CampaignController = require('../src/model/campaign');
 const EmailController = require('../src/model/email');
+const EmailQueueController = require('../src/model/emailQueueController');
 const ReplyIOController = require('../src/model/replyIO');
 
 router.post('/jetbuzzUpdate',function (req,res) {
@@ -29,4 +30,11 @@ router.post('/deleteReplyIOPeople',(req,res)=>{
     ReplyIOController.deleteReplyIOPeople(req,res);
 });
 
+/**
+ * delete email Queue records via API
+ * @type {Router|router}
+ */
+router.post('/deleteEmailQueueRecords',(req,res)=>{
+    EmailQueueController.deleteEmailQueueRecords(req,res);
+});
 module.exports = router;
