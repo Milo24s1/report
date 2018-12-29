@@ -94,3 +94,25 @@ material switch related css
     background: inherit;
     left: 20px;
 }
+.email-success{
+    background-color: #3ff03f;
+    color: white;
+    font-weight: bold;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    box-shadow: greenyellow 2px 1px 1px 1px;
+}
+
+.email-error{
+    background-color: #de1227;
+    color: white;
+    font-weight: bold;
+    padding-left: 23px;
+    border-radius: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    box-shadow: #781b07 2px 1px 1px 1px;
+}

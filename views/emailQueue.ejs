@@ -179,7 +179,7 @@
 
                             tableDom += `<tr>
                                         <td class="" >${data.list[i].type}</td>
-                                        <td class="" >${data.list[i].status}</td>
+                                        <td  ><div class="${data.list[i].status=='SUCCESS'? 'email-success': 'email-error'}">${data.list[i].status}</div></td>
                                         <td class="" >${new Date(data.list[i].loggedDate).toLocaleString()}</td>
                                         <td class="" >${data.list[i].message}</td>
                                         <td class="" >${data.list[i].company}</td>
