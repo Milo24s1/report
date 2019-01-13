@@ -16,7 +16,7 @@ EmailController.sendInstantEmail = function(req,res){
 
     try {
         EmailController.sendCompanyEmail(req.body.companyId,req.body.customSelection,req.body.emailAddressList,
-            req.body.customMessage, function (status,message) {
+            req.body.customMessage, req.body.customSubject,function (status,message) {
 
             res.status(status).send({message:message});
         });
@@ -26,7 +26,7 @@ EmailController.sendInstantEmail = function(req,res){
     }
 };
 
-EmailController.sendCompanyEmail =  async function(companyId,customSelection,customReceivers,customMessage,callback){
+EmailController.sendCompanyEmail =  async function(companyId,customSelection,customReceivers,customMessage,customSubject,callback){
     try {
 
         Company.getItemById(companyId,function (err,company) {
@@ -78,7 +78,7 @@ EmailController.sendCompanyEmail =  async function(companyId,customSelection,cus
                                    let mailOptions = {
                                        from:  `<${company.senderEmail}>`, // sender address
                                        to: customReceivers.join(','), // list of receivers
-                                       subject: `ProspectGen AI: ${company.companyName} Weekly Report Snapshot ${moment().format("YYYY-MM-DD")}`, // Subject line
+                                       subject: customSubject?customSubject:`ProspectGen AI: ${company.companyName} Weekly Report Snapshot ${moment().format("YYYY-MM-DD")}`, // Subject line
                                        // text: 'Hello world?', // plain text body
                                        html: html+replyHtml // html body
                                    };

@@ -164,9 +164,12 @@ margin-top: -19px" >
                     </div>
                 </div>
                 <br>
+                <p class="font-weight-bold" id="addCustomSubject"><i class="fa fa-envelope-o orange-text" aria-hidden="true"></i>&nbsp;Add Custom Subject </p>
+                <textarea class="form-control" id="customSubject" rows="2"></textarea>
+                <br>
                 <p class="font-weight-bold" id="addCustomMessage"><i class="fa fa-envelope-o purple-text" aria-hidden="true"></i>&nbsp;Add Custom Message </p>
                 <textarea class="form-control" id="customMessage" rows="5"></textarea>
-                    <br>
+                <br>
             </div>
 
             <!--Footer-->
@@ -282,7 +285,8 @@ margin-top: -19px" >
                         emailAddressList : emailAddressList,
                         companyId: currentToken,
                         customSelection: customSelection,
-                        customMessage : $("#customMessage").val()
+                        customMessage : $("#customMessage").val(),
+                        customSubject : $("#customSubject").val()
                     },
                     success: function (data) {
                         $("#loader").addClass('invisible');

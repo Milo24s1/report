@@ -14,7 +14,7 @@ ReplyIOEmailController.sendInstantEmail = function(req,res){
 
     try {
         ReplyIOEmailController.sendCompanyEmail(req.body.companyId,req.body.customSelection,req.body.emailAddressList,
-            req.body.customMessage, function (status,message) {
+            req.body.customMessage, req.body.customSubject, function (status,message) {
 
             res.status(status).send({message:message});
         });
@@ -24,7 +24,7 @@ ReplyIOEmailController.sendInstantEmail = function(req,res){
     }
 };
 
-ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelection,customReceivers,customMessage,callback){
+ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelection,customReceivers,customMessage,customSubject,callback){
     try {
 
         ReplyIOCompany.findById(companyId,function (err,company) {
@@ -74,7 +74,7 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
                                    let mailOptions = {
                                        from:  `<${company.senderEmail}>`, // sender address
                                        to: customReceivers.join(','), // list of receivers
-                                       subject: `ProspectGen AI: Weekly Email Report Snapshot for ${company.name} ${moment().format("YYYY-MM-DD")}`, // Subject line
+                                       subject: customSubject? customSubject:`ProspectGen AI: Weekly Email Report Snapshot for ${company.name} ${moment().format("YYYY-MM-DD")}`, // Subject line
                                        // text: 'Hello world?', // plain text body
                                        html: html // html body
                                    };

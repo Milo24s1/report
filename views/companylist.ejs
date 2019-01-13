@@ -164,6 +164,11 @@
                     </div>
                 </form>
                 <p class="font-weight-bold" id="addEmail"><i class="fa fa-envelope-o cyan-text" aria-hidden="true"></i>&nbsp;Add Another Email </p>
+                <br>
+                <p class="font-weight-bold" id="addCustomSubject"><i class="fa fa-envelope-o orange-text" aria-hidden="true"></i>&nbsp;Add Custom Subject </p>
+                <textarea class="form-control" id="customSubject" rows="2"></textarea>
+                <!--<a><i class="fa fa-copy orange-text" aria-hidden="true"></i>&nbsp;Copy Default subject</a>-->
+                <br>
                 <p class="font-weight-bold" id="addCustomMessage"><i class="fa fa-envelope-o purple-text" aria-hidden="true"></i>&nbsp;Add Custom Message </p>
                 <textarea class="form-control" id="customMessage" rows="7"></textarea>
                 <br>
@@ -320,7 +325,8 @@
                         emailAddressList : emailAddressList,
                         companyId: currentToken,
                         customSelection: customSelection,
-                        customMessage : $("#customMessage").val()
+                        customMessage : $("#customMessage").val(),
+                        customSubject : $("#customSubject").val(),
                     },
                     success: function (data) {
                         $("#loader").addClass('invisible');
