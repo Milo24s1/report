@@ -244,12 +244,14 @@
             <p class="h4 mb-4">Send Report to</p>
             <div class="md-form mt-3 card">
                 <ul class="list-group">
-                    <%for(let r of company.sendTo){%>
+                    <%
+                    if(company.sendTo != null){
+                    for(let r of company.sendTo){%>
                     <li class="list-group-item d-flex justify-content-between align-items-center" data-email="<%=r%>">
                         <%=r%>
                         <span title="Delete Email" class="badge badge-danger badge-pill">DELETE</span>
                     </li>
-                    <%}%>
+                    <% }}%>
                 </ul>
             </div>
             <div class="md-form mt-3 input-group sendTO" >
@@ -266,7 +268,7 @@
                 <textarea class="form-control" id="defaultMessage" rows="7"><%=company.defaultMessage %></textarea>
             </div>
 
-            <input id="existingSendTo" type="hidden" value="<%=company.sendTo.join(",")%>">
+            <input id="existingSendTo" type="hidden" value="<%company.sendTo?company.sendTo.join(","):''%>">
             <input id="companyId" type="hidden" value="<%=company._id%>">
             <button id="saveCompany" class="btn btn-success">Save Company</button>
         </form>
