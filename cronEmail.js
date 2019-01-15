@@ -43,7 +43,7 @@ async function run() {
             if(company.defaultMailDays != undefined){
                 if(company.defaultMailDays.indexOf(dayOfweek)>-1 && company.status != 'DELETED'){
                     jobCount++;
-                    EmailController.sendCompanyEmail(company._id,null,null,null,function (status,message) {
+                    EmailController.sendCompanyEmail(company._id,null,null,null,null,function (status,message) {
                        console.log(status+':'+message);
                         jobCount--;
 
