@@ -239,4 +239,41 @@ CampaignController.getCampaignRepliedList = function(req,res){
         res.status(500).send({msg:'Could not load the list',e:e})
     }
 };
+
+CampaignController.genrateLinkdinReachCSV = function(req,res){
+    try {
+
+        const Json2csvParser = require('json2csv').Parser;
+        const fields = [
+                        {label:'Name',value:'name'},
+                        {label:'Company',value:'pCompany'},
+                        {label:'Title',value:'title'},
+                        {label:'Phone',value:'phone'},
+                        {label:'Email',value:'email'},
+                         ];
+        const json2csvParser = new Json2csvParser({ fields });
+        const options= {
+            sort: {addedDate:-1}
+        };
+        People.getPeopleList({campaignId:req.params.campaignId},null,options,function (err,data) {
+
+            if(err){
+                console.log(err);
+                res.status(400).send({msg:'Could not load the list',e:err});
+            }
+            else {
+                const csv = json2csvParser.parse(data);
+
+//TODO set company name as file name
+                res.setHeader('Content-disposition', 'attachment; filename=data.csv');
+                res.set('Content-Type', 'text/csv');
+                res.status(200).send(csv);
+
+            }
+        })
+    }
+    catch (e) {
+        console.log(e);
+    }
+};
 module.exports = CampaignController;

@@ -89,7 +89,7 @@
 <div id="tableDiv" class="row">
     <div class="col-1"></div>
     <div class="col-10" style="padding-left: 5px; padding-right: 5px;">
-        <table class="table">
+        <table class="table" id="mainTable">
             <thead class="white-text">
             <tr>
                 <th scope="col">Company</th>
@@ -204,9 +204,9 @@
     </div>
 </div>
 <div class="modal fade" id="reachModal" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+    <div class="modal-dialog  modal-notify modal-success "  role="document" style="max-width: 800px" >
         <!--Content-->
-        <div class="modal-content">
+        <div class="modal-content" >
             <!--Header-->
             <div class="modal-header">
                 <p class="heading lead font-weight-bold">People who reach back</p>
@@ -218,14 +218,12 @@
 
             <!--Body-->
             <div class="modal-body" style="height: 370px;overflow-y: auto">
-                <ul class="list-group reach-list">
-
-                </ul>
+               <table class="table" id="modalTable"></table>
             </div>
 
             <!--Footer-->
             <div class="modal-footer">
-
+                <a href="/genrateLinkdinReachCSV" class="btn btn-info btn-sm " data-campId="" id="csvExport">Export to CSV<i class="fa ml-1 fa-download" style="color: white;"></i></a>
             </div>
         </div>
         <!--/.Content-->
@@ -298,7 +296,7 @@
                                         <td class="edit-col"><a data-toggle="modal" data-target="#editor"><i class="fa fa-pencil fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
                                         </tr>`
                         }
-                        $("table").append(tableDom)
+                        $("#mainTable").append(tableDom);
                     }
                     $("#loader").addClass('invisible');
                     if(data.rowData.length != 0){
@@ -429,6 +427,14 @@
         lazyReachLoad(0,campId);
     });
 
+    //CSV export call
+    $("#csvExport").click(function (e) {
+        e.preventDefault();
+        var campId = $(this).data('campid');
+        window.location.href = '/genrateLinkdinReachCSV/'+campId;
+
+    })
+
     function lazyReachLoad(next,campId) {
         $.ajax({
             url:'/getCampaignReach',
@@ -439,34 +445,45 @@
                 sortParams: {addedDate:-1},
                 pageNumber:next
             },
-            success: function (data) {
-
-                var reachListDom = ``;
-
-                for(i=0;i<data.list.length;i++){
-                    var item = data.list[i];
+            success: function(data){
+                var reachListDom = '';
+                if(data.list.length>0 && next==0){
                     reachListDom += `
-                        <li class="list-group-item" style="border: none;">
-                            <div class="card" style="padding: 15px;">
-                                <div class="nameIcon">${item.name.slice(0,1).toUpperCase()}</div>
-                                <div class="textContent">
-                                    <div class="font-weight-bold" style="color: black">${item.name}</div>
-                                    <div class=" font-weight-bold" style="font-size: 13px;color: #e94813;">${item.pCompany}</div>
-                                    <div class=" font-weight-bold" style="font-size: 13px;color: gray;">${item.title}</div>
-                                    <div class=" font-weight-bold" style="font-size: 13px;color: #aa490d;">${item.phone}</div>
-                                    <div class=" font-weight-bold" style="font-size: 13px;color: blue;">${item.email}</div>
-                                </div>
-                            </div>
-                        </li>
+                    <thead class="reach-head white-text">
+                        <tr>
+                            <th>Name</th>
+                            <th>Company</th>
+                            <th>Title</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
                     `;
                 }
 
 
-                if(next==0){
-                    $(".list-group-item").remove();
+
+                for (i=0;i<data.list.length;i++){
+                    var item = data.list[i];
+                    reachListDom += `
+                        <tr class="reach-row">
+                            <td>${item.name}</td>
+                            <td>${item.pCompany}</td>
+                            <td>${item.title}</td>
+                            <td>${item.phone}</td>
+                            <td>${item.email}</td>
+                        </tr>
+                    `;
                 }
-                $(".reach-list").append(reachListDom);
                 if(next==0){
+                    $(".reach-row").remove();
+                    $(".reach-head").remove();
+
+
+                }
+                $("#modalTable").append(reachListDom);
+                if(next==0){
+                    $("#csvExport").data('campid',campId);
                     $("#reachModal").modal('show');
                 }
                 if(data.list.length==20){

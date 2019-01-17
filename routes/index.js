@@ -103,4 +103,7 @@ router.post('/getEmailQueueRecordList',function (req,res) {
     EmailQueueController.getEmailQueueRecordList(req,res);
 });
 
+router.get('/genrateLinkdinReachCSV/:campaignId',function (req,res) {
+    CampaignController.genrateLinkdinReachCSV(req,res);
+});
 module.exports = router;
