@@ -1,6 +1,7 @@
 const CompanyController = {};
 const Company = require('../../model/company');
 const CampaignRecord = require('../../model/campaignRecord');
+const jetbuzCredintials = require('../../config/jetbuzzCredintials');
 
 
 CompanyController.addNewCompany = function (req,res) {
@@ -127,6 +128,30 @@ CompanyController.readCompanyFromDatabase = function(req, res){
     }
     catch (e) {
         res.render('error',{error:''});
+    }
+
+};
+
+CompanyController.getJetbuzzCompanyList = function(req, res){
+    try {
+        if(req.body.jetbuzzSecret== jetbuzCredintials.jetbuzzSecret){
+            Company.getCompanyList(function (err,items) {
+                if(err){
+                    res.send({'companylist':[]});
+                }
+                else {
+                    res.send({'companylist':items});
+
+                }
+            });
+        }
+        else {
+            res.send({'companylist':[]});
+        }
+
+    }
+    catch (e) {
+        res.send({'companylist':[]});
     }
 
 };

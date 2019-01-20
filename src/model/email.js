@@ -1,7 +1,6 @@
 const EmailController = {};
 const nodemailer = require('nodemailer');
 const moment = require('moment');
-const fs = require('fs');
 const csv = require('to-csv');
 const Company = require('../../model/company');
 const CampaignRecord = require('../../model/campaignRecord');
@@ -10,6 +9,7 @@ const REPLIES_SHOWN_IN_EMAIL = 12;
 const ADD_ATTACHMENT_ALWAYS = true;
 const DATA_PULLING_DAY = 2;
 const EmailQueueController = require("../../src/model/emailQueueController");
+const jetbuzzConfig = require('../../config/jetbuzzCredintials');
 
 
 EmailController.sendInstantEmail = function(req,res){
@@ -24,6 +24,23 @@ EmailController.sendInstantEmail = function(req,res){
     catch (e) {
         res.status(500).send({e:e});
     }
+};
+
+EmailController.sendJetbuzzEmail = function(req,res){
+  try {
+      if(req.body.jetbuzzSecret == jetbuzzConfig.jetbuzzSecret){
+          EmailController.sendCompanyEmail(req.body.companyId,null,null,null,null,function (status,message) {
+              console.log(status+':'+message);
+              res.send(status+':'+message)
+          });
+      }
+      else {
+          res.send('Unautorized');
+      }
+  }
+  catch (e) {
+      res.send('Catch Error'+e);
+  }
 };
 
 EmailController.sendCompanyEmail =  async function(companyId,customSelection,customReceivers,customMessage,customSubject,callback){

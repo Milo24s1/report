@@ -6,6 +6,16 @@ const EmailController = require('../src/model/email');
 const EmailQueueController = require('../src/model/emailQueueController');
 const ReplyIOController = require('../src/model/replyIO');
 
+
+router.post('/getJetbuzzCompanyList',(req,res)=>{
+    CompanyController.getJetbuzzCompanyList(req,res);
+});
+
+router.post('/sendJetbuzzEmail',(req,res)=>{
+    EmailController.sendJetbuzzEmail(req,res);
+});
+
+
 router.post('/jetbuzzUpdate',function (req,res) {
     CampaignController.updateCampaignRecordViaJetbuzz(req,res);
 });
