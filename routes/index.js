@@ -15,7 +15,7 @@ GET home page
 router.get('/',(req,res,next)=>{
     const currentTime = moment();
     const fixedtime = moment({h: 8, m: 0});
-    const showDate = currentTime.isBefore(fixedtime)?moment().subtract(1, 'days').format('YYYY-MM-DD'):moment().format('YYYY-MM-DD');
+    const showDate = currentTime.isBefore(fixedtime)?moment().subtract(1, 'days').format('YYYY/MM/DD'):moment().format('YYYY/MM/DD');
     res.render('index',{showDate:showDate});
 });
 

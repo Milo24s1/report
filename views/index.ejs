@@ -90,7 +90,7 @@
     <div class="col-1"></div>
     <div class="col-10" style="padding-left: 5px; padding-right: 5px;">
         <div style="padding-top: 5px;padding-bottom: 5px">
-            <span class="lastUpdateLable">Last updated: <%= showDate %> 08:00:00 UTC</span>
+            <span id="lastUpdateLable" class="lastUpdateLable fade" data-lastupdatetime="<%= showDate%>" ></span>
         </div>
         <table class="table" id="mainTable">
             <thead class="white-text">
@@ -259,10 +259,13 @@
 
 
 <script>
+
     $(document).ready(function () {
 
+        $("#lastUpdateLable").text('Last updated: '+new Date($("#lastUpdateLable").data('lastupdatetime')+' 8:00:00 UTC').toLocaleString()).removeClass('fade');
 
-    var defaultRes1,defaultRes2,defaultRes3,defaultRes8;
+
+            var defaultRes1,defaultRes2,defaultRes3,defaultRes8;
     var res1Col,res2Col,res3Col,prosCol,deliCol,openCol,resCol,statusCol,campCol;
     var currentToken = null;
     var currentCampId = null;
