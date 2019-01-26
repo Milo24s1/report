@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const router = express.Router();
 const CompanyController = require('../src/model/company');
 const CampaignController = require('../src/model/campaign');
@@ -12,7 +13,10 @@ const EmailQueueController = require('../src/model/emailQueueController');
 GET home page
  */
 router.get('/',(req,res,next)=>{
-    res.render('index');
+    const currentTime = moment();
+    const fixedtime = moment({h: 8, m: 0});
+    const showDate = currentTime.isBefore(fixedtime)?moment().subtract(1, 'days').format('YYYY-MM-DD'):moment().format('YYYY-MM-DD');
+    res.render('index',{showDate:showDate});
 });
 
 router.get('/newcompany', function(req, res){
