@@ -136,7 +136,7 @@ ReplyIOEmailController.sendCompanyEmail =  async function(companyId,customSelect
 
 ReplyIOEmailController.getEmailBody = function(data,customSelection,customMessage,companyName){
 
-    let filteredData = data.filter(d => d.name.split("-").length>1 && d.name.split("-")[1].trim()==companyName);
+    let filteredData = data.filter(d => d.status !='Archive' && d.name.split("-").length>1 && d.name.split("-")[1].trim()==companyName);
     let matchingCampaignsIdList = [];
 
     let counter=0;
