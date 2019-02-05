@@ -589,7 +589,7 @@ function getFromDate(){
     let currentDay = moment(systemDate).isoWeekday();
 
     let subs = 0;
-    if(currentDay<DATA_PULLING_DAY){
+    if(currentDay<=DATA_PULLING_DAY){
         subs = 6;
     }
     else if(currentDay>DATA_PULLING_DAY){
