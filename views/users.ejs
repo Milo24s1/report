@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Companies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/css/mdb.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark ">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="/">
+        <img src="/img/ProspectGen_AI01_white.png" height="30" class="d-inline-block align-top" alt="">
+    </a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">LinkedIn
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/replyIOHome">Email</a>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Admin</a><span class="sr-only">(current)</span>
+                <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/companies">Linkedin</a>
+                    <a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/replyIOcompanies">Email</a>
+                    <a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/emailQueue">Email Queue</a>
+                </div>
+            </li>
+            <!--<li class="nav-item dropdown ">-->
+            <!--<a class="nav-link dropdown-toggle" id="moreMenu" data-toggle="dropdown" aria-haspopup="true"-->
+            <!--aria-expanded="false">More</a>-->
+            <!--<div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">-->
+            <!--<a class="dropdown-item" style="font-size: 12.97px !important;font-weight: 400 !important;" href="/emailQueue">Email Queue</a>-->
+            <!--</div>-->
+            <!--</li>-->
+
+        </ul>
+        <!-- Links -->
+
+    </div>
+    <!-- Collapsible content -->
+
+</nav>
+<button class="btn btn-success" id="addBtn">Add</button>
+<div id="tableDiv" class="row ">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        <table class="table" id="mainTable">
+            <thead class="white-text">
+            <th scope="col">Client</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            </thead>
+            <tbody>
+            <% for (var i=0; i< items.length;i++){ %>
+            <tr>
+                <th class="col-3" scope="row"><%= items[i].clientName %></th>
+                <th><div class="d-inline"><%= items[i].isActive==1 ? 'Enabled':'Disabled'%></div><div class="material-switch " style="padding-left: 95px;
+margin-top: -19px" >
+                        <input id="statusSwitchOption_<%= items[i]._id %>" name="statusSwitchOption_<%= items[i]._id %>" type="checkbox"
+                               data-status=<%= items[i].isActive==1%> <% if(items[i].isActive==1){%> checked<%}%> />
+                        <label for="statusSwitchOption_<%= items[i]._id %>" class="success-color"></label>
+                    </div></th>
+                <td class="col-2"><a data-tid="<%= items[i]._id %>" href="/user/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
+                <td class="col-1"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
+                <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Edit Company Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
+            </tr>
+            <%}%>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+<!--Add user model-->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">Add User</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="text-center grey-text font-weight-bold  mb-3">
+                    <span id="modalCompanyName"></span>
+                </div>
+
+                <form class="needs-validation" novalidate>
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="clientName" class="form-control" value="" required>
+                        <label for="clientName">Client Name</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-user prefix"></i>
+                        <input type="text" id="username" class="form-control" value="" required>
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-lock prefix"></i>
+                        <input type="password" id="password" class="form-control" value="" required>
+                        <label for="password">Password</label>
+                    </div>
+
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="email" id="inputIconEx1" class="form-control" value="" required>
+                        <label for="inputIconEx1">jetbuzz E-mail address</label>
+                    </div>
+                </form>
+                <p class="font-weight-bold" id="addEmail"><i class="fa fa-envelope-o cyan-text" aria-hidden="true"></i>&nbsp;Add Another Jetbuzz Account </p>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" id="saveUser" class="btn btn-success waves-effect waves-light">Save
+                    <i class="fa fa-diamond ml-1"></i>
+                </a>
+                <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--Edit user model-->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">Edit User</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="text-center grey-text font-weight-bold  mb-3">
+                    <span id="modalCompanyName"></span>
+                </div>
+
+                <form class="needs-validation editForm" novalidate>
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="editclientName" class="form-control" value="" required>
+                        <label for="editclientName">Client Name</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-user prefix"></i>
+                        <input type="text" id="editusername" class="form-control" value="" required>
+                        <label for="editusername">Username</label>
+                    </div>
+                    <div class="md-form" id="existingJetbuzzAccounts">
+
+                    </div>
+
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="email" id="inputIconEdit1" class="form-control" value="" required>
+                        <label for="inputIconEdit1">jetbuzz E-mail address</label>
+                    </div>
+                </form>
+                <p class="font-weight-bold" id="editModaladdEmail"><i class="fa fa-envelope-o cyan-text" aria-hidden="true"></i>&nbsp;Add Another Jetbuzz Account </p>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" id="updateUser" class="btn btn-success waves-effect waves-light">Update
+                </a>
+                <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#addBtn").click(function (e) {
+            e.preventDefault();
+            $("#addUserModal").modal('show');
+        });
+
+        var inputCount = 1;
+        var currentToken = null;
+        var currentItemId = null;
+        var tempCurrentItemId = null;
+
+        //making switch enable/disable
+        $("body").on('click',".material-switch input",function( e ) {
+            e.preventDefault();
+            alert('Updated');
+            var selectedElement = $(this);
+            var newStatus = $(this).prop('checked');
+            console.log('new sta '+newStatus);
+            var newStatusText = newStatus ? 'Enabled': 'Disabled';
+            $.ajax({
+                url: '/editUser',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    id: selectedElement.prop('id').split("_")[1],
+                    user:{
+                        isActive:$(this).prop('checked') ? 1:0
+                    }
+
+                },
+                success: function (data) {
+                    console.log(data);
+
+                    selectedElement.parent().siblings().first().html(newStatusText);
+                    selectedElement.prop('checked',newStatus);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if(xhr.status!=200) {
+                        alert('Something went wrong with Updating Status, please refresh the page and try again');
+                    }
+                }
+            });
+        });
+
+
+
+        $(".fa-bell").click(function (e) {
+            $(".additionalEmails").remove();
+            $("#emailConfig input[type='checkbox']").prop('checked',true);
+            currentToken = $(this).closest('tr').find('td .btn-danger').data('tid');
+            currentCompany = $(this).closest('tr').find('th:nth-child(1)').html();
+            $("#modalCompanyName").html(currentCompany);
+        });
+
+        $("#addEmail").click(function (e) {
+            inputCount++;
+            var newInputFieldHtml = `<div class="md-form additionalEmails">
+                <i class="fa fa-envelope prefix"></i>
+                <input type="email"  id="inputIconEx`+inputCount+`" class="form-control" required>
+                <label for="inputIconEx`+inputCount+`">jetbuzz E-mail address</label>
+            </div>`;
+            $(".needs-validation").append(newInputFieldHtml);
+        });
+
+        $("#editModaladdEmail").click(function (e) {
+            inputCount++;
+            var newInputFieldHtml = `<div class="md-form additionalEmails">
+                <i class="fa fa-envelope prefix"></i>
+                <input type="email"  id="inputIconEdit`+inputCount+`" class="form-control" required>
+                <label for="inputIconEdit`+inputCount+`">jetbuzz E-mail address</label>
+            </div>`;
+            $(".editForm").append(newInputFieldHtml);
+        });
+
+        $("#saveUser").click(function (e) {
+
+            var doValidation = true;
+            var customSelection = [];
+
+
+
+            if(doValidation){
+
+                var emailAddressList = [];
+                var nodes= document.querySelectorAll("#addUserModal input[type='email']");
+                for(i=0;i<nodes.length;i++){
+                    if(nodes[i].value.length>0){
+                        emailAddressList.push(nodes[i].value);
+                    }
+                }
+                console.log(emailAddressList);
+                $(".additionalEmails").remove();
+                document.querySelector('[data-dismiss="modal"]').click();
+                $("#loader").removeClass('invisible');
+
+                $.ajax({
+                    url: '/addUser',
+                    method: 'post',
+                    dataType: 'json',
+                    data: {
+
+                        clientName: $("#clientName").val(),
+                        username: $("#username").val(),
+                        password: $("#password").val(),
+                        emailAddressList : emailAddressList,
+                    },
+                    success: function (data) {
+                        //$("#loader").addClass('invisible');
+                        alert('User Added Successfully');
+                        //TODO clean modal & update table instead of page redirect
+                        window.location = '/users';
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        if(xhr.status!=200) {
+                            $("#loader").addClass('invisible');
+                            alert('Something went wrong Adding new user, please refresh the page and try again');
+                        }
+                    }
+                });
+
+
+                currentToken = null;
+                inputCount =1;
+
+
+            }
+
+        });
+        
+        lazySearch(0);
+        function lazySearch(next) {
+            $.ajax({
+                url:'/searchUsers',
+                method: 'POST',
+                dataType: 'json',
+                data:{
+                    searchParams:{},
+                    pageNumber:next,
+                    sortParams:{clientName: -1}
+                },
+                success: function (data) {
+                    var users = data.users;
+                    let tableDom = '';
+                    for (i=0;i<data.users.length;i++){
+                        tableDom +=
+                            `<tr>
+                <th class="col-3" scope="row">${users[i].clientName}</th>
+                <th><div class="d-inline">${ users[i].isActive==1 ? 'Enabled':'Disabled'}</div><div class="material-switch " style="padding-left: 95px;
+margin-top: -19px" >
+                        <input id="statusSwitchOption_${users[i]._id }" name="statusSwitchOption_${users[i]._id }" type="checkbox"
+                               data-status=${users[i].isActive==1} ${ users[i].isActive==1? 'checked':''} />
+                        <label for="statusSwitchOption_${users[i]._id }" class="success-color"></label>
+                    </div></th>
+                <td class="col-2"><a data-tid="${users[i]._id }" href="/deleteReplyIOCompany/${users[i]._id }" class="btn btn-sm btn-danger">Delete</a></td>
+                <td class="col-1"><a title="Info" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-info fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
+                <td class="col-1"><a data-user="${users[i]._id}" title="Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
+            </tr>`;
+                    }
+                    
+                    
+                    $("#mainTable").append(tableDom);
+                    // if(data.users.length != 0){
+                    //     next++;
+                    //     lazyLoad(next);
+                    // }
+                },
+                error: function (xhr, ajaxOptions, thrownError){
+
+                }
+            });
+        }
+
+        //Delete User
+        $('body').on('click','.btn-danger',function (e) {
+            e.preventDefault();
+            var row = $(this).closest('tr');
+            $.ajax({
+               method:'DELETE',
+               url: '/user/'+$(this).data('tid'),
+                success: function (data) {
+                    alert('Successfully Deleted');
+                    row.remove();
+                },
+                error: function () {
+                    alert('Something went wrong');
+                }
+            });
+        })
+
+        //Open edit modal
+        $('body').on('click','.fa-cog',function (e) {
+
+            var userId = $(this).closest('a').data('user');
+            currentToken = userId;
+            $.ajax({
+                url:'/searchUsers',
+                method: 'POST',
+                dataType: 'json',
+                data:{
+                    searchParams:{_id:userId},
+                    pageNumber:0,
+                    sortParams:{clientName: -1}
+                },
+                success: function (data) {
+                    console.log(data);
+                    var user = data.users[0];
+                    $("#editclientName").val(user.clientName);
+                    $("#editusername").val(user.username);
+
+                    var jetbuzzEmailDom = `<ul class="card list-group"><div class="">`;
+                    for(i=0;i<user.jetbuzzAccounts.length;i++){
+                        jetbuzzEmailDom += `<li class="list-group-item jetbuzzemail"><a title="Remove" class="fa-delete"><i style="padding-right: 5px" class="fa fa-2x fa-remove red-text"></i></a> ${user.jetbuzzAccounts[i]}</li>`;
+                    }
+
+                    jetbuzzEmailDom += `</div></ul>`;
+                    $("#existingJetbuzzAccounts").html(jetbuzzEmailDom);
+                    $('label[for="editclientName"]').addClass('active');
+                    $('label[for="editusername"]').addClass('active');
+
+                    $(".editForm .additionalEmails").remove();
+                    //$("label").addClass('active');
+                    $("#editUserModal").modal('show');
+                },
+                error: function () {
+
+                }
+
+            });
+        });
+
+        //Remove email from existing list
+        $('body').on('click','.fa-remove',function (e) {
+           e.preventDefault();
+           $(this).closest('li').remove();
+        });
+
+        //Update User
+        $("#updateUser").click(function (e) {
+            e.preventDefault();
+
+            var doEditFormValidation = true;
+            var updatedEmailList = [];
+
+            var nodes= document.querySelectorAll("#editUserModal input[type='email']");
+            for(i=0;i<nodes.length;i++){
+                if(nodes[i].value.length>0){
+                    updatedEmailList.push(nodes[i].value);
+                }
+            }
+
+            $(".jetbuzzemail").each(function (index) {
+               updatedEmailList.push($(this)[0].innerText.trim());
+            });
+            $(".additionalEmails").remove();
+
+            if(doEditFormValidation){
+                $.ajax({
+                    url:'/editUser',
+                    method:'POST',
+                    dataType:'json',
+                    data:{
+                        id:currentToken,
+                        user:{
+                            clientName:$("#editclientName").val(),
+                            username:$("#editusername").val(),
+                            emailAddressList:updatedEmailList
+                        }
+
+
+                    },
+                    success:function (data) {
+                        alert('User information updated successfully');
+                        window.location = '/users';
+                    },
+                    error: function () {
+                        alert('Something went wrong,Please refresh the page and try again');
+                    }
+
+                });
+            }
+        });
+
+
+    });
+</script>
+<style>
+    #tableDiv{
+        margin-top: 60px;
+    }
+    .dropdown-item{
+        padding: .5rem;
+        margin-left: 0;
+
+        font-size: .9rem;
+    }
+    .dropdown-item:hover{
+        background-color: #00c851 !important;
+        color: white !important;
+
+    }
+</style>
+</body>
+</html>

@@ -8,6 +8,7 @@ const ReplyIOEmailController = require('../src/model/replyIOemail');
 const ReplyIOController = require('../src/model/replyIO');
 const ReplyIOCompanyController = require('../src/model/replyIOcompany');
 const EmailQueueController = require('../src/model/emailQueueController');
+const ClientController = require('../src/model/client');
 
 /*
 GET home page
@@ -110,4 +111,35 @@ router.post('/getEmailQueueRecordList',function (req,res) {
 router.get('/genrateLinkdinReachCSV/:campaignId',function (req,res) {
     CampaignController.genrateLinkdinReachCSV(req,res);
 });
+
+router.get('/users',function (req,res) {
+   res.render('users',{items:[]}) ;
+});
+
+router.delete('/user/:id',function (req,res) {
+    ClientController.deleteUser(req,res);
+});
+router.get('/addUser',function (req,res) {
+   res.render('addUser');
+});
+
+router.post('/addUser',function (req,res) {
+    ClientController.addUser(req,res);
+});
+
+router.get('/editUser',function (req,res) {
+
+});
+
+router.post('/editUser',function (req,res) {
+    ClientController.editUser(req,res);
+});
+
+router.post('/searchUsers',function (req,res) {
+    ClientController.searchUsers(req,res);
+});
+
+
+
+
 module.exports = router;

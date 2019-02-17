@@ -12,6 +12,7 @@
     "basic-auth": "^2.0.1",
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
+    "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "json2csv": "^4.3.3",
