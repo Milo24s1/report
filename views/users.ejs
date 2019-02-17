@@ -243,7 +243,6 @@ margin-top: -19px" >
         //making switch enable/disable
         $("body").on('click',".material-switch input",function( e ) {
             e.preventDefault();
-            alert('Updated');
             var selectedElement = $(this);
             var newStatus = $(this).prop('checked');
             console.log('new sta '+newStatus);
@@ -260,7 +259,6 @@ margin-top: -19px" >
 
                 },
                 success: function (data) {
-                    console.log(data);
 
                     selectedElement.parent().siblings().first().html(newStatusText);
                     selectedElement.prop('checked',newStatus);
