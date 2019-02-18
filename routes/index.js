@@ -134,6 +134,9 @@ router.get('/editUser',function (req,res) {
 router.post('/editUser',function (req,res) {
     ClientController.editUser(req,res);
 });
+router.post('/changePassword',function (req,res) {
+    ClientController.changePassword(req,res);
+});
 
 router.post('/searchUsers',function (req,res) {
     ClientController.searchUsers(req,res);

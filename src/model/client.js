@@ -90,5 +90,28 @@ ClientController.editUser = function(req,res){
     }
 };
 
+ClientController.changePassword = function(req,res){
+    //TODO do a validation here
+
+    const postOption = {
+        url:`${API_PATH}/changePassword/${req.body.id}`,
+        method: 'POST',
+        form:req.body.user
+    };
+    try {
+        request.post(postOption,(err,response,html)=>{
+            if(err){
+                res.status(500).send({err:err});
+            }
+            else {
+                res.status(response.statusCode).send(JSON.parse(html));
+            }
+        });
+    }
+    catch (e) {
+        res.status(500).send({e:e});
+    }
+};
+
 
 module.exports = ClientController;

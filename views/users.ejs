@@ -80,6 +80,7 @@
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
+            <th scope="col"></th>
             </thead>
             <tbody>
             <% for (var i=0; i< items.length;i++){ %>
@@ -215,7 +216,54 @@ margin-top: -19px" >
     </div>
 </div>
 
+<!--Change Password model-->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-notify modal-success "  role="document" >
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead font-weight-bold">Change Password</p>
 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="text-center grey-text font-weight-bold  mb-3">
+                    <span id="modalCompanyName"></span>
+                </div>
+
+                <form class="needs-validation " id="changePasswordForm" novalidate style="font-weight: bold">
+                    <div class="md-form">
+                        <i class="fa fa-lock prefix"></i>
+                        <label for="newpass">New Password</label>
+                        <input type="password" id="newpass" class="form-control" name="newpass" value="" required>
+                        <div class=""></div>
+
+
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-lock prefix"></i>
+                        <label for="confirmNewpass">Confirm New Password</label>
+                        <input type="password" id="confirmNewpass" name="confirmNewpass" class="form-control" value=""  required>
+                        <div class=""></div>
+                    </div>
+                </form>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" id="changePassword" class="btn btn-success waves-effect waves-light">Update
+                </a>
+                <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
 
 
 <!-- JQuery -->
@@ -226,6 +274,8 @@ margin-top: -19px" >
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/js/mdb.min.js"></script>
+<!--Form validate-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -383,6 +433,7 @@ margin-top: -19px" >
                 <td class="col-2"><a data-tid="${users[i]._id }" href="/deleteReplyIOCompany/${users[i]._id }" class="btn btn-sm btn-danger">Delete</a></td>
                 <td class="col-1"><a title="Info" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-info fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
                 <td class="col-1"><a data-user="${users[i]._id}" title="Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
+                <td class="col-1"><a data-colid="${users[i]._id}" title="Change Password"  ><i class="fa fa-lock fa-2x pink-text pr-3" aria-hidden="true"></i></a></td>
             </tr>`;
                     }
                     
@@ -492,7 +543,7 @@ margin-top: -19px" >
                         user:{
                             clientName:$("#editclientName").val(),
                             username:$("#editusername").val(),
-                            emailAddressList:updatedEmailList
+                            jetbuzzAccounts:updatedEmailList
                         }
 
 
@@ -507,6 +558,82 @@ margin-top: -19px" >
 
                 });
             }
+        });
+
+        $("body").on('click','a .fa-lock',function (e) {
+            currentToken = $(this).parent().data('colid');
+            validator.resetForm();
+            $("#changePasswordForm input").val('');
+            $("#changePasswordForm input").removeClass('invalid');
+            $("#changePasswordForm label").removeClass('active');
+            $("#changePassword").removeClass('disabled');
+            $("#changePasswordModal").modal('show');
+        });
+
+        var validator = $( "#changePasswordForm" ).validate({
+            rules: {
+                confirmNewpass:{
+                    required: true,
+                    equalTo: "#newpass"
+                },
+                newpass: {
+                    required: true,
+                },
+
+
+            },
+            message:{
+                newpass:{
+                    required: 'Required',
+                },
+                confirmNewpass:{
+                    required: 'Required',
+                }
+            },
+            errorPlacement: function(error, element) {
+
+
+                error.addClass('custom-error');
+                element.next().html(error);
+                element.addClass('invalid');
+            },
+            success: function(label,element) {
+                $("#"+element.id).removeClass('invalid')
+             },
+
+
+
+    });
+
+        $("#changePassword").click(function (e) {
+            e.preventDefault();
+            if(!$(this).hasClass('disabled')){
+                if($("#changePasswordForm").valid()){
+                    $(this).addClass('disabled');
+                    $.ajax({
+                        url:'/changePassword',
+                        method:'POST',
+                        dataType:'JSON',
+                        data:{
+                            id:currentToken,
+                            user:{
+                                password: $("#newpass").val()
+                            }
+                        },
+                        success:function (data) {
+                            alert('Password is updated successfully');
+                            validator.resetForm();
+                            $(this).removeClass('disabled');
+                            $('#changePasswordModal [data-dismiss="modal"]').click();
+                        },
+                        error: function (data) {
+                            alert('Something went wrong');
+                            $(this).removeClass('disabled');
+                        }
+                    });
+                }
+            }
+
         });
 
 
@@ -526,6 +653,12 @@ margin-top: -19px" >
         background-color: #00c851 !important;
         color: white !important;
 
+    }
+    .custom-error{
+        position: inherit !important;
+        padding-left: 35px !important;
+        font-size: 12px !important;
+        color: red !important;
     }
 </style>
 </body>
