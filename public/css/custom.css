@@ -116,3 +116,37 @@ material switch related css
     padding-bottom: 2px;
     box-shadow: #781b07 2px 1px 1px 1px;
 }
+
+
+
+/*Angle list table*/
+ .angle-table-col{
+     font-family: "Poppins", sans-serif;
+     font-weight: 400;
+     line-height: 21.6px;
+     text-align: left;
+ }
+
+.numCol{
+    text-align: center !important;
+    width: 10%;
+}
+.textCol{
+    width: 30%;
+}
+.nameIcon{
+    background-color: #0ea882;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    position: absolute;
+    text-align: center;
+    line-height: 2.7;
+}
+.textContent{
+    margin-left: 75px;
+    padding-right: 10px;
+}

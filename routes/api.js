@@ -5,6 +5,7 @@ const CampaignController = require('../src/model/campaign');
 const EmailController = require('../src/model/email');
 const EmailQueueController = require('../src/model/emailQueueController');
 const ReplyIOController = require('../src/model/replyIO');
+const AngleController = require('../src/model/angle');
 
 
 router.post('/getJetbuzzCompanyList',(req,res)=>{
@@ -46,5 +47,17 @@ router.post('/deleteReplyIOPeople',(req,res)=>{
  */
 router.post('/deleteEmailQueueRecords',(req,res)=>{
     EmailQueueController.deleteEmailQueueRecords(req,res);
+});
+
+router.post('/getAngleCompanies',(req,res)=>{
+    AngleController.getCompanies(req,res);
+});
+
+router.post('/angleCompany',(req,res)=>{
+    AngleController.saveCompanyRecordsViaCron(req,res);
+});
+
+router.delete('/angleCompany',(req,res)=>{
+    AngleController.deleteAngleCompany(req,res);
 });
 module.exports = router;

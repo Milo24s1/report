@@ -142,7 +142,9 @@ router.post('/searchUsers',function (req,res) {
     ClientController.searchUsers(req,res);
 });
 
-
+router.get('/anglelist',function (req,res) {
+    res.render('anglelist');
+});
 
 
 module.exports = router;

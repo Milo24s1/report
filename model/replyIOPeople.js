@@ -30,7 +30,6 @@ replyIOPeopleSchema.index({ email: 1, campaignId: 1}, { unique: true });
 const ReplyIOPeopleRecord = mongoose.model('ReplyIOPeopleRecord',replyIOPeopleSchema);
 
 module.exports.addPeopleRecord = function(records,callback){
-    console.log('callin db method');
     ReplyIOPeopleRecord.insertMany(records,{ordered:false},callback);
 };
 
