@@ -9,6 +9,7 @@ const ReplyIOController = require('../src/model/replyIO');
 const ReplyIOCompanyController = require('../src/model/replyIOcompany');
 const EmailQueueController = require('../src/model/emailQueueController');
 const ClientController = require('../src/model/client');
+const ScraperController = require('../src/model/scraper');
 
 /*
 GET home page
@@ -146,5 +147,16 @@ router.get('/anglelist',function (req,res) {
     res.render('anglelist');
 });
 
+/**
+ * GET web scraper page view
+ */
+router.get('/scrapers', function(req, res){
+
+    ScraperController.readScraperFromDatabase(req,res);
+});
+
+router.post('/updateScraper',function (req,res) {
+    ScraperController.updateScraper(req,res);
+});
 
 module.exports = router;

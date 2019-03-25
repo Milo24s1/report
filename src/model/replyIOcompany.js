@@ -35,19 +35,6 @@ ReplyIOCompanyController.updateCompany = function(req,res){
             else {
                 res.status(200).send({data:data});
 
-                //update company names
-                // CampaignRecord.update({companyId:req.body.id}, { $set:
-                //         {
-                //             companyName: req.body.updateObject.companyName ,
-                //         }}, {"multi": true}, function (err,data) {
-                //     if(err){
-                //         console.log(err);
-                //     }
-                //     else {
-                //         console.log(data);
-                //     }
-                // });
-
             }
         });
     }
