@@ -294,19 +294,22 @@ function postDataToDashboard(replies) {
 
 function filterPostFields(prospects) {
     const filteredRepliesSet = [];
-    for (let prospect of prospects){
-        let item = {};
-        item.id = prospect.id;
-        item.email = prospect.email;
-        item.name = prospect.name;
-        item.title = prospect.title;
-        item.company = prospect.company;
-        item.campaignId = prospect.campaignId;
-        item.lastReplyDate = prospect.lastReplyDate;
+    if(prospects != undefined && prospects != null){
+        for (let prospect of prospects){
+            let item = {};
+            item.id = prospect.id;
+            item.email = prospect.email;
+            item.name = prospect.name;
+            item.title = prospect.title;
+            item.company = prospect.company;
+            item.campaignId = prospect.campaignId;
+            item.lastReplyDate = prospect.lastReplyDate;
 
-        filteredRepliesSet.push(item);
+            filteredRepliesSet.push(item);
+        }
+        console.log('filteredRepliesSet len is '+filteredRepliesSet.length);
     }
-    console.log('filteredRepliesSet len is '+filteredRepliesSet.length);
+
     return filteredRepliesSet;
 }
 
