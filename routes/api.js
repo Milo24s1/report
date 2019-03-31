@@ -8,6 +8,7 @@ const ReplyIOController = require('../src/model/replyIO');
 const AngleController = require('../src/model/angle');
 const ScraperController = require('../src/model/scraper');
 const ScraperEmailController = require('../src/model/scraperEmail');
+const mainConfig = require('../config/mainConfig');
 
 
 router.post('/getJetbuzzCompanyList',(req,res)=>{
@@ -72,6 +73,12 @@ router.post('/searchScrapers',(req,res)=>{
 });
 
 router.post('/sendScraperEmail',function(req,res){
-    ScraperEmailController.sendInstantEmail(req,res);
+    if(req.body.angleSecret==mainConfig.angleSecret){
+        ScraperEmailController.sendInstantEmail(req,res);
+    }
+    else {
+        res.status(400).send({msg:'Invalid Token'});
+    }
+
 });
 module.exports = router;
