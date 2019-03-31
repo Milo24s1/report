@@ -13,8 +13,11 @@ AngleController.getCompanies = function(req,res){
             skip: perPage*Number(req.body.pageNumber),
             limit: perPage
         };
+        const today = moment().startOf('day');
+        const query= {addedDate:{$gte: today,
+                $lte: moment(today).endOf('day')}};
 
-        AngleCompany.getCompanyList(req.body.query,req.body.selector,options,(error,data)=>{
+        AngleCompany.getCompanyList(query,req.body.selector,options,(error,data)=>{
 
             if(error){
                 res.status(500).send({error:error})
