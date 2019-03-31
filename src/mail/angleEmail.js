@@ -6,6 +6,7 @@ class AngleEmail {
 
 
     getEmailBody(rowData,customSelection,customMessage,scraperName){
+        customSelection = customSelection.map(o=>parseInt(o));
         let header = `<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" >
 
         <tr>

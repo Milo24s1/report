@@ -14,14 +14,20 @@
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/css/mdb.min.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/loading-bar.css" rel="stylesheet">
+    <script src="/js/loading-bar.js" type="text/javascript"></script>
 
 </head>
 
 <body>
 <%- include('main_menu',{}); %>
+
 <div id="tableDiv" class="row topMargin">
+    <div id="loader" data-preset="rainbow" class="ldBar auto label-center hidden" data-aspect-ratio=none data-value="100" style="width: 100%;"></div>
     <div class="col-md-1"></div>
     <div class="col-md-10">
+
+        <h2 class="h2 mb-4" style="text-align: center">Web Scrapers</h2>
         <table class="table">
             <thead class="white-text">
             <th scope="col">Scraper</th>
@@ -54,7 +60,7 @@ margin-top: -19px" >
                         ">
                         <i class="fa fa-info-circle fa-2x grey-text pr-3" aria-hidden="true"></i></a></th>
                 <td class="col-2 fade"><a data-tid="<%= items[i]._id %>" href="/deleteCompany/<%= items[i]._id %>" class="btn btn-sm btn-danger">Delete</a></td>
-                <td class="col-1 fade"><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
+                <td class="col-1 "><a title="Send Instant Email" data-toggle="modal" data-target="#emailConfig"><i class="fa fa-bell fa-2x cyan-text pr-3" aria-hidden="true"></i></a></td>
                 <td class="col-1"><a data-colid="<%= items[i].emailColumns %>" title="Edit Scraper Settings"  ><i class="fa fa-cog fa-2x purple-text pr-3" aria-hidden="true"></i></a></td>
             </tr>
             <%}%>
@@ -70,7 +76,7 @@ margin-top: -19px" >
         <div class="modal-content">
             <!--Header-->
             <div class="modal-header">
-                <p class="heading lead font-weight-bold">Email Configuration for Onetime Mail</p>
+                <p class="heading lead font-weight-bold">Send Onetime Mail</p>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="white-text">×</span>
@@ -79,8 +85,8 @@ margin-top: -19px" >
 
             <!--Body-->
             <div class="modal-body">
-                <div class="text-center">
-                    <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                <div class="text-center grey-text font-weight-bold  mb-3">
+                    <span id="modalCompanyName">Matt Company Matt Company</span>
                 </div>
 
                 <form class="needs-validation" novalidate>
@@ -91,14 +97,7 @@ margin-top: -19px" >
                     </div>
                 </form>
                 <p class="font-weight-bold" id="addEmail"><i class="fa fa-envelope-o cyan-text" aria-hidden="true"></i>&nbsp;Add Another Email </p>
-                <br>
-                <p class="font-weight-bold" id="addCustomSubject"><i class="fa fa-envelope-o orange-text" aria-hidden="true"></i>&nbsp;Add Custom Subject </p>
-                <textarea class="form-control" id="customSubject" rows="2"></textarea>
-                <!--<a><i class="fa fa-copy orange-text" aria-hidden="true"></i>&nbsp;Copy Default subject</a>-->
-                <br>
-                <p class="font-weight-bold" id="addCustomMessage"><i class="fa fa-envelope-o purple-text" aria-hidden="true"></i>&nbsp;Add Custom Message </p>
-                <textarea class="form-control" id="customMessage" rows="7"></textarea>
-                <br>
+
                 <div class="row">
                     <div class="col-md-6">
 
@@ -108,57 +107,38 @@ margin-top: -19px" >
                         </div>
                         <div class="custom-control custom-checkbox font-weight-bold">
                             <input type="checkbox" class="custom-control-input" id="customChecked2" checked>
-                            <label class="custom-control-label" for="customChecked2">Campaign</label>
+                            <label class="custom-control-label" for="customChecked2">Description</label>
                         </div>
                         <div class="custom-control custom-checkbox font-weight-bold">
                             <input type="checkbox" class="custom-control-input" id="customChecked3" checked>
-                            <label class="custom-control-label" for="customChecked3">Campaign Status</label>
+                            <label class="custom-control-label" for="customChecked3">Joined</label>
                         </div>
-                        <div class="custom-control custom-checkbox font-weight-bold hidden">
-                            <input type="checkbox" class="custom-control-input" id="customChecked4" >
-                            <label class="custom-control-label" for="customChecked4">Email Prospects</label>
-                        </div>
+
 
                     </div>
                     <div class="col-md-6" >
-
-                        <div class="custom-control custom-checkbox font-weight-bold hidden">
+                        <div class="custom-control custom-checkbox font-weight-bold ">
+                            <input type="checkbox" class="custom-control-input" id="customChecked4" >
+                            <label class="custom-control-label" for="customChecked4">Location</label>
+                        </div>
+                        <div class="custom-control custom-checkbox font-weight-bold ">
                             <input type="checkbox" class="custom-control-input" id="customChecked5" >
-                            <label class="custom-control-label" for="customChecked5">Email Delivered</label>
+                            <label class="custom-control-label" for="customChecked5">Market</label>
                         </div>
-                        <div class="custom-control custom-checkbox font-weight-bold hidden">
+                        <div class="custom-control custom-checkbox font-weight-bold ">
                             <input type="checkbox" class="custom-control-input" id="customChecked6" >
-                            <label class="custom-control-label" for="customChecked6">Email Opened</label>
-                        </div>
-                        <div class="custom-control custom-checkbox font-weight-bold hidden">
-                            <input type="checkbox" class="custom-control-input" id="customChecked7" >
-                            <label class="custom-control-label" for="customChecked7">Email Responses</label>
+                            <label class="custom-control-label" for="customChecked6">Website</label>
                         </div>
 
                     </div>
                 </div>
                 <br>
-                <p class="font-weight-bold" ><i class="fa  cyan-text" aria-hidden="true"></i>&nbsp;Additional Columns </p>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="custom-control custom-checkbox  font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="defaultChecked8" checked>
-                            <label class="custom-control-label" for="defaultChecked8">Connection Requests</label>
-                        </div>
-                        <div class="custom-control custom-checkbox  font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="defaultChecked9" checked>
-                            <label class="custom-control-label" for="defaultChecked9">New Connections</label>
-                        </div>
-                        <div class="custom-control custom-checkbox  font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="defaultChecked10" checked>
-                            <label class="custom-control-label" for="defaultChecked10">Message Responses</label>
-                        </div>
-                        <div class="custom-control custom-checkbox  font-weight-bold">
-                            <input type="checkbox" class="custom-control-input" id="defaultChecked11" checked>
-                            <label class="custom-control-label" for="defaultChecked11">Welcome Responses</label>
-                        </div>
-                    </div>
-                </div>
+                <p class="font-weight-bold" id="addCustomSubject"><i class="fa fa-envelope-o orange-text" aria-hidden="true"></i>&nbsp;Add Custom Subject </p>
+                <textarea class="form-control" id="customSubject" rows="2"></textarea>
+                <br>
+                <p class="font-weight-bold" id="addCustomMessage"><i class="fa fa-envelope-o purple-text" aria-hidden="true"></i>&nbsp;Add Custom Message </p>
+                <textarea class="form-control" id="customMessage" rows="5"></textarea>
+                <br>
             </div>
 
             <!--Footer-->
@@ -227,13 +207,14 @@ margin-top: -19px" >
 
         $(".fa-cog").click(function (e) {
 
-            window.location = '/editCompany/'+$(this).closest('tr').find('td .btn-danger').data('tid');
+            window.location = '/editScraper/'+$(this).closest('tr').find('td .btn-danger').data('tid');
         });
         $(".fa-bell").click(function (e) {
             $(".additionalEmails").remove();
             $("#emailConfig input[type='checkbox']").prop('checked',true);
             currentToken = $(this).closest('tr').find('td .btn-danger').data('tid');
-            console.log(currentToken);
+            currentCompany = $(this).closest('tr').find('th:nth-child(1)').html();
+            $("#modalCompanyName").html(currentCompany);
         });
 
         $("#addEmail").click(function (e) {
@@ -270,26 +251,27 @@ margin-top: -19px" >
                 console.log(emailAddressList);
                 $(".additionalEmails").remove();
                 document.querySelector('[data-dismiss="modal"]').click();
-                $("#loader").removeClass('invisible');
+                $("#loader").removeClass('hidden');
 
                 $.ajax({
-                    url: '/sendEmail',
+                    url: '/sendScraperEmail',
                     method: 'post',
                     dataType: 'json',
                     data: {
                         emailAddressList : emailAddressList,
-                        companyId: currentToken,
+                        scraperId: currentToken,
                         customSelection: customSelection,
                         customMessage : $("#customMessage").val(),
-                        customSubject : $("#customSubject").val(),
+                        customSubject : $("#customSubject").val()
                     },
                     success: function (data) {
-                        $("#loader").addClass('invisible');
+                        $("#loader").addClass('hidden');
+                        $(".ldBar").hide();
                         alert('Email Sent Successfully');
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         if(xhr.status!=200) {
-                            $("#loader").addClass('invisible');
+                            $("#loader").addClass('hidden');
                             alert('Something went wrong with Sending Email, please refresh the page and try again');
                         }
                     }

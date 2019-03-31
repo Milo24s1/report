@@ -34,6 +34,12 @@ ScraperController.updateScraper = function(req,res){
             if(req.body.updateObject != undefined && req.body.updateObject.sendTo == undefined){
                 req.body.updateObject.sendTo = [];
             }
+            if(req.body.updateObject != undefined && req.body.updateObject.defaultMailDays == undefined){
+                req.body.updateObject.defaultMailDays = [];
+            }
+            if(req.body.updateObject != undefined && req.body.updateObject.emailColumns == undefined){
+                req.body.updateObject.emailColumns = [];
+            }
             Scraper.update({_id:req.body.id},{$set:req.body.updateObject?req.body.updateObject:req.body},function (err,data) {
 
                 if(err){
@@ -55,7 +61,7 @@ ScraperController.updateScraper = function(req,res){
 ScraperController.editScraper = function(req,res){
 
     try {
-        Company.getItemById(req.params.id,function (err,data) {
+        Scraper.getItemById(req.params.id,function (err,data) {
             if(err){
                 res.render("error",{error:''});
             }
@@ -65,7 +71,7 @@ ScraperController.editScraper = function(req,res){
                 }
                 else {
                     console.log(data);
-                    res.render('editCompany',{company:data});
+                    res.render('editScraper',{scraper:data});
                 }
 
             }

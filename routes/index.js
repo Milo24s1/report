@@ -10,6 +10,7 @@ const ReplyIOCompanyController = require('../src/model/replyIOcompany');
 const EmailQueueController = require('../src/model/emailQueueController');
 const ClientController = require('../src/model/client');
 const ScraperController = require('../src/model/scraper');
+const ScraperEmailController = require('../src/model/scraperEmail');
 
 /*
 GET home page
@@ -159,4 +160,11 @@ router.post('/updateScraper',function (req,res) {
     ScraperController.updateScraper(req,res);
 });
 
+router.get('/editScraper/:id', function(req, res){
+    ScraperController.editScraper(req,res);
+});
+
+router.post('/sendScraperEmail',function (req,res) {
+    ScraperEmailController.sendInstantEmail(req,res);
+});
 module.exports = router;
