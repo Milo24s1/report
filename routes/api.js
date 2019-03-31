@@ -7,6 +7,7 @@ const EmailQueueController = require('../src/model/emailQueueController');
 const ReplyIOController = require('../src/model/replyIO');
 const AngleController = require('../src/model/angle');
 const ScraperController = require('../src/model/scraper');
+const ScraperEmailController = require('../src/model/scraperEmail');
 
 
 router.post('/getJetbuzzCompanyList',(req,res)=>{
@@ -68,5 +69,9 @@ router.post('/scraper',(req,res)=>{
 
 router.post('/searchScrapers',(req,res)=>{
     ScraperController.searchScrapers(req,res);
+});
+
+router.post('/sendScraperEmail',function(req,res){
+    ScraperEmailController.sendInstantEmail(req,res);
 });
 module.exports = router;
