@@ -11,6 +11,7 @@ const EmailQueueController = require('../src/model/emailQueueController');
 const ClientController = require('../src/model/client');
 const ScraperController = require('../src/model/scraper');
 const ScraperEmailController = require('../src/model/scraperEmail');
+const AngleController = require('../src/model/angle');
 
 /*
 GET home page
