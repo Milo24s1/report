@@ -167,4 +167,8 @@ router.get('/editScraper/:id', function(req, res){
 router.post('/sendScraperEmail',function (req,res) {
     ScraperEmailController.sendInstantEmail(req,res);
 });
+
+router.post('/getAngleCompanies',(req,res)=>{
+    AngleController.getCompanies(req,res);
+});
 module.exports = router;
