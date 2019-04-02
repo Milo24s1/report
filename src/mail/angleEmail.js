@@ -1,4 +1,5 @@
 const AngleCompany = require('../../model/angleCompany');
+const mainConfig = require('../../config/mainConfig');
 const REPLIES_SHOWN_IN_EMAIL = 12;
 const moment = require('moment');
 class AngleEmail {
@@ -257,29 +258,32 @@ text-align: left;
     getCSVcontent(data,customSelection){
         //TODO improve this method
         const formattedContent = [];
-        for (let i=0;i<data.length;i++){
-            const row = {};
 
-            if(customSelection.indexOf(1)>-1){
-                row['Name']= data[i].name;
-            }
-            if(customSelection.indexOf(2)>-1){
-                row['Description']= data[i].description;
-            }
-            if(customSelection.indexOf(3)>-1){
-                row['Joined']= data[i].joined;
-            }
-            if(customSelection.indexOf(4)>-1){
-                row['Location']= data[i].location;
-            }
-            if(customSelection.indexOf(5)>-1){
-                row['market']= data[i].market;
-            }
-            if(customSelection.indexOf(6)>-1){
-                row['Website']= data[i].website;
-            }
+        if(mainConfig.isAngleCsvEnabled) {
+            for (let i = 0; i < data.length; i++) {
+                const row = {};
 
-            formattedContent.push(row);
+                if (customSelection.indexOf(1) > -1) {
+                    row['Name'] = data[i].name;
+                }
+                if (customSelection.indexOf(2) > -1) {
+                    row['Description'] = data[i].description;
+                }
+                if (customSelection.indexOf(3) > -1) {
+                    row['Joined'] = data[i].joined;
+                }
+                if (customSelection.indexOf(4) > -1) {
+                    row['Location'] = data[i].location;
+                }
+                if (customSelection.indexOf(5) > -1) {
+                    row['market'] = data[i].market;
+                }
+                if (customSelection.indexOf(6) > -1) {
+                    row['Website'] = data[i].website;
+                }
+
+                formattedContent.push(row);
+            }
         }
 
         return formattedContent;
