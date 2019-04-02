@@ -114,7 +114,7 @@ font-weight: 300;
 line-height: 24px;
 text-align: left;
 '>`;
-        for(var i=0;i<REPLIES_SHOWN_IN_EMAIL;i++){
+        for(var i=0;i<rowData.length;i++){
 
 
             html += `<tr>
@@ -258,8 +258,8 @@ text-align: left;
     getCSVcontent(data,customSelection){
         //TODO improve this method
         const formattedContent = [];
-
-        if(mainConfig.isAngleCsvEnabled) {
+        console.log(mainConfig.isAngleCsvEnabled);
+        if(mainConfig.isAngleCsvEnabled==true) {
             for (let i = 0; i < data.length; i++) {
                 const row = {};
 

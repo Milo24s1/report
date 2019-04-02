@@ -81,6 +81,7 @@ ScraperEmailController.sendScraperEmail =  async function(scraperId,customSelect
 
 
                                     let csvDataInput =  scraperMailer.getCSVcontent(data,customSelection);
+                                    console.log('len is '+csvDataInput.length);
                                     if(csvDataInput.length){
                                         let csvData = csv(csvDataInput);
                                         mailOptions.attachments =  [{
