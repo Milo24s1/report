@@ -29,6 +29,10 @@ const ScraperSchema = mongoose.Schema({
     defaultMessage: {
         type: String
     },
+    defaultSubject:{
+        type: String,
+        default:'ProspectGen Report'
+    },
     pageLink:{
         type: String
     }

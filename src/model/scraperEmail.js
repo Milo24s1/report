@@ -74,14 +74,13 @@ ScraperEmailController.sendScraperEmail =  async function(scraperId,customSelect
                                     let mailOptions = {
                                         from:  `<${scraper.senderEmail}>`, // sender address
                                         to: customReceivers.join(','), // list of receivers
-                                        subject: customSubject? customSubject:`Daily Scraper Report Snapshot for ${scraper.scraperName} ${moment().format("YYYY-MM-DD")}`, // Subject line
+                                        subject: customSubject? customSubject:scraper.defaultSubject, // Subject line
                                         // text: 'Hello world?', // plain text body
                                         html: html // html body
                                     };
 
 
                                     let csvDataInput =  scraperMailer.getCSVcontent(data,customSelection);
-                                    console.log('len is '+csvDataInput.length);
                                     if(csvDataInput.length){
                                         let csvData = csv(csvDataInput);
                                         mailOptions.attachments =  [{

@@ -160,6 +160,11 @@
                 </span>
             </div>
 
+            <p class="h4 mb-4">Default Subject</p>
+            <div class="md-form mt-3" >
+                <textarea class="form-control" id="defaultSubject" rows="3"><%=scraper.defaultSubject %></textarea>
+            </div>
+
             <p class="h4 mb-4">Default Message</p>
             <div class="md-form mt-3" >
                 <textarea class="form-control" id="defaultMessage" rows="7"><%=scraper.defaultMessage %></textarea>
@@ -252,7 +257,8 @@
                             senderEmail: $("#senderEmailAddress").val(),
                             senderPassword: $("#senderPassword").val(),
                             sendTo: sendTo,
-                            defaultMessage:$("#defaultMessage").val()
+                            defaultMessage:$("#defaultMessage").val(),
+                            defaultSubject:$("#defaultSubject").val()
                         }
                     },
                     success: function (data) {
