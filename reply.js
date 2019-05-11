@@ -4,7 +4,14 @@ const moment = require('moment');
 const fs = require('fs');
 const jetbuzzCredintials = require('./config/jetbuzzCredintials');
 const DASHBOARD_API = `http://dash.prospectgenai.com/api/jetbuzzReplies`;
-// const DASHBOARD_API = `http://localhost:9999/api/jetbuzzReplies`;
+ // const DASHBOARD_API = `http://localhost:9999/api/jetbuzzReplies`;
+
+let processingJetbuzzAccount = 0;
+
+if(process.argv.length==5){
+    processingJetbuzzAccount = process.argv[2];
+}
+
 
 run();
 function run() {
@@ -30,8 +37,8 @@ function run() {
                     url:'https://ulinc.co/login/',
                     method: 'POST',
                     form: {
-                        'email':jetbuzzCredintials.jetbuzzUsername,
-                        'password':jetbuzzCredintials.jetbuzzPassword,
+                        'email':jetbuzzCredintials.jetbuzzUsername[processingJetbuzzAccount],
+                        'password':jetbuzzCredintials.jetbuzzPassword[processingJetbuzzAccount],
                         'sign':1
                     }
                 };
