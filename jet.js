@@ -6,7 +6,7 @@ const DASHBOARD_API = `http://dash.prospectgenai.com/api/jetbuzzUpdate`;
 // const DASHBOARD_API = `http://localhost:9999/api/jetbuzzUpdate`;
 
 let processingJetbuzzAccount = 0;
-if(process.argv.length==5){
+if(process.argv.length>2){
     processingJetbuzzAccount = process.argv[2];
 }
 

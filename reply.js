@@ -8,7 +8,7 @@ const DASHBOARD_API = `http://dash.prospectgenai.com/api/jetbuzzReplies`;
 
 let processingJetbuzzAccount = 0;
 
-if(process.argv.length==5){
+if(process.argv.length>2){
     processingJetbuzzAccount = process.argv[2];
 }
 
@@ -294,6 +294,8 @@ function postDataToDashboard(replies,accountEmail) {
 }
 
 function CSVtoArray(text) {
+
+    if(text == undefined) return false;
     var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
     var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
     // Return NULL if input string is not well formed CSV string.
