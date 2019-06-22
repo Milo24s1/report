@@ -5,7 +5,7 @@ const ReplyIOCompany = require('../../model/replyIOCompany');
 const ReplyIOCampaignRecord = require('../../model/replyIOCampaignRecord');
 const ReplyIOPeople = require('../../model/replyIOPeople');
 const REPLIES_SHOWN_IN_EMAIL = 12;
-const DATA_PULLING_DAY = 2;
+const DATA_PULLING_DAY = 1;
 const csv = require('to-csv');
 const EmailQueueController = require("../../src/model/emailQueueController");
 
@@ -590,7 +590,7 @@ function getFromDate(){
 
     let subs = 0;
     if(currentDay<=DATA_PULLING_DAY){
-        subs = 6;
+        subs = 7;
     }
     else if(currentDay>DATA_PULLING_DAY){
         subs = currentDay - DATA_PULLING_DAY;
