@@ -35,7 +35,14 @@ async function run() {
 
                 for(let campaign of data){
                     console.log(campaign.name);
-                    const companyName = campaign.name.split("-")[1].trim();
+                    if(campaign.name.split("-").length>1){
+                        const companyName = campaign.name.split("-")[1].trim();
+                    }
+                    else {
+                        console.log('invalid campaign name '+campaign.name);
+                        continue;
+                    }
+
 
                     if(existingCompanyNameList.includes(companyName) || updatedCompanyNameList.includes(companyName)){
                         //handle this

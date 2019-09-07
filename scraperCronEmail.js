@@ -25,8 +25,18 @@ function getScraperListAsync(){
                         resolve([]);
                     }
                     else {
-                        const jsonResponse = JSON.parse(html);
-                        resolve(jsonResponse.scraperlist!= undefined ?jsonResponse.scraperlist:[]);
+                        try {
+                            const jsonResponse = JSON.parse(html);
+                            resolve(jsonResponse.scraperlist!= undefined ?jsonResponse.scraperlist:[]);
+                        }
+                        catch (e) {
+                            console.log("********* json error start********");
+                            console.log(html);
+                            console.log(e);
+                            console.log("********* json error ends********");
+                            resolve([]);
+                        }
+
                     }
                 });
             }
