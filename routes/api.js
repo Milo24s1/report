@@ -43,6 +43,10 @@ router.post('/addReplyIOCampaign',function (req,res) {
     ReplyIOController.addReplyIOCampaignsForAPI(req,res);
 });
 
+router.post('/archiveReplyIOCampaign',function (req,res) {
+    ReplyIOController.archiveReplyIOCampaignsForAPI(req,res);
+});
+
 
 /**
  * this is route for post data from replyIOPeopleUpdateTask

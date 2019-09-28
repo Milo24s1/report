@@ -242,5 +242,33 @@ ReplyIOController.addReplyIOCampaignsForAPI = function(req,res){
         res.status(500).send({'msg':'addReplyIOCampaignsForAPI catch '+e});
     }
 };
+
+ReplyIOController.archiveReplyIOCampaignsForAPI = function (req,res){
+
+    try {
+        if(req.body.replyIOSecret === replyIOCredintials.replyIOSecret){
+            const archiveRecordIdList = req.body.archiveRecordIdList;
+            ReplyIOCampaignRecord.update({id:{$in: archiveRecordIdList}}, { $set:
+                    {
+                        status: 'Archive' ,
+                    }}, {"multi": true}, function (err,data) {
+
+                if(err){
+                    res.send({'msg':'archiveReplyIOCampaignsForAPI error '+err})
+                }
+                else {
+                    res.send({'msg':'Archived Successfully'});
+                }
+            });
+        }
+        else {
+            res.status(400).send({'error':'Bad request'});
+        }
+
+    }
+    catch (e) {
+        res.send({'msg':'archiveReplyIOCampaignsForAPI catch: '+e})
+    }
+};
 //test();
 module.exports = ReplyIOController;

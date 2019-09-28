@@ -1,6 +1,5 @@
 const ReplyIOController = require('./src/model/replyIO');
 const ReplyIOCampaignRecord = require('./model/replyIOCampaignRecord');
-const mongoose = require('mongoose');
 const config = require('./config/credintials');
 const replyIOCredintials = require('./config/replyIOCredintials');
 const request = require('request');
@@ -99,21 +98,11 @@ function getCampaignIdList(){
  */
 async function run() {
 
-    mongoose.connect(config.database);
-    mongoose.set('useCreateIndex', true);
-    mongoose.set('useNewUrlParser', true);
-    mongoose.connection.on('connected',()=>{
-        console.log('connected to '+config.database);
-    });
-    mongoose.connection.on('error',(error)=>{
-        console.log('Database error '+error);
-    });
 
     try {
 
        const campaignIdList = await getCampaignIdList();
        console.log(campaignIdList);
-       var connecationCount = 1;
 
        // mongoose.disconnect();
        const apiResponse = await ReplyIOController.callReplyIOAPI('campaigns','GET');
@@ -121,7 +110,6 @@ async function run() {
        const updatedRecordIdList = [];
 
        for(let record of formattedResponse){
-           connecationCount++;
            if(campaignIdList.includes(record.id)){
 
                //update record
@@ -147,9 +135,9 @@ async function run() {
                    jar: true,
                    followAllRedirects: true,
                    method: 'GET',
-                   url:DASHBOARD_URL+'/api/updateReplyIOCampaign',
+                   url:DASHBOARD_URL+'/api/addReplyIOCampaign',
                    form:{
-                       record:record
+                       newCampaignRecord:newCampaignRecord
                    }
                };
                postDataToDashAPI(addPostOptions);
@@ -160,31 +148,19 @@ async function run() {
        //Archive if not updated
         const archiveRecordIdList = diff(campaignIdList,updatedRecordIdList);
        if(archiveRecordIdList.length>0){
-           ReplyIOCampaignRecord.update({id:{$in: archiveRecordIdList}}, { $set:
-                   {
-                       status: 'Archive' ,
-                   }}, {"multi": true}, function (err,data) {
 
-               if(err){
-                   console.log(err);
+           const archivePostOption = {
+               jar: true,
+               followAllRedirects: true,
+               method: 'GET',
+               url:DASHBOARD_URL+'/api/archiveReplyIOCampaign',
+               form:{
+                   archiveRecordIdList:archiveRecordIdList
                }
-               else {
-                   console.log('Archived Successfully');
-
-
-               }
-               connecationCount--;
-               if(connecationCount==0){
-                   mongoose.disconnect();
-               }
-           });
+           };
+           postDataToDashAPI(archivePostOption);
        }
-       else {
-           connecationCount--;
-           if(connecationCount==0){
-               mongoose.disconnect();
-           }
-       }
+
 
 
 
