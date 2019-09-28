@@ -29,6 +29,22 @@ router.post('/jetbuzzReplies',function (req,res) {
 });
 
 /**
+ * this is route for get fetch existing replyIO campaign records
+ */
+router.get('/replyIOCampaigns',function (req,res) {
+    ReplyIOController.getReplyIOCampaignsForAPI(req,res);
+});
+
+router.post('/updateReplyIOCampaign',function (req,res) {
+    ReplyIOController.updateReplyIOCampaignsForAPI(req,res);
+});
+
+router.post('/addReplyIOCampaign',function (req,res) {
+    ReplyIOController.addReplyIOCampaignsForAPI(req,res);
+});
+
+
+/**
  * this is route for post data from replyIOPeopleUpdateTask
  */
 router.post('/replyIOReplies',function (req,res) {
@@ -79,6 +95,13 @@ router.post('/sendScraperEmail',function(req,res){
     else {
         res.status(400).send({msg:'Invalid Token'});
     }
+
+});
+
+
+router.post('/manychatwebhook',function(req,res){
+
+        res.status(200).send({msg:'success'});
 
 });
 module.exports = router;

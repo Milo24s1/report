@@ -2,6 +2,32 @@ const ReplyIOController = require('./src/model/replyIO');
 const ReplyIOCampaignRecord = require('./model/replyIOCampaignRecord');
 const mongoose = require('mongoose');
 const config = require('./config/credintials');
+const replyIOCredintials = require('./config/replyIOCredintials');
+const request = require('request');
+const mainConfig = require('./config/mainConfig');
+const DASHBOARD_URL = mainConfig.dashboardUrl;
+
+/**
+ * this is a helper function to post data to dashboard API
+ * @param postOptions
+ */
+function postDataToDashAPI(postOptions) {
+    try {
+        postOptions.form.replyIOSecret = replyIOCredintials.replyIOSecret;
+        request.post(postOptions,(error,response,html)=>{
+            if(error){
+                console.log('postDataToDashAPI error '+error);
+            }
+            else {
+                console.log('postDataToDashAPI success');
+            }
+        });
+    }
+    catch (e) {
+        console.log('postDataToDashAPI catch: '+e);
+    }
+}
+
 
 /**
  * return diff of two arrays
@@ -23,21 +49,41 @@ function getCampaignIdList(){
     const idArray = [];
 
     return new Promise(resolve => {
+
+        const getOptions = {
+            jar: true,
+            followAllRedirects: true,
+            method: 'GET',
+            url:DASHBOARD_URL+'/api/replyIOCampaigns',
+        };
+
         try {
-            ReplyIOCampaignRecord.getCampaignList({},function(error,data){
-                console.log('callback called');
+            request.get(getOptions,(error,response,html)=>{
+
                 if(error){
-                    console.log(error);
+                    console.log('request error getCampaignIdList: '+error);
                     resolve(idArray);
                 }
                 else {
-                    for(let d of data){
-                        idArray.push(d.id) ;
-                    }
-                    resolve(idArray);
-                }
 
-            }) ;
+                    try {
+                        const jsonResponse = JSON.parse(html);
+                        const data = jsonResponse.data;
+                        for(let d of data){
+                            idArray.push(d.id) ;
+                        }
+                        resolve(idArray);
+                    }
+                    catch (e) {
+                        console.log("********* json error start********");
+                        console.log(html);
+                        console.log(e);
+                        console.log("********* json error ends********");
+                        resolve(idArray);
+                    }
+
+                }
+            })
         }
         catch (e) {
             console.log('catch'+e);
@@ -66,6 +112,7 @@ async function run() {
     try {
 
        const campaignIdList = await getCampaignIdList();
+       console.log(campaignIdList);
        var connecationCount = 1;
 
        // mongoose.disconnect();
@@ -80,36 +127,32 @@ async function run() {
                //update record
                updatedRecordIdList.push(record.id);
                record.status = 'Active';
-               ReplyIOCampaignRecord.findOneAndUpdate({id:record.id},{ $set: record},function (err,data) {
-                   if(err){
-                       console.log(err);
+               const updatePostOptions = {
+                   jar: true,
+                   followAllRedirects: true,
+                   method: 'GET',
+                   url:DASHBOARD_URL+'/api/updateReplyIOCampaign',
+                   form:{
+                       record:record
                    }
-                   else {
-                       console.log('Updated successfully');
-                   }
-                   connecationCount--;
-                   if(connecationCount==0){
-                       mongoose.disconnect();
-                   }
-               });
+               };
+               postDataToDashAPI(updatePostOptions);
+
            }
            else {
                //insert record
                const newCampaignRecord = new ReplyIOCampaignRecord(record);
                newCampaignRecord.status = 'Active';
-               ReplyIOCampaignRecord.addCampaignRecord(newCampaignRecord,function (err,data) {
-
-                   if(err){
-                       console.log(err);
+               const addPostOptions = {
+                   jar: true,
+                   followAllRedirects: true,
+                   method: 'GET',
+                   url:DASHBOARD_URL+'/api/updateReplyIOCampaign',
+                   form:{
+                       record:record
                    }
-                   else {
-                       console.log('Added successfully');
-                   }
-                   connecationCount--;
-                   if(connecationCount==0){
-                       mongoose.disconnect();
-                   }
-               });
+               };
+               postDataToDashAPI(addPostOptions);
 
            }
        }

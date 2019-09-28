@@ -121,7 +121,6 @@ ReplyIOController.updateCampaignRepliesViaCron = function(req,res){
                 o.addedDate = moment();
                 return o;
             });
-            console.log(replies.length);
 
 
 
@@ -174,5 +173,74 @@ async function test(){
     const result = await ReplyIOController.callReplyIOAPI('campaigns','GET');
     console.log(result);
 }
+
+ReplyIOController.getReplyIOCampaignsForAPI = function(req,res){
+    try {
+        ReplyIOCampaignRecord.getCampaignList({},function(error,data){
+            if(error){
+                console.log('db error in getReplyIOCampaignsForAPI:'+error);
+                res.status(200).send({data:[]});
+            }
+            else {
+                res.status(200).send({data:data});
+            }
+
+        }) ;
+    }
+    catch (e) {
+        console.log('catch in in getReplyIOCampaignsForAPI: '+e);
+        res.status(200).send({data:[]});
+    }
+};
+
+ReplyIOController.updateReplyIOCampaignsForAPI = function(req,res){
+
+    try {
+
+        if(req.body.replyIOSecret == replyIOCredintials.replyIOSecret){
+            const record = req.body.record;
+            ReplyIOCampaignRecord.findOneAndUpdate({id:record.id},{ $set: record},function (err,data) {
+                if(err){
+                    res.send({msg:'updateReplyIOCampaignsForAPI update error: '+err});
+                }
+                else {
+                    res.send({msg:'updateReplyIOCampaignsForAPI Updated successfully'});
+                }
+
+            });
+        }
+        else {
+            res.status(400).send({'err':'bad request'});
+        }
+
+    }
+    catch (e) {
+        res.send({msg:'updateReplyIOCampaignsForAPI Exception '+e});
+    }
+};
+
+ReplyIOController.addReplyIOCampaignsForAPI = function(req,res){
+    try {
+
+        if(req.body.replyIOSecret === replyIOCredintials.replyIOSecret){
+            const newCampaignRecord = req.body.newCampaignRecord;
+            ReplyIOCampaignRecord.addCampaignRecord(newCampaignRecord,function (err,data) {
+
+                if(err){
+                    res.send({msg:'addCampaignRecord err '+err});
+                }
+                else {
+                    res.send({msg:'Added successfully'});
+                }
+            });
+        }
+        else {
+            res.status(400).send({'error':'Bad request'});
+        }
+    }
+    catch (e) {
+        res.status(500).send({'msg':'addReplyIOCampaignsForAPI catch '+e});
+    }
+};
 //test();
 module.exports = ReplyIOController;
