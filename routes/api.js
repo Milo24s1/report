@@ -108,4 +108,14 @@ router.post('/manychatwebhook',function(req,res){
         res.status(200).send({msg:'success'});
 
 });
+
+router.get('/searchUlinc',function (req,res) {
+    if(mainConfig.angleSecret == req.query.access_token){
+        CampaignController.search(req,res);
+    }
+    else {
+        res.status(400).send({});
+    }
+
+});
 module.exports = router;
